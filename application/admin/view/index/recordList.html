@@ -1,0 +1,76 @@
+{include file="common@public/header" /}
+<div class="container-fluid">
+    <div class="row row-offcanvas row-offcanvas-right">
+        <div class="col-xs-12 col-sm-2">
+            <div class="panel panel-default">
+								<div class="panel-heading">
+									<h3 class="panel-title">主要功能</h3>
+								</div>
+								<div class="list-group">
+									<a href="{:url('index/paySetting')}" class="list-group-item">支付配置</a>
+									<a href="{:url('index/recordList')}" class="list-group-item active">支付记录</a>
+								</div>
+			</div>
+        </div>
+
+        <div class="col-xs-12 col-sm-10">
+            <ul class="nav nav-tabs" style="margin-bottom:2rem;">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">记录列表</a>
+                </li>
+            </ul>
+
+            <div class="panel panel-default">
+                <div class="panel-body table-responsive">
+                    <form class="form form-horizontal" name="myform" id="myform" action="" method="post">
+                        <table class="table table-hover m-b-0">
+                            <thead>
+                            <tr>
+                                <th width="40" style="text-align:center;">id</th>
+                                <th width="230">订单编号</th>
+                                <th width="100" style="text-align:center;">支付名称</th>
+                                <th width="100" style="text-align:center;">支付状态</th>
+                                <th width="150" style="text-align:center;">添加时间</th>
+                                <th width="150" style="text-align:center;">修改时间</th>
+                                <th width="150" style="text-align:center;">用户openid</th>
+                                <th width="100" style="text-align:center;">管理操作</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {volist name="list" id="v"}
+                            <tr class="va-m">
+                                <td width="80" style="text-align:center;">{$v.id}</td>
+                                <td>{$v.trade_sn}</td>
+                                <td style="text-align:center;">{$v.pay_ment}</td>
+								{if condition="$v.status eq 99"}
+                                <td style="text-align:center;">已支付</td>
+								{else /}
+								<td style="text-align:center;">待支付</td>
+								{/if}
+                                <td style="text-align:center;">{$v['addtime']|date="Y-m-d H:i:s",###}</td>
+                                <td style="text-align:center;">{$v['edittime']|date="Y-m-d H:i:s",###}</td>
+                                <td style="text-align:center;">{$v.openid}</td>
+                                <td style="text-align:center;">
+                                    <div class="btn-group btn-group-sm">
+                                        <a href="<?php echo url('admin/index/delete',['id'=>$v['id']],'')?>" onclick="return confirm('你确定要删除记录为[{$v.trade_sn}]吗，删除后不可恢复！')" class="btn btn-default">删除</a>
+                                    </div>
+                                </td>
+                            </tr>
+                            {/volist}
+                            </tbody>
+                        </table>
+                        <tfoot>
+                        </tfoot>
+                    </form>
+                </div>
+            </div>
+            <div class="btn-group" >
+                {$list->render()}
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+{include file="common@public/footer" /}

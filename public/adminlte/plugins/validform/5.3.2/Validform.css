@@ -1,0 +1,22 @@
+.form-horizontal .Validform_checktip{margin-top:5px}::-webkit-input-placeholder{color:#b3b3b3}:-moz-placeholder{color:#b3b3b3}::-moz-placeholder{color:#b3b3b3}:-ms-input-placeholder{color:#b3b3b3}.placeholder{color:#adb0be;position:absolute;z-index:9}
+.Validform_error,input.error,select.error{background-color:#fbe2e2;border-color:#c66161;color:#c00}
+.Validform_wrong,.Validform_right,.Validform_warning{display:inline-block;height:20px;font-size:12px;vertical-align:middle;padding-left:25px}
+.Validform_wrong{background:url(validform/iconpic-error.png) no-repeat 0 center;color:#ef392b}
+.Validform_right{background:url(validform/iconpic-right.png) no-repeat 0 center}
+.Validform_warning{background:url(validform/iconpic-warning.png) no-repeat 0 center;color:#777}
+
+label.error{position:absolute;right:18px;top:5px;color:#ef392b;font-size:12px}
+.passwordStrength b{font-weight:400}
+.passwordStrength b,.passwordStrength span{display:inline-block;vertical-align:middle;line-height:16px;line-height:18px\9;height:16px}
+.passwordStrength span{width:57px;text-align:center;background-color:#d0d0d0;border-right:1px solid #fff}.passwordStrength .last{border-right:0}
+.passwordStrength .bgStrength{color:#fff;background-color:#fcc900}
+
+#Validform_msg{font-size:14px;width:300px;-webkit-box-shadow:2px 2px 3px #aaa;-moz-box-shadow:2px 2px 3px #aaa;background:#fff;position:absolute;top:0;right:50px;z-index:99999;display:none;filter:progid:DXImageTransform.Microsoft.Shadow(Strength=3,Direction=135,Color='#999999');box-shadow:2px 2px 0 rgba(0,0,0,0.1)}
+#Validform_msg .iframe{position:absolute;left:0;top:-1px;z-index:-1}
+#Validform_msg .Validform_title{font-size:20px;padding:10px;text-align:left;color:#fff;position:relative;background-color:#fcc900}
+#Validform_msg a.Validform_close:link,#Validform_msg a.Validform_close:visited{position:absolute;right:8px;top:6px;color:#fff;text-decoration:none;font-family:Verdana}
+#Validform_msg a.Validform_close:hover{color:#fff}
+#Validform_msg .Validform_info{padding:10px;border:1px solid #bbb;border-top:0;text-align:left}
+@media(max-width:767px){
+.responsive .Validform_checktip{margin-top:10px}
+}

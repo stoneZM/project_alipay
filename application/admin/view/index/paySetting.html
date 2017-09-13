@@ -1,0 +1,154 @@
+{include file="common@public/header" /} 
+	
+	
+<div class="container-fluid">
+	<div class="row row-offcanvas row-offcanvas-right">
+		<div class="col-xs-12 col-sm-2">
+			<div class="panel panel-default">
+								<div class="panel-heading">
+									<h3 class="panel-title">主要功能</h3>
+								</div>
+								<div class="list-group">
+									<a href="{:url('index/paySetting')}" class="list-group-item active">支付配置</a>
+									<a href="{:url('index/recordList')}" class="list-group-item ">支付记录</a>
+								</div>
+			</div>
+		</div>
+		
+        <div class="col-xs-12 col-sm-10">
+			 <ul class="nav nav-tabs" style="margin-bottom:2rem;">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">支付配置</a>
+                </li>
+            </ul>
+			
+			<form class="form form-horizontal" name="myform" id="myform" action="" method="post">
+                <div class="panel panel-default">
+                    <div class="panel-body" style="">
+
+                        <ul class="nav nav-pills clearradius m-b-1" role="tablist">
+                            <li class="nav-item active">
+                                <a class="nav-link" href="#tab_conent_a" role="tab" data-toggle="tab">支付宝</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#tab_conent_b" role="tab" data-toggle="tab">微信</a>
+                            </li>
+                        
+                        </ul>
+                        <div class="tab-content" style="">
+                            <div role="tabpanel" class="tab-pane active" id="tab_conent_a" style="">
+
+                                <div class="form-group row">
+                                    <label class="col-sm-2 control-label text-right">支付宝账户<font color="red">*</font>：</label>
+                                    <div class="col-sm-10">
+                                        <input class="form-control" name="info[alipay_account]" id="alipay_account" value="<?php if(empty($data['alipay_account'])){echo '';} else{echo $data['alipay_account'];}?>" type="text" class="form-control">
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group row">
+                                    <label class="col-sm-2 control-label text-right">合作者身份(parterID)<font color="red">*</font>：</label>
+                                    <div class="col-sm-10">
+                                        <input class="form-control" name="info[alipay_parterid]" id="alipay_parterid" value="<?php if(empty($data['alipay_parterid'])){echo '';} else{echo $data['alipay_parterid'];}?>" type="text" class="form-control">
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-sm-2 control-label text-right">交易安全校验码(key)<font color="red">*</font>：</label>
+                                    <div class="col-sm-10">
+                                        <input class="form-control" name="info[alipay_key]" id="alipay_key" value="<?php if(empty($data['alipay_key'])){echo '';} else{echo $data['alipay_key'];}?>" type="text" class="form-control">
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-sm-2 control-label text-right">支付宝商户邮箱(seller_email)<font color="red">*</font>：</label>
+                                    <div class="col-sm-10">
+                                        <input class="form-control" name="info[alipay_seller_email]" id="alipay_seller_email" value="<?php if(empty($data['alipay_seller_email'])){echo '';} else{echo $data['alipay_seller_email'];}?>" type="text" class="form-control">
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-sm-2 control-label text-right">
+                                        证书(cert)<font color="red">*</font>:
+                                    </label>
+                                    <div class="col-sm-9">
+                                        <input type="text" name="info[alipay_sslcert_path]" id="alipay_sslcert_path" value="<?php if(empty($data['alipay_sslcert_path'])){echo '/cert/apiclient_cert.pem';} else{echo $data['alipay_sslcert_path'];}?>" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 control-label text-right">
+                                        证书(key)<font color="red">*</font>:
+                                    </label>
+                                    <div class="col-sm-9">
+                                        <input type="text" name="info[alipay_sslkey_path]" id="alipay_sslkey_path" value="<?php if(empty($data['alipay_sslkey_path'])){echo '/cert/apiclient_key.pem';} else{echo $data['alipay_sslkey_path'];}?>" class="form-control" />
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+
+                            <div role="tabpanel" class="tab-pane" id="tab_conent_b">
+
+                                <div class="form-group row">
+                                    <label class="col-sm-2 control-label text-right">身份标识(appId)<font color="red">*</font>：</label>
+                                    <div class="col-sm-10">
+                                        <input class="form-control" name="info[wxpay_appid]" id="wxpay_appid" value="<?php if(empty($data['wxpay_appid'])){echo '';} else{echo $data['wxpay_appid'];}?>" type="text" class="form-control">
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-sm-2 control-label text-right">身份密钥(appSecret)<font color="red">*</font>：</label>
+                                    <div class="col-sm-10">
+                                        <input class="form-control" name="info[wxpay_appsecret]" id="wxpay_appsecret" value="<?php if(empty($data['wxpay_appsecret'])){echo '';} else{echo $data['wxpay_appsecret'];}?>" type="text" class="form-control">
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-sm-2 control-label text-right">微信支付商户号(MchId)<font color="red">*</font>：</label>
+                                    <div class="col-sm-10">
+                                        <input class="form-control" name="info[wxpay_mchid]" id="wxpay_mchid" value="<?php if(empty($data['wxpay_mchid'])){echo '';} else{echo $data['wxpay_mchid'];}?>" type="text" class="form-control">
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-sm-2 control-label text-right">商户支付密钥(key)<font color="red">*</font>：</label>
+                                    <div class="col-sm-10">
+                                        <input class="form-control" name="info[wxpay_key]" id="wxpay_key" value="<?php if(empty($data['wxpay_key'])){echo '';} else{echo $data['wxpay_key'];}?>" type="text" class="form-control">
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-sm-2 control-label text-right">
+                                        证书(cert)<font color="red">*</font>:
+                                    </label>
+                                    <div class="col-sm-9">
+                                        <input type="text" name="info[wxpay_sslcert_path]" id="wxpay_sslcert_path" value="<?php if(empty($data['wxpay_sslcert_path'])){echo '/cert/apiclient_cert.pem';} else{echo $data['wxpay_sslcert_path'];}?>" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 control-label text-right">
+                                        证书(key)<font color="red">*</font>:
+                                    </label>
+                                    <div class="col-sm-9">
+                                        <input type="text" name="info[wxpay_sslkey_path]" id="wxpay_sslkey_path" value="<?php if(empty($data['wxpay_sslkey_path'])){echo '/cert/apiclient_key.pem';} else{echo $data['wxpay_sslkey_path'];}?>" class="form-control" />
+                                    </div>
+                                </div>
+
+                            </div>                   
+
+                       </div>
+
+
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" name="dosubmit" id="dosubmit" value="dosubmit"> 提交 </button>&nbsp;&nbsp;
+                    <button type="reset" class="btn btn-primary" name="reset"> 重置 </button>
+                </div>
+            </form>
+          
+        </div>
+    </div>	
+</div>
+		
+{include file="common@public/footer" /} 	

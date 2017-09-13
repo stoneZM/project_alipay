@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+ <link rel="stylesheet" href="__PUBLIC__/css/login.css" >
+    <script src="__PUBLIC__/plugins/jQuery/jquery-2.2.3.min.js"></script>
+<head>
+	<meta charset="UTF-8">
+	<title>找回密码</title>
+</head>
+<body>
+	<div class="login-box reset-pwd-box">
+	
+	<!-- 步骤1 -->
+		<div class="step_1" style="">
+			<span class="tip1">忘记密码?</span>
+	      	<span class="tip6">请输入您的手机号码来重置密码,如忘记手机号码重行注册</span>
+	      	
+	      	<div class="phone-box reset-box">
+	      		<img src="__PUBLIC__/image/user.png" alt="" class="icon">
+	      		<input type="text" name="phone_num" id="phone_num" class="reset-input" placeholder="请输入您的手机号">
+	      		<span class="line"></span>
+	      	</div>
+
+	      	<div class="reset-box code-box">
+	      		<img src="__PUBLIC__/image/user.png" alt="user" class="icon">
+	      		<input type="text" name="img-code" id="img-code" class="reset-input code-input" placeholder="请输入图片验证码">
+				<img src="{:url('user/login/verify')}" style="display: inline-block;margin-right: 10px" class="code-img verifyimg reloadverify">
+	      		<span class="line"></span>
+	      	</div>
+	      	<div>
+	      		<button type="button" class="next-btn" data-role="img-code" data-to="1_2">
+	      			下一步
+	      		</button>
+	      	</div>	
+	      	
+	      	<div>
+
+	      		<a href="{:url('/login')}" class="back-login">
+					<img class="icon arrow-icon" src="__PUBLIC__/image/left_arrow.png" alt="arrow" class="icon">
+					返回到登录</a>
+	      	</div>
+		</div>
+
+		<!-- 步骤2 -->
+		<div class="step_2" style="display: none">
+					<span class="tip1">身份验证</span>
+	      	<span class="tip6">我们向你的手机
+	      		<span id=""></span>发送了一条短信验证，通过验证后可以进行密码重设
+	
+	      	</span>
+	      	
+	      	<div class="phone-box reset-box" style="margin-top:50px">
+	      		<img src="__PUBLIC__/image/user.png" alt="" class="icon">
+	      		<input type="text" name="phone_code" id="phone_code" class="reset-input code-input" placeholder="请输入手机验证码">
+				<a style="" class="get-code-btn send-code-btn" code-type="reset_pwd">
+					发送验证码
+				</a>
+	      		<span class="line"></span>
+	      	</div>
+
+	      	<div >
+	      		<button type="button" class="next-btn" data-role="phone-code" data-to="2_3">
+	      		下一步
+	      		</button>
+	      	</div>	
+	      	
+	      	<div>
+	      		<img style="width: 10px;height: 10px;" src="__PUBLIC__/image/left_arrow.png" alt="arrow" class="icon arrow-icon">
+	      		<a href="javascript:void(0);" class="back-btn" data-to='2_1'>返回上一步</a>
+	      	</div>
+		</div>
+
+		<!-- 步骤3 -->
+		<div class="step_3" style="display: none;">
+						<span class="tip1">重设密码</span>
+	      	<span class="tip6">请为您的账号
+	      		<span id="phone-num"></span>设置新的密码
+	
+	      	</span>
+	      	
+	      	<div class="phone-box reset-box" style="margin-top:50px">
+	      		<img src="__PUBLIC__/image/user.png" alt="" class="icon">
+	      		<input type="text" name="password" id="password" class="reset-input" placeholder="重设密码">
+	      		<span class="line"></span>
+	      		<span class="tip6 pwd-tip">密码为6-18个字符，建议您设置字母+数字组合更为安全!</span>
+	      	</div>
+
+	      	<div >
+	      		<button type="button" class="next-btn submit-btn" >
+	      		     提交
+	      		</button>
+	      	</div>	
+	      	
+		</div>
+
+		<!-- 步骤4 -->
+		<div class="step_4" style="display: none">
+				
+	      	
+	      	<div class="phone-box reset-success">
+	      		<span class="tip1 ">恭喜您密码重设成功 !</span>
+	      		<a href="{:url('/login')}" >点击这里进行登录</a>
+	      	</div>
+	      
+		</div>
+   </div>
+</body>
+</html>
+<script src="__PUBLIC__/plugins/verify.js"></script>
+<script src="__PUBLIC__/adminlte/plugins/layer/2.4/layer.js"></script>
+<script src="__PUBLIC__/js/base64.js"></script>
+<script src="__PUBLIC__/js/login.js"></script>
+<script>
+
+    var base64Obj = new Base64();
+	$(".next-btn,.back-btn").click(function (e) {
+		e.preventDefault();
+		var _this = $(this);
+		var step = _this.attr('data-to');
+		if(step==undefined){
+			return ;
+		}
+		 var dataRole = _this.attr('data-role');
+		 var phoneNum = $('#phone_num').val();
+		 if(dataRole=='img-code'){
+			 var imgCode = $('#img-code').val();
+			 if(!checkPhone(phoneNum)){
+				 layer.msg("手机号有误",{icon:2,time:2000});
+				 return false;
+			 }
+			 codeVerify(imgCode,'1',0,step);
+			 return;
+		 }
+		 if(dataRole=='phone-code'){
+			 var phoneCode = $("#phone_code").val();
+			 codeVerify(phoneCode,'2',phoneNum,step);
+			 return;
+		 }
+
+		 jump(step);
+
+	});
+
+	$(".submit-btn").click(function(e){
+
+		e.preventDefault();
+		var phoneNum = $('#phone_num').val();
+		var password = $("#password").val();
+		if(!checkPassword(password)){
+			layer.msg('密码需6-18位字符或数字',{icon:2,time:2000});
+			return;
+		}
+		$.ajax({
+			url:'/reset',
+			data:{'phone_num':base64Obj.encode(phoneNum),'password':base64Obj.encode(password)},
+			type:'post',
+			async:true,
+			success:function (resJson) {
+				if(resJson.code == 1){
+					layer.msg("密码重置成功!",{icon:1,time:2000});
+					setTimeout('$(".step_3").hide();$(".step_4").show();',2000);
+				}else{
+					layer.msg(resJson.message,{icon:2,time:2000});
+				}
+			}
+		});
+
+	});
+
+	function codeVerify(code,type,phoneNum,step) {
+
+		$.ajax({
+			url:'/verify_code',
+			data:{'code':base64Obj.encode(code),'type':base64Obj.encode(type),'phone_num':base64Obj.encode(phoneNum)},
+			type:"post",
+			async:true,
+			success:function(resJson){
+				if(resJson.code == 1){
+					jump(step);
+				}else{
+					layer.msg("验证码错误",{icon:2,time:2000});
+					$(".reloadverify").trigger('click');
+					return false;
+				}
+			}
+		})
+	}
+
+	function jump(step) {
+		step = step.split('_');
+		var origin = step[0];
+		var target = step[1];
+		var originClassName = '.step_'+origin;
+		var targetClassName = '.step_'+target;
+		$(originClassName).hide();
+		$(targetClassName).show();
+	}
+
+</script>

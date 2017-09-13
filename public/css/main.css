@@ -1,0 +1,84 @@
+.logo-img{
+    display: inline-block;
+    width: 180px;
+    height: 50px;
+
+}
+.padding-0{
+    padding: 0px;
+}
+.no-vip-tip{
+    background-color: #FEF0D4;
+    margin:0px;
+}
+
+.no-vip-tip>span{
+    display: inline-block;
+    padding: 10px;
+}
+
+.set-password-box,.member-content,.member-manage-content{
+    background-color: #FDFAE8;
+    padding: 40px;
+}
+.member-content{
+    height:400px;
+    text-align: center;
+}
+
+.member-manage-content{
+    height:400px;
+}
+
+.member-content>span{
+    display: inline-block;
+    font-size: 20px;
+    line-height: 40px;
+    margin-top: 100px;
+}
+
+.set-password-box input[type='button']{
+    display: block;
+    margin:20px auto;
+}
+.contact-tip{
+    display: block;
+    color: #929091;
+    font-size: 18px;
+    text-align: center;
+}
+.reg-member{
+    text-align: left;
+}
+.reg-member>span{
+    display: inline-block;
+    height:40px;
+    font-size:18px;
+    line-height: 40px;
+}
+.choose-member-type,.submit-member-type{
+    padding-left: 40%;
+}
+.submit-member-type{
+
+    padding-left: 34%;
+    margin:40px 0px ;
+}
+
+.submit-member-type>input[type='button']{
+    display: block;
+    width:200px;
+}
+.red-span{
+    color: red;
+}
+.recommend-span{
+    color: #ffffff;
+    background: red;
+    padding: 3px 10px;
+}
+.editor-submit-btn{
+    width: 100px;
+    display: block;
+    margin: 10px auto 0px;
+}

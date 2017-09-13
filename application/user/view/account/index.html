@@ -1,0 +1,97 @@
+{extend name="common@public/base"}
+
+{block name="style"}
+
+{/block}
+
+{block name="body"}
+
+<section class="content">
+    <div class="box box-solid clearfix">
+        <div class="box-body clearfix padding-0">
+
+            <div class="form-horizontal set-password-box">
+                <div class="box-body">
+                    <div class="form-group">
+                        <label  class="col-sm-4 control-label">原密码</label>
+                        <div class="col-sm-5">
+                            <input type="password" class="form-control" name="old_password" id="old-password" placeholder="">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label  class="col-sm-4 control-label">新密码</label>
+
+                        <div class="col-sm-5">
+                            <input type="password" class="form-control" name="new_password" id="new-password" placeholder="">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">重新输入新密码</label>
+
+                        <div class="col-sm-5">
+                            <input type="password" class="form-control" id="r-new-password" name="r_new_password" placeholder="">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                       <input type="button" class="btn btn-primary " id="set-pwd-btn"  value="确认修改">
+                    </div>
+
+                    <div class="form-group">
+                      <label class="col-lg-12 contact-tip">如需修改手机号，请联系客服</label>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+{/block}
+{block name="script"}
+<script src="__PUBLIC__/plugins/verify.js"></script>
+    <script>
+
+        $(function(){
+
+           $("#set-pwd-btn").click(function(e){
+               e.preventDefault();
+               var oldPwd = $('#old-password').val();
+               var newPwd = $("#new-password").val();
+               var rnewPwd = $("#r-new-password").val();
+               if(rnewPwd != newPwd){
+                   showTip('新密码不一致，请修改!',2);
+                   return;
+               }
+               if(!checkPassword(newPwd)){
+                   showTip('密码需6-18位字符或数字!',2);
+                   return;
+               }
+               if(oldPwd==undefined){
+                   showTip('原始密码不能为空');
+                   return;
+               }
+
+               $.ajax({
+                   url:"/modify_pwd",
+                   data:{old_password:base64Obj.encode(oldPwd),new_password:base64Obj.encode(newPwd),r_new_password:base64Obj.encode(rnewPwd)},
+                   type:'post',
+                   async:true,
+                   success:function (resJson) {
+                       if(resJson.code==1){
+                           showTip('密码重置成功,请重新登录',1);
+                           setTimeout(' window.location.href="/login";',2000);
+                           return;
+                       }else{
+                           showTip(resJson.message,2);
+                           return;
+                       }
+                   }
+               })
+           })
+        });
+
+
+
+    </script>
+
+{/block}

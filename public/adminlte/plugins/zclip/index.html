@@ -1,0 +1,25 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>兼容所有浏览器的JQuery zClip插件实现复制到剪贴板功能_www.sitejs.cn</title>
+<meta name="keywords" content="JQuery复制到剪贴板,JQuery zClip" />
+<script type="text/javascript" src="http://www.sitejs.cn/templets/skins/js/jquery-1.8.1.min.js"></script> 
+<script src="jquery.zclip.min.js"></script> 
+</head>
+
+<body>
+<div style="margin:200px auto;width:300px;">
+<input type="text" value="www.sitejs.cn" id="link"> 
+<span id="copyBtn">复制链接</span> 
+</div>
+<script>
+        $('#copyBtn').zclip({
+            path: "ZeroClipboard.swf",
+            copy: function(){
+                return $('#link').val();
+  　　　 　　}
+        });
+</script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+.login-box{
+    margin:100px auto;
+    width: 400px;
+    text-align: center;
+    background-color: grey;
+    padding: 30px 30px 30px 20px;
+    border-radius: 10px;
+}
+.box-title{
+    margin-bottom: 30px;
+}
+.login-btn{
+    padding: 5px 20px;
+}

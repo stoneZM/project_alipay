@@ -1,0 +1,735 @@
+@charset "UTF-8";
+/*样式初始化*/
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body, div, h1, h2, h3, h4, h5, h6, hr, p, blockquote, dl, dt, dd, ul, ol, li, pre, form, fieldset, legend, button, input, textarea, th, td {
+    margin: 0;
+    padding: 0;
+}
+
+i {
+    font-style: normal;
+}
+
+body {
+    font-family: "Microsoft YaHei", serif;
+    font-size: 14px;
+    font-style: normal;
+    color: #6A6A6A;
+
+}
+
+fieldset, img {
+    border: 0;
+}
+
+ol, ul {
+    list-style: none;
+}
+
+a:link {
+    text-decoration: none;
+}
+
+a:visited {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+a:active {
+    text-decoration: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-size: 100%;
+}
+
+em {
+    font-style: normal;
+}
+
+input, button, select, textarea {
+    outline: none;
+}
+
+textarea {
+    resize: none;
+}
+
+.cl {
+    clear: both;
+}
+
+/*清除浮动*/
+.clearfloat:after {
+    display: block;
+    clear: both;
+    content: "";
+    visibility: hidden;
+    height: 0;
+
+}
+.clearfloat {
+    zoom: 1;
+}
+
+/*禁用了文本的拖拉，尤其在谷歌下*/
+/*p {*/
+/*text-align: justify;*/
+/*text-justify: distribute;*/
+/*}*/
+
+a {
+    text-decoration: none;
+    outline: none;
+    color: #009aff;
+}
+
+.fl {
+    float: left;
+}
+
+.fr {
+    float: right;
+}
+
+.mb50 {
+    margin-bottom: 50px;
+}
+
+.mb40 {
+    margin-bottom: 40px;
+}
+
+.mb10 {
+    margin-bottom: 10px;
+}
+
+.mb20 {
+    margin-bottom: 20px;
+}
+
+.mb30 {
+    margin-bottom: 30px;
+}
+
+.mb60 {
+    margin-bottom: 60px;
+}
+
+.w840 {
+    width: 840px;
+}
+
+.w1200 {
+    width: 1200px;
+    margin: 0 auto;
+}
+.auto{
+    margin:0 auto;
+}
+.clearfix::after {
+    clear: both;
+}
+.clearfix::before, .clearfix::after {
+    content: "";
+    display: table;
+}
+
+
+/*登录注册页面*/
+#header {
+    background: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+    margin-bottom:0;
+    width: 100%;
+    z-index: 99;
+    box-sizing: content-box;
+    font-size:16px;
+}
+.top-nav {
+    padding: 0 40px;
+    width: auto;
+    margin-right: auto;
+    margin-left: auto;
+}
+.navbar-header{
+    margin-right:20px;
+    height:60px;
+}
+.top-logo{
+    margin-right:50px;
+    float: left;
+    height:70px;
+    line-height:70px;
+    padding: 0;
+}
+.top-logo > img{
+    display: inline-block;
+}
+
+#header a:hover {
+    color: #009aff;
+}
+#header a.action{
+    color: #009aff;
+}
+.navbar-nav > li > a{
+    padding-top:25px;
+    padding-bottom:25px;
+}
+
+
+.aratar-pic {
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    margin-top: -9px;
+}
+.login-bg{
+    background: url(../img/bg-login1.png) no-repeat bottom;
+    min-height: 700px;
+}
+.main-login{
+    margin-top:130px;
+}
+.main-login .member{
+    /*max-width:800px;*/
+    min-height: 370px;
+}
+.main-login .member .hd {
+    font-size:18px;
+
+}
+.main-login .form-group {
+    position: relative;
+}
+.main-login .form-group label {
+    position: absolute;
+    left: 9px;
+    top: 12px;
+    font-size: 18px;
+    color: #d9e1e5;
+}
+.main-login .form-group input {
+    padding: 9px 9px 9px 34px;
+    width: 100%;
+    height: 50px;
+    line-height: 32px;
+    border: 1px solid #d9e1e5;
+    background-color: #fff;
+    border-radius: 2px;
+    outline: none;
+}
+
+input, button, select, textarea {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+}
+.main-login .checkbox a {
+    color: #009aff;
+}
+
+.main-login .member-form .btn-primary {
+    padding: 0;
+    width: 100%;
+    line-height: 48px;
+    text-align: center;
+    border: none;
+    border-radius: 2px;
+    font-size: 18px;
+    background-color: #009aff;
+
+}
+.oauth {
+    text-align: center;
+}
+.oauth a{
+    color: #009aff;
+}
+.oauth-wp{
+    padding-top: 62px;
+}
+.main-login .fast-login {
+    margin: 0 auto;
+    height: 9px;
+    border-bottom: 1px solid #d9e1e5;
+    margin-bottom: 25px;
+}
+.main-login .fast-login span {
+    position: relative;
+    display: block;
+    width: 40%;
+    margin: 0 auto;
+    background: #fff;
+}
+
+.oauth-wp a {
+    display: inline-block;
+    margin-right:30px;
+    text-align: center;
+
+    font-size: 48px;
+}
+.oauth-wp .icon-weibo{
+    margin-right:0;
+    color: #f77;
+}
+
+.oauth-wp .icon-weixin{
+    color: #47c90e;
+}
+.oauth-wp .icon-qq{
+    color: #5ba2e1;
+}
+.oauth-wp .icon-weibo:hover{
+    color: #ff9191;
+}
+.oauth-wp .icon-weixin:hover{
+    color: #5ce024;
+}
+.oauth-wp .icon-qq:hover{
+    color: #71b7f5;
+}
+
+.btn-check-code {
+    display: block;
+    height:50px;
+    line-height: 50px;
+    border-radius: 2px;
+    width: 100%;
+    border:1px solid #009aff;
+    padding:0;
+}
+.btn-sms:hover {
+    background-color: #009aff;
+    color: white;
+}
+.tab-register {
+    position: absolute;
+    right:30px;
+    top: 135px;
+    z-index: 5;
+    font-size: 14px;
+}
+.tab-register a{
+    color: #009aff;
+}
+.member-form  .hide {
+    visibility: hidden !important;
+    opacity: 0;
+    display: inline !important;
+    position: fixed !important;
+    z-index: -1;
+}
+.verify-code-img {
+    width: 100%;
+    height: 50px;
+    cursor: pointer;
+}
+
+
+/*个人中心*/
+
+.uc-hd {
+    padding-top: 50px;
+    height: 160px;
+    background: #14162d url(../img/bg-head.jpg) no-repeat center 0;
+}
+.uc-hd .avt img {
+    float: left;
+    width: 70px;
+    height: 70px;
+    border: 3px solid white;
+    border-radius: 50%;
+    margin-right: 20px;
+}
+.uc-hd .name {
+    float: left;
+    color: #fff;
+    line-height: 24px;
+}
+.uc-hd .name a {
+    color: #fff;
+    font-size: 18px;
+}
+.uc-hd .name a:hover {
+    color: #009aff;
+}
+
+.uc-hd .name span {
+    margin-right: 15px;
+}
+.uc-hd .name .total-score {
+color: #40df87;
+}
+.uc-hd .name span {
+    margin-right: 15px;
+}
+.uc-hd .name .use-score {
+color: #ff4040;
+}
+.uc-sd h3 {
+    line-height: 32px;
+    font-size: 16px;
+    color: #676767;
+}
+.uc-sd > li {
+    margin-bottom: 10px;
+    padding: 0 10px 12px;
+    border-bottom: 1px solid #e5e5e5;
+}
+.uc-sd > li li {
+    margin-left: 10px;
+    padding: 5px 0;
+    line-height: 24px;
+}
+.uc-sd a {
+    display: block;
+    width: 100%;
+    height: 24px;
+    color: #81828c;
+}
+.uc-sd .active a {
+    color: #009aff;
+}
+
+.uc-sd a:hover {
+    color: #009aff;
+}
+.uc-wp > .hd {
+    padding: 4px 16px 14px;
+    height: 44px;
+    border-bottom: 1px solid #e5e5e5;
+}
+.uc-wp > .hd h2 {
+    margin-right: 16px;
+    line-height: 24px;
+    font-size: 18px;
+    color: #676767;
+}
+.uc-wp > .bd {
+    margin: 20px 0;
+}
+.uc-wp .uc-nv {
+    color: #81828c;
+    font-size: 12px;
+    line-height: 24px;
+}
+
+.uc-data {
+    position: relative;
+    padding-left: 160px;
+    min-height: 160px;
+}
+.uc-wp > .bd {
+    margin: 20px 16px 0;
+}
+.uc-data .avt {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 160px;
+    color: white;
+}
+.uc-data .avt:hover {
+    color: white;
+}
+
+.uc-data .avt img {
+    padding: 4px;
+    width: 160px;
+    height: 160px;
+    border: 1px solid #e5e5e5;
+}
+.uc-data .avt span {
+    display: none;
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    padding: 48px 0 42px;
+    width: 150px;
+    height: 150px;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.5);
+    background: black \9;
+    filter: alpha(opacity=80) \9;
+    font-size: 16px;
+    cursor: pointer;
+}
+.uc-data .avt:hover span {
+    display: block;
+}
+
+.uc-data .avt i {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 36px;
+}
+.uc-data ul {
+    float: left;
+    width: 100%;
+}
+.uc-data ul li {
+    float: left;
+    margin-left: 20px;
+    width: 144px;
+    line-height: 40px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #81828c;
+}
+.uc-data ul li:first-child {
+    width: 180px;
+}
+
+.uc-data ul .nick {
+    font-size: 20px;
+    color: #424451;
+}
+.uc-data a{
+    color: #009aff;
+}
+.uc-wp .course-schedule {
+    border-bottom: 1px solid #e5e5e5;
+    height: 43px;
+    box-sizing: border-box;
+}
+.cl::after {
+    clear: both;
+    content: ".";
+    display: block;
+    height: 0;
+    font-size: 0;
+    visibility: hidden;
+    overflow: hidden;
+}
+.uc-wp .course-schedule li {
+    padding: 4px 16px 8px;
+    border-bottom: 3px solid transparent;
+    box-sizing: content-box;
+    cursor: pointer;
+    font-size: 18px;
+}
+.uc-wp .course-schedule .active {
+    border-color: #009aff;
+}
+.uc-wp .course-schedule li a {
+    color: #424451;
+}
+.uc-wp .course-schedule li:hover a {
+    color: #009aff;
+}
+
+.uc-wp .course-schedule .active a {
+    color: #009aff !important;
+}
+.uc-wp .uc-empty {
+    line-height: 200px;
+    text-align: center;
+    color: #81828c;
+}
+
+
+
+/*订单*/
+
+.uc-nv {
+    margin: 0 19px;
+}
+.light {
+    color: #f40;
+}
+.uc-wp .uc-nv li {
+    display: inline-block;
+    margin-right: 5px;
+}
+.uc-wp .uc-nv .active .btn {
+    background-color: #009aff;
+    border: 1px solid #009aff;
+    color: white;
+}
+.uc-wp .uc-nv .btn {
+    padding: 4px 18px;
+    font-size: 12px;
+    background-color: white;
+    border: 1px solid #009aff;
+    color: #009aff;
+    -webkit-transition: background-color 0.2s, color 0.2s;
+    transition: background-color 0.2s, color 0.2s;
+}
+.uc-wp .uc-empty {
+    line-height: 200px;
+    text-align: center;
+    color: #81828c;
+}
+.uc-wp .uc-nv .light {
+    margin: 0 6px;
+}
+
+.order-list a{
+    color: #009aff;;
+}
+.order-list a:hover{
+    color: #009aff;;
+}
+.footer {
+    padding: 20px ;
+    background: #ffffff;
+}
+.combo-order {
+    border: 1px solid #e6e5e6;
+    margin-top: 20px;
+}
+.combo-order > .hd {
+    background-color: #f5f5f5;
+    color: #81828c;
+    font-size: 13px;
+    line-height: 42px;
+    padding-left: 20px;
+    height: 42px;
+    overflow: hidden;
+}
+.combo-order > .hd .number {
+    color: #333;
+}
+.combo-order > .hd > div > span {
+    margin-right: 20px;
+}
+.combo-order > .hd > div > span {
+    margin-right: 20px;
+}
+.combo-order > .bd {
+    position: relative;
+    overflow: hidden;
+}
+.combo-order .item-list {
+border-right: 1px solid #e6e5e6;
+margin-right: 210px;
+}
+
+.combo-order .item-list {
+    margin-right: 420px;
+}
+.combo-order .item-list > .item {
+    border-top: 1px solid #e6e5e6;
+    padding: 20px;
+    margin-top: -1px;
+}
+.combo-order .item-list > .item::before, .combo-order .item-list > .item::after {
+    content: "";
+    display: table;
+}
+.combo-order .item-list > .item::after {
+    clear: both;
+}
+
+.combo-order .pic {
+    float: left;
+    margin-right: 20px;
+}
+.combo-order .pic img {
+    display: block;
+    height: 100px;
+    width: 162px;
+}
+.combo-order .item-list > .item .desc {
+    padding-left: 182px;
+}
+.combo-order .name {
+    padding: 15px 0 15px;
+}
+.combo-order .name {
+    color: #009aff;
+    font-size: 16px;
+    padding: 20px 0 26px;
+}
+
+.order-detail {
+    position: absolute;
+    top: 0;
+    right: 210px;
+    color: #81828c;
+    font-size: 13px;
+    line-height: 24px;
+    height: 100%;
+    width: 210px;
+    border-right: 1px solid #e6e5e6;
+}
+.tableMiddle {
+    height: 100%;
+    width: 100%;
+    display: table;
+    position: relative;
+    text-align: center;
+}
+.tableMiddle .tableCell {
+    display: table-cell;
+    vertical-align: middle;
+    width: 100%;
+}
+.order-detail p {
+    height: 25px;
+    line-height: 25px;
+}
+.order-detail-light {
+    color: #FF6633;
+}
+.combo-order .operate {
+    position: absolute;
+    top: 0;
+    right: 0;
+    color: #81828c;
+    font-size: 13px;
+    line-height: 24px;
+    height: 100%;
+    width: 210px;
+}
+.combo-order .pay-act a {
+    color: #81828c;
+}
+.combo-order .pay-act a:hover {
+    color: #009aff;
+}
+
+.combo-order .line {
+    color: #aaa;
+    margin: 0 5px;
+}
+.combo-order .btn-default:hover {
+    background-color: #33a8ff;
+    border-color: #33a8ff;
+    color: white;
+}
+
+/*购物车*/
+.o-wp {
+    margin-top: 20px;
+    padding: 16px 18px 20px;
+    width: auto !important;
+    max-width: none !important;
+    border: 1px solid #dfdfdf;
+    background: white;
+    color: #424451;
+}
+.o-wp .hd {
+    padding: 0 8px 10px;
+}
+.o-wp .hd h2 {
+    line-height: 20px;
+    font-size: 16px;
+    color: #424451;
+}
+
+.o-wp .bd {
+    padding: 20px 8px 0;
+    border-top: 1px solid #dfdfdf;
+}

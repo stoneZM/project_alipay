@@ -1,0 +1,147 @@
+{extend name="common@public/admin_base"}
+
+{block name="style"}
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+<!-- Ionicons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+<!-- Theme style -->
+<link rel="stylesheet" href="__PUBLIC__/adminlte/dist/css/AdminLTE.min.css">
+<!-- AdminLTE Skins. Choose a skin from the css/skins
+     folder instead of downloading all of them to reduce the load. -->
+<link rel="stylesheet" href="__PUBLIC__/adminlte/dist/css/skins/_all-skins.min.css">
+<!-- bootstrap wysihtml5 - text editor -->
+<link rel="stylesheet" href="__PUBLIC__/adminlte/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
+{/block}
+
+{block name="body"}
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-info">
+                <div class="box-header">
+                    <h3 class="box-title">编辑器一
+                        <small></small>
+                    </h3>
+                    <!-- tools box -->
+                    <div class="pull-right box-tools">
+                        <button type="button" class="btn btn-info btn-sm" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                            <i class="fa fa-minus"></i></button>
+                        <button type="button" class="btn btn-info btn-sm" data-widget="remove" data-toggle="tooltip" title="Remove">
+                            <i class="fa fa-times"></i></button>
+                    </div>
+                    <!-- /. tools -->
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body pad">
+                    <form>
+                    <textarea  id="Content" name="Content" rows="10" cols="80">
+
+                    </textarea>
+
+                    </form>
+
+                    <button class="btn btn-primary btn-sm editor-submit-btn" editor="1">提交</button>
+
+                </div>
+            </div>
+            <!-- /.box -->
+
+            <div class="box ">
+                <div class="box-header">
+                    <h3 class="box-title">编辑器二
+                        <small></small>
+                    </h3>
+                    <!-- tools box -->
+                    <div class="pull-right box-tools">
+                        <button type="button" class="btn btn-default btn-sm" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                            <i class="fa fa-minus"></i></button>
+                        <button type="button" class="btn btn-default btn-sm" data-widget="remove" data-toggle="tooltip" title="Remove">
+                            <i class="fa fa-times"></i></button>
+                    </div>
+                    <!-- /. tools -->
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body pad" style="display: none">
+                    <form>
+                        <textarea id="content-2" placeholder="Place some text here" style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
+                    </form>
+                    <div class="col-lg-12 text-center" >
+                        <button class="btn btn-primary btn-sm editor-submit-btn" editor="2">提交</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.col-->
+
+    </div>
+    <!-- ./row -->
+
+
+</section>
+{/block}
+
+{block name="script"}
+<!-- FastClick -->
+<script src="__PUBLIC__/adminlte/plugins/fastclick/fastclick.js"></script>
+<!-- AdminLTE App -->
+<script src="__PUBLIC__/adminlte/dist/js/app.min.js"></script>
+<!-- CK Editor -->
+<!--<script src="https://cdn.ckeditor.com/4.5.7/standard/ckeditor.js"></script>-->
+<script src="__PUBLIC__/adminlte/plugins/ckeditor/ckeditor.js"></script>
+<!-- Bootstrap WYSIHTML5 -->
+<script src="__PUBLIC__/adminlte/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
+<script>
+    $(function () {
+
+        CKEDITOR.replace('Content');
+        $("#content-2").wysihtml5();
+
+
+        $(".editor-submit-btn").click(function (e) {
+
+            e.preventDefault();
+            var _this = $(this);
+            var editor = _this.attr('editor');
+            //提价表单一
+            if(editor=="1"){
+                var content = CKEDITOR.instances.Content.getData();
+                if(content.length == 0){
+                    showTip('内容不能为空',2);
+                    return false;
+                }else {
+                    publishCnt(content);
+                }
+            }
+            if(editor=="2"){
+                var editor2Cnt = $("#content-2").val();
+                if(editor2Cnt.length == 0){
+                    showTip('内容不能为空',2);
+                    return false;
+                }else{
+                    publishCnt(editor2Cnt);
+                }
+            }
+        });
+    });
+
+    function publishCnt(content) {
+        $.ajax({
+            url:'/admin/activity/add_activity',
+            data:{'content':content},
+            type:'post',
+            async:true,
+            success:function (resJons) {
+                if(resJons.code == 1){
+                    showTip('发布成功',1);
+                    setTimeout('window.location.href="/admin/activity/index"',2000);
+                }else{
+                    showTip(resJons.message,2);
+                    return;
+                }
+            }
+        })
+    }
+
+</script>
+{/block}

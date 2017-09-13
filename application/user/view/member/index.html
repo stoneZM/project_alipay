@@ -1,0 +1,27 @@
+{extend name="common@public/base"}
+
+{block name='style'}
+{/block}
+
+{block name="body"}
+<section class="content">
+    <div class="box box-solid clearfix">
+        <div class="box-body clearfix member-content">
+
+            {if condition="$is_vip eq 1"}
+            <span>尊敬的VIP用户,您的会员到期时间为:{$expir_time}, <a href="/user/member/manage">点击这里续费</a></span>
+            {/if}
+            {if condition="$is_vip eq 0"}
+                <span>您还不是VIP用户,<a href="/user/member/manage"> 点击这里立即升级为VIP用户</a></span>
+            {/if}
+            {if condition="$is_vip eq -1"}
+            <span>尊敬的VIP用户,您的会员已到期 <a href="/user/member/manage">点击这里续费</a></span>
+            {/if}
+
+        </div>
+    </div>
+</section>
+{/block}
+
+{block name="script"}
+{/block}

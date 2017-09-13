@@ -1,0 +1,207 @@
+
+.login-box,.reg-box{
+    position: relative;
+    display: block;
+    margin: 100px auto;
+    width: 300px;
+    height:300px;
+    padding-top: 20px;
+    border: 2px solid #686667;
+}
+.bottom-info ,.reg-box .login-info,.login-box .login-info{
+    margin: 10px 25px;
+}
+.login-info .info-box,.login-btn ,.next-btn{
+    display: inline-block;
+    margin: 10px 0px;
+    width: 250px;
+    height:36px;
+}
+.info-box::-webkit-input-placeholder{
+    color: #5D5B5C;
+    font-size: 13px;
+    line-height: 34px;
+    text-align:center;
+}
+.login-btn,.next-btn{
+    background-color: #628BF6;
+    color: #ffffff;
+    font-size: 15px;
+}
+.tip ,.tip a {
+    font-size: 10px;
+    color: #A1A1A1;
+}
+a{
+    text-decoration: none;
+}
+
+.forget-pwd-btn{
+    margin: 0px 70px;
+}
+/* 错误提示 */
+.error-tip{
+
+    font-size: 10px;
+    color: red;
+    display: none;
+}
+
+
+/******注册页面********/
+.reg-box{
+    height: 350px;
+}
+.login-info .verify_code{
+    width: 140px;
+    float: left;
+
+}
+.code-img,.get-code-btn{
+    float: right;
+    width: 100px;
+    height: 40px;
+    margin-top: 10px;
+    cursor: pointer;
+
+}
+
+.get-code-btn{
+    color: #141414;
+    background-color: #EFEFEF;
+    text-align: center;
+    border: 1px solid #0c0c0c;
+    line-height: 40px;
+    font-size: 14px;
+    cursor: pointer;
+}
+a.disabled {
+    pointer-events: none;
+    cursor: default;
+    color: #A1A1A1;
+}
+.regist-btn{
+    background-color: #87CB29;
+    cursor: pointer;
+}
+
+/*重设密码界面*/
+.reset-pwd-box{
+    padding: 0px;
+    width: 380px;
+    height: 400px;
+}
+
+.tip1,.tip6{
+    
+    color: #929091;
+    margin:20px;
+}
+
+.tip1{
+    display: block;
+    font-size: 20px;
+}
+.tip6{
+    display: block;
+    font-size: 14px;
+     margin-top: 8px;
+}
+.icon{
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    float: left;
+    margin:20px 0px 0px 5%;
+
+}
+
+.reset-input{
+    
+  box-sizing: border-box;
+  font-size:13px;
+  height:2.7em;
+  color:#6a6f77;
+  display:inline-block;
+  padding:0 1.2em;
+  text-decoration:none;
+  width:80%;
+  outline: none;
+  border: 0px solid #ffffff;
+  margin-top: 15px;
+  margin-bottom: -10px;
+}
+
+.line{
+    background-color: #F1F1F1;
+    display: inline-block;
+    height: 1px;
+    width: 90%;
+    margin-left: 5%;
+}
+
+.code-input{
+    width: 150px;
+    
+}
+.reset-img-code{
+    position: relative;
+    display: inline-block;
+    float: right;
+}
+.next-btn{
+    margin-top: 40px;
+    width: 90%;
+    margin-left: 5%;
+    margin-bottom: 20px;
+    cursor: pointer;
+}
+.next-btn>a{
+    color: #ffffff;
+}
+
+a.back-btn,a.back-login{
+    font-size: 13px;
+    padding-left: 10px;
+    color: #5D5B5C;
+}
+.pwd-tip{
+    font-size: 12px;
+    display: block;
+    margin-top: 0px;
+}
+
+.reset-success{
+    margin: 30% auto;
+    text-align: center;
+}
+.reset-success a{
+    display: inline-block;
+    margin-top: 40px;
+    color: #1E9BD9;
+}
+span.get-code-span,span.have-send-code{
+    display: inline-block;
+    float: right;
+    margin-right: 20px;
+    margin-top:13px;
+    font-size:13px;
+    height:40px;
+    line-height: 40px;
+    cursor: pointer;
+}
+span.have-send-code{
+    color: #A1A1A1;
+    cursor: default;
+}
+img.arrow-icon{
+    width: 10px;
+    height: 10px;
+    margin-top: 8px;
+}
+a.send-code-btn{
+    display: inline-block;
+    margin-right: 10px
+}
+
+
