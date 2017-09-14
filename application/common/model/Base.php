@@ -44,7 +44,10 @@ class Base extends Model
                 'page'=>$list->render()
             );
         }
-        return array();
+        return array(
+            $list_name=>$list,
+            'page'=>''
+        );
     }
 
 

@@ -20,6 +20,10 @@ class Vip extends Base
    }
 
     public function index(){
+
+        $activity = db('vip_activity')->where(array('status'=>1))->select();
+
+        $this->assign('activity',$activity);
         $this->assign('meta_title','Vip中心');
         return $this->fetch();
     }

@@ -23,7 +23,7 @@
 	      	<div class="reset-box code-box">
 	      		<img src="__PUBLIC__/image/user.png" alt="user" class="icon">
 	      		<input type="text" name="img-code" id="img-code" class="reset-input code-input" placeholder="请输入图片验证码">
-				<img src="{:url('user/login/verify')}" style="display: inline-block;margin-right: 10px" class="code-img verifyimg reloadverify">
+				<img src="{:url('/get_verify')}" style="display: inline-block;margin-right: 10px" class="code-img verifyimg reloadverify">
 	      		<span class="line"></span>
 	      	</div>
 	      	<div>
@@ -79,7 +79,7 @@
 	      	
 	      	<div class="phone-box reset-box" style="margin-top:50px">
 	      		<img src="__PUBLIC__/image/user.png" alt="" class="icon">
-	      		<input type="text" name="password" id="password" class="reset-input" placeholder="重设密码">
+	      		<input type="password" name="password" id="password" class="reset-input" placeholder="重设密码">
 	      		<span class="line"></span>
 	      		<span class="tip6 pwd-tip">密码为6-18个字符，建议您设置字母+数字组合更为安全!</span>
 	      	</div>
@@ -98,7 +98,7 @@
 	      	
 	      	<div class="phone-box reset-success">
 	      		<span class="tip1 ">恭喜您密码重设成功 !</span>
-	      		<a href="{:url('/login')}" >点击这里进行登录</a>
+	      		<a href="{:url('/user/login')}" >点击这里进行登录</a>
 	      	</div>
 	      
 		</div>
@@ -178,7 +178,9 @@
 					jump(step);
 				}else{
 					layer.msg("验证码错误",{icon:2,time:2000});
-					$(".reloadverify").trigger('click');
+					if(type=='1'){
+						$(".reloadverify").trigger('click');
+					}
 					return false;
 				}
 			}

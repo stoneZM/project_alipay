@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:1:{s:75:"/Library/WebServer/www/project/sep-7/application/user/view/login/login.html";i:1505198502;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:1:{s:75:"/Library/WebServer/www/project/sep-7/application/user/view/login/login.html";i:1505313161;}*/ ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -52,7 +52,7 @@
                     var password = $("#password").val();
 
                     $.ajax({
-                        url:'/login',
+                        url:'/user/login',
                         type:'post',
                         data:{"phone_num":base64Obj.encode(phoneNum),"password":base64Obj.encode(password)},
                         async:true,
@@ -68,7 +68,7 @@
                         }
                     })
                 })
-            })
+            });
 
 </script>
 </html>

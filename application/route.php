@@ -20,13 +20,14 @@ return array(
         'name' => '\w+',
     ),
 
-    'login'          => 'user/login/login',
+    'admin/login'    => 'admin/admin/login',
+    'get_verify'     => 'user/login/verify',
     'register'       => 'user/login/reg',
     'logout'         => 'user/login/logout',
     'reset'          => 'user/login/reset_pwd',
     'get_code'       => 'user/login/get_phone_code',
-    'verify_code'    => 'user/login/verify_code',
+    'verify_code'    => 'user/login/verify_code',     //验证 验证码是否正确
     'modify_pwd'     => 'user/account/modify_pwd',
-    'admin/login'    =>  'admin/admin/login',
+    'user/login'     => 'user/login/login',
 //    'publish'        => 'admin/activity/publish',
 );

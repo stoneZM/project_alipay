@@ -52,7 +52,7 @@ class Login extends Base
             if ($this->user->save($data)){
                  return json(array('code'=>1));
             }else{
-               return json(array('code'=>0,'message'=>$this->user->getError()));
+               return json(array('code'=>0,'msg'=>$this->user->getError()));
             }
     	}
     	return $this->fetch();
@@ -94,7 +94,7 @@ class Login extends Base
 
     public function logout(){
         $this->user->logout();
-        $this->redirect(url('/login'));
+        $this->redirect(url('/user/login'));
 
     }
 

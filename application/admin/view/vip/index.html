@@ -23,7 +23,7 @@
 
                     <div class=" pull-left">
                         <div class="input-group input-group-sm" style="width: 150px;">
-                            <a class="btn btn-primary btn-sm " href="add_activity">新增活动</a>
+                            <a class="btn btn-primary btn-sm " href="/admin/vip/manage">新增价格</a>
                         </div>
                     </div>
 
@@ -33,32 +33,43 @@
                     <table class="table table-hover">
                         <tbody><tr>
                             <th>ID</th>
-                            <th>标题</th>
-                            <th>创建者</th>
+                            <th>价格</th>
+                            <th>总月数</th>
+                            <th>描述</th>
                             <th>状态</th>
+                            <th>是否推荐</th>
                             <th>添加日期</th>
+                            <th>排序</th>
                             <th>操作</th>
                         </tr>
                         {volist name='list' id='item'}
                         <tr>
                             <td>{$item['id']}</td>
-                            <td>{$item['title']}</td>
-                            <td>{$item['username']}</td>
+                            <td>{$item['price']}</td>
+                            <td>{$item['month']}</td>
+                            <td>{$item['desc']}</td>
                             {if $item['status'] == 1 }
                               <td><span class="label label-success">启用中</span></td>
                             {else/}
                               <td><span class="label label-danger">禁用</span></td>
                             {/if}
+                            {if $item['is_recommend'] == 1 }
+                            <td><span class="label label-success">是</span></td>
+                            {else/}
+                            <td><span class="label label-danger">否</span></td>
+                            {/if}
                             <td>{$item['create_time']}</td>
+                            <td>{$item['sort']}</td>
                             <td>
-                                <a href="{:url('admin/activity/edit_activity',array('id'=>$item['id']))}">管理</a>
-                                <a href="{:url('admin/activity/del_activity',array('id'=>$item['id']))}" class="ajax-get   ">删除</a>
+                                <a href="{:url('admin/vip/manage',array('id'=>$item['id']))}">管理</a>
+                                <a href="{:url('admin/vip/del',array('id'=>$item['id']))}" class="ajax-get">删除</a>
                             </td>
                         </tr>
                         {/volist}
                         </tbody></table>
                 </div>
                 <!-- /.box-body -->
+                {$page}
             </div>
             <!-- /.box -->
         </div>

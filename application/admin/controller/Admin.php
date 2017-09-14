@@ -1,26 +1,34 @@
 <?php
 namespace app\admin\controller;
 use app\common\controller\Base;
+use app\admin\model\AdminModel;
 
 class Admin extends Base
 {
+
+    function __construct()
+    {
+        parent::__construct();
+        $this->admin = new AdminModel();
+    }
+
     public function login()
     {
         if (IS_POST){
-
             $user_name = input('username');
             $password = input('password');
-
-            return $this->success('登录成功',url('/admin/user/index'));
+            if ($this->admin ->login($user_name,$password)){
+                return json(array('code'=>1,'message'=>'登录成功'));
+            }else{
+                return json(array('code'=>0,'message'=>$this->admin->getError()));
+            }
         }
         return $this->fetch();
     }
 
 
     public function logout(){
-        session('user_auth', null);
-        session('user_auth_sign', null);
-        $this->redirect(url('/admin/admin/login'));
-
+        $this->admin ->logout();
+        $this->redirect(url('/admin/login'));
     }
 }

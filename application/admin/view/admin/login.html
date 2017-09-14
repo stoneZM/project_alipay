@@ -8,10 +8,10 @@
   <title>后台登录</title>
   <link rel="stylesheet" type="text/css" href="__PUBLIC__/admin/css/login.css">
   <link rel="stylesheet" href="__PUBLIC__/adminlte/bootstrap/css/bootstrap.min.css">
-  <!--<script src="__PUBLIC__/Js/base.js"></script>-->
+  <script src="__PUBLIC__/adminlte/plugins/jQuery/jquery-2.2.3.min.js"></script>
 </head>
 
-<body>
+<body style="background-color: #3C8DBC">
 <div class="login-box">
 
   <div class="box box-info">
@@ -20,7 +20,7 @@
     </div>
     <!-- /.box-header -->
     <!-- form start -->
-    <form class="form-horizontal"  action="{:url('admin/admin/login')}" method="post">
+    <div class="form-horizontal"  >
       <div class="box-body">
         <div class="form-group">
           <label for="username" class="col-sm-3 control-label">用户名</label>
@@ -39,14 +39,40 @@
       </div>
       <!-- /.box-body -->
       <div class="box-footer">
-        <button type="submit" class="btn btn-primary">登录</button>
+        <button type="" class="btn btn-primary login-btn">登录</button>
       </div>
       <!-- /.box-footer -->
-    </form>
+    </div>
   </div>
 
 </div>
 
 </body>
+<script src="__PUBLIC__/adminlte/plugins/layer/2.4/layer.js"></script>
+<script>
+  $(function() {
 
+    $('.login-btn').click(function (e) {
+      e.preventDefault();
+      var username = $("#username").val();
+      var password = $("#password").val();
+      $.ajax({
+        url:'/admin/login',
+        type:'post',
+        data:{"username":username,"password":password},
+        async:true,
+        success:function (resJson) {
+          if(resJson.code==1){
+            layer.msg(resJson.message,{icon:1,time:2000});
+            setTimeout('window.location.href = "/admin/user/index";',2000);
+            return;
+          }else{
+            layer.msg(resJson.message,{icon:2,time:2000});
+            return false;
+          }
+        }
+      })
+    })
+  });
+</script>
 </html>

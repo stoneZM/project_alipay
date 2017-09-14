@@ -19,18 +19,35 @@
         <div class="box-body clearfix">
             <!-- 修改密码表单 -->
             <form method="post" class="form-horizontal">
+                <input type="hidden" name="id" value="{$vip_price['id']}">
                 <div class="form-group">
                     <label class="col-lg-2 control-label">
-                       手机号：</label>
+                       价格：</label>
                     <div class="col-lg-4">
-                        <input type="text" name="phone_num" class="form-control " value="{$phone_num}"/>
+                        <input type="text" name="price" class="form-control " value="{$vip_price['price']}"/>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-lg-2 control-label">
-                        密码：</label>
+                        总计月数：</label>
                     <div class="col-lg-4">
-                        <input type="password" name="password" id="password" class="form-control" placeholder="为空则默认不修改" value="" />
+                        <input type="text" name="month" class="form-control " value="{$vip_price['month']}"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-2 control-label">
+                        排序：</label>
+                    <div class="col-lg-4">
+                        <input type="text" name="sort" class="form-control " value="{$vip_price['sort']}" placeholder="数字越大，表示排序越靠上"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-2 control-label">
+                        描述：</label>
+                    <div class="col-lg-4">
+                        <textarea name="desc" id="" cols="40" rows="2">
+                            {$vip_price['desc']}
+                        </textarea>
                     </div>
                 </div>
 
@@ -38,11 +55,11 @@
                     <label class="col-lg-2 control-label">状态：</label>
                     <div class="col-lg-6">
                         <div class="radio-inline" style="padding-left:0">
-                            <input type="radio" name="status" class="gl_checkbox" id="status_on" value="1"  {$status_radio_1}/>
-                            <label for="status_on">正常</label>
+                            <input type="radio" name="status" class="gl_checkbox" id="status_on" value="1" {$vip_price['status_on']}/>
+                            <label for="status_on">启用</label>
                         </div>
                         <div class="radio-inline" style="padding-left:0">
-                            <input type="radio" name="status" class="gl_checkbox" id="status_off" value="0" {status_radio_2}/>
+                            <input type="radio" name="status" class="gl_checkbox" id="status_off" value="0" {$vip_price["status_off"]} />
                             <label for="status_off">禁用</label>
                         </div>
                     </div>
@@ -50,23 +67,22 @@
 
                 <div class="form-group">
                 <label class="col-lg-2 control-label">
-                   是否为会员：</label>
+                   是否推荐：</label>
                 <div class="col-lg-6">
                     <div class="radio-inline" style="padding-left:0">
-                        <input type="radio" name="is_vip" class="gl_checkbox" id="is_vip" value="1" {$vip_radio_1}/>
-                        <label for="is_vip">是</label>
+                        <input type="radio" name="is_recommend" class="gl_checkbox" id="is_recommend" value="1" {$vip_price['recommend_on']}/>
+                        <label for="is_recommend">是</label>
                     </div>
                     <div class="radio-inline" style="padding-left:0">
-                        <input type="radio" name="is_vip" class="gl_checkbox" id="is_not_vip" value="0" {$vip_radio_2}/>
-                        <label for="is_not_vip">否</label>
+                        <input type="radio" name="is_recommend" class="gl_checkbox" id="is_not_recommend" value="0" {$vip_price['recommend_off']}/>
+                        <label for="is_not_recommend">否</label>
                     </div>
                 </div>
                 </div>
 
                 <div class="form-group">
                     <div class="col-lg-offset-2 col-lg-10">
-                        <input type="hidden" name="id" value="{$id}">
-                        <button type="submit" class="btn btn-primary submit-btn ajax-post" target-form="form-horizontal">确认修改</button>
+                        <button type="submit" class="btn btn-primary submit-btn ajax-post" target-form="form-horizontal">提交</button>
                         <button class="btn btn-default" onclick="javascript:history.back(-1);return false;">返回</button>
                     </div>
                 </div>

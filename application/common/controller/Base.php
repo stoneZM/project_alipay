@@ -24,19 +24,26 @@ class Base extends \think\Controller {
     public function _initialize() {
         //获取request信息
         $this->requestInfo();
-        //免登录行为
 
+        //免登录行为
         if (no_login($this->url)){
             return;
         }
-        if (!is_login() && !in_array($this->url, array('user/login/login', 'user/login/logout'))) {
-            $this->redirect('/login');
+        $module_name = $this->request->module();
+        //如果没有登录
+        // && !in_array($this->url, array('user/login/login', 'user/login/logout'))
+        if (!is_login($module_name)) {
+            if ($module_name=='admin'){
+                $this->redirect('/admin/login');
+            }else{
+                $this->redirect('/user/login');
+            }
         }
-
-        $user_auth = session('user_auth');
-        $this->assign('is_vip',$user_auth['is_vip']);
-        $this->assign('expir_time',$user_auth['expir_time']);
-
+        if ($module_name=='user'){
+            $user_auth = session('user_auth');
+            $this->assign('is_vip',$user_auth['is_vip']);
+            $this->assign('expir_time',$user_auth['expir_time']);
+        }
     }
 
     //request信息
@@ -105,9 +112,10 @@ class Base extends \think\Controller {
 
         $code = base64_decode(input('code'));
         // 1: 图片验证码
-//        2：手机验证码
+        // 2：手机验证码
         $code_type = base64_decode(input('type'));
         if ($code_type == 1){
+
             $verify = new \org\Verify();
             $result = $verify->check($code, 1);
             if ($result){
@@ -115,10 +123,13 @@ class Base extends \think\Controller {
             }else{
                 return json(array('code'=>0,'message'=>'验证码错误'));
             }
+
         }else{
+
             $phoneNum = base64_decode(input('phone_num'));
             $save_code = Session::get($phoneNum);
             if ($code == $save_code){
+                Session::delete($phoneNum);
                 return json(array('code'=>1,'message'=>'验证成功'));
             }else{
                 return json(array('code'=>0,'message'=>'验证码错误'));

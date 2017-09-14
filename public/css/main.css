@@ -1,3 +1,4 @@
+
 .logo-img{
     display: inline-block;
     width: 180px;
@@ -77,8 +78,8 @@
     background: red;
     padding: 3px 10px;
 }
-.editor-submit-btn{
+.editor-submit-btn,.editor-back-btn{
     width: 100px;
-    display: block;
+    display: inline-block;
     margin: 10px auto 0px;
 }

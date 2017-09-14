@@ -12,46 +12,56 @@
             </div>
             <div class="form-horizontal ">
                 <div class="box-body">
+                    <!--<div class="form-group choose-member-type">-->
+                        <!--<div class="radio">-->
+                          <!--<input class="iradio_flat-green" type="radio" name="member_type"  value="1" checked="checked">-->
+                            <!--<label>-->
+                               <!--1个月30元-->
+                            <!--</label>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class=" form-group choose-member-type">-->
+                        <!--<div class="radio">-->
+
+                          <!--<input class="iradio_flat-green" type="radio" name="member_type"  value="3" >-->
+                            <!--<label>-->
+                                <!--3个月78元 ( <span class="red-span">26</span>元/月 )-->
+                            <!--</label>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="form-group choose-member-type">-->
+                        <!--<div class="radio">-->
+
+                            <!--<input class="iradio_flat-green" type="radio" name="member_type"  value="6" >-->
+                            <!--<label>-->
+                               <!--6个月120元 ( <span class="red-span">20</span>元/月 )-->
+                            <!--</label>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    {volist name="vip_price" id='item' key='k'}
                     <div class="form-group choose-member-type">
                         <div class="radio">
-                          <input class="iradio_flat-green" type="radio" name="member_type"  value="1" checked="checked">
+                            {if $k==1 }
+                        <input class="iradio_flat-green" type="radio" name="member_type" checked value="{$item['month']}" >
+                            {else/}
+                            <input class="iradio_flat-green" type="radio" name="member_type" value="{$item['month']}" >
+                           {/if}
                             <label>
-                               1个月30元
-                            </label>
-                        </div>
-                    </div>
-                    <div class=" form-group choose-member-type">
-                        <div class="radio">
-
-                          <input class="iradio_flat-green" type="radio" name="member_type"  value="3" >
-                            <label>
-                                3个月78元 ( <span class="red-span">26</span>元/月 )
-                            </label>
-                        </div>
-                    </div>
-                    <div class="form-group choose-member-type">
-                        <div class="radio">
-
-                            <input class="iradio_flat-green" type="radio" name="member_type"  value="6" >
-                            <label>
-                               6个月120元 ( <span class="red-span">20</span>元/月 )
-                            </label>
-                        </div>
-                    </div>
-                    <div class="form-group choose-member-type">
-                        <div class="radio">
-
-                        <input class="iradio_flat-green" type="radio" name="member_type" id="" value="12" >
-                            <label>
-                                12个月180元 ( <span class="red-span">15</span>元/月 )
+                                {$item['desc']}
+                                {if $item['month'] != 1 }
+                                ( <span class="red-span">{$item['price']/$item['month']}</span>元/月 )
+                                {/if}
+                                {if $item['is_recommend'] == 1}
                                 <span class="recommend-span">推荐</span>
+                                {/if}
                             </label>
                         </div>
                     </div>
+                    {/volist}
 
                     <div class="submit-member-type" >
-                        <a href="/user/member/pay" target="_blank">立即支付</a>
-                        <!--<input type="button" class="btn  btn-warning btn-lg" id="payment-btn"  value="立即支付">-->
+                        <!--<a href="/user/member/pay" target="_blank">立即支付</a>-->
+                        <input type="button" class="btn  btn-warning btn-lg" id="payment-btn"  value="立即支付">
                     </div>
 
                 </div>

@@ -23,7 +23,7 @@
                     活动标题：</label>
                     </div>
                 <div class="col-md-4">
-                    <input type="text" name="activity_title" id="activity-title" class="form-control " value="" placeholder="活动标题"/>
+                    <input type="text" name="activity_title" id="activity-title" class="form-control " value="{$title}" placeholder="活动标题"/>
                 </div>
             </div>
     </div>
@@ -46,8 +46,9 @@
                 <!-- /.box-header -->
                 <div class="box-body pad">
                     <form>
+                        <input type="hidden" id="activity-id" name="id" value="{$id}">
                     <textarea  id="Content" name="Content" rows="10" cols="80">
-
+                        {$content}
                     </textarea>
 
                     </form>
@@ -143,15 +144,15 @@
     });
 
     function publishCnt(title,content) {
-
+        $id = $("#activity-id").val();
         $.ajax({
-            url:'/admin/activity/add_activity',
-            data:{'content':content,'title':title},
+            url:'/admin/activity/edit_activity',
+            data:{'content':content,'title':title,'id':$id},
             type:'post',
             async:true,
             success:function (resJons) {
                 if(resJons.code == 1){
-                    showTip('发布成功',1);
+                    showTip('修改成功',1);
                     setTimeout('window.location.href="/admin/activity/index"',2000);
                 }else{
                     showTip(resJons.message,2);

@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:2:{s:74:"/Library/WebServer/www/project/sep-7/application/user/view/user/index.html";i:1504931668;s:77:"/Library/WebServer/www/project/sep-7/application/common/view/public/base.html";i:1505197405;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:2:{s:74:"/Library/WebServer/www/project/sep-7/application/user/view/user/index.html";i:1505313964;s:77:"/Library/WebServer/www/project/sep-7/application/common/view/public/base.html";i:1505197405;}*/ ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -91,7 +91,15 @@
             <?php endif; ?>
         </section>
         
-User
+
+<section class="content">
+    <div class="box box-solid clearfix">
+        <div class="box-body clearfix member-content">
+            <h3 class="text-center">User</h3>
+        </div>
+    </div>
+</section>
+
 
     </div>
 

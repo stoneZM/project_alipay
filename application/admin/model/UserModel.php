@@ -37,8 +37,7 @@ class UserModel extends Base
        }
         $list = $this->where($map)
             ->order($order_by)
-            ->paginate($this->list_rows,false,array('query'=>array('is_vip'=>$is_vip)));
-
+            ->paginate($this->list_rows,false,array('path'=>'/admin/user/index','query'=>array('is_vip'=>$is_vip)));
         return $list;
     }
 

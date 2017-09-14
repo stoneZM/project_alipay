@@ -95,7 +95,6 @@
             e.preventDefault();
             var _this = $(this);
             var isVip =  _this.children('option:selected').val();
-            isVip = b.encode(isVip);
             window.location.href = '/admin/user/index?is_vip='+isVip;
         });
     </script>

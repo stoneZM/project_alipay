@@ -16,7 +16,20 @@ class ActivityModel extends Base
     protected $createTime = 'create_time';
     protected $updateTime = '';
 
-    public function publish($content){
+
+    public function get_activity_list($map=array(),$order_by=''){
+
+        $_field = array('vip_activity.id','vip_activity.content','vip_activity.title','vip_activity.create_time','vip_activity.status','admin.username');
+        $list = $this->where($map)
+            ->join('admin',"vip_activity.user_id=admin.id",'left')
+            ->field($_field)
+            ->order($order_by)
+            ->paginate($this->list_rows,false,array('path'=>'/admin/activity/index'));
+        return $list;
+    }
+
+
+    public function publish($title,$content,$id=0){
 
         $user_info = session('user_auth');
         if (!$user_info&&!$user_info['uid']){
@@ -29,12 +42,22 @@ class ActivityModel extends Base
             return false;
         }
         $data['content'] = $content;
-        if ($this->save($data)){
-            return true;
+        $data['title'] = $title;
+
+        if($id !== 0){
+
+           if($this->where(array('id'=>$id))->update($data)){
+               return true;
+           }
+
         }else{
-            $this->error = '发布失败';
-            return false;
+            if ($this->save($data)) {
+                return true;
+            }
         }
+         return false;
     }
+
+
 
 }

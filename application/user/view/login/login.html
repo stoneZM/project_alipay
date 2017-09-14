@@ -51,7 +51,7 @@
                     var password = $("#password").val();
 
                     $.ajax({
-                        url:'/login',
+                        url:'/user/login',
                         type:'post',
                         data:{"phone_num":base64Obj.encode(phoneNum),"password":base64Obj.encode(password)},
                         async:true,
@@ -67,7 +67,7 @@
                         }
                     })
                 })
-            })
+            });
 
 </script>
 </html>
