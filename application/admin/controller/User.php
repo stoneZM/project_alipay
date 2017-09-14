@@ -9,6 +9,8 @@
 namespace app\admin\controller;
 use app\admin\model\UserModel;
 use app\common\controller\Base;
+use app\common\controller\Excel;
+
 define('USER_MAN_BACK_PARAMS','USERMANBACKPARAMS');
 
 class User extends Base
@@ -83,6 +85,42 @@ class User extends Base
         $this->assign($user);
         $this->assign('meta_title','用户管理');
         return $this->fetch();
+    }
+
+
+
+    // 导出用户表
+    public function export_excel(){
+
+        $type = input('export_type');
+        if ($type == 'is_vip'){
+            $data = UserModel::all(['is_vip'=>1]);
+            $sheel_title = '会员用户列表';
+        }else{
+            $sheel_title = '普通用户列表';
+            $data = UserModel::all(['is_vip'=>0]);
+        }
+        if ($data){
+            $vip_info = db('vip_info');
+            $data = $data->toArray();
+            foreach ($data as $key=>&$value){
+                $info = $vip_info->where(array('user_id'=>$value['id']))->column('expir_time');
+                if ($info){
+                    $value['vip_expire_time'] = date('Y-m-d',current($info));
+                }else{
+                    $value['vip_expire_time'] = "- -";
+                }
+                $value['is_vip'] = $value['is_vip']?"是":"否";
+                $value['reg_time'] = date('Y-m-d',$value['reg_time']);
+            }
+        }
+
+        $col_titles = array('A1'=>'用户编号',"B1"=>'手机号',"C1"=>"是否为会员" ,"D1"=>'会员到期时间',"E1"=>'用户注册时间');
+        $col_width = array('A'=>10,"B"=>20,"C"=>10,"D"=>15,"E"=>15);
+
+        Excel::export_excel($sheel_title,$col_titles,$col_width,$data);
+        return $this->success('导出成功');
+
     }
 
 }

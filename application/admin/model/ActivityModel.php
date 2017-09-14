@@ -31,7 +31,7 @@ class ActivityModel extends Base
 
     public function publish($title,$content,$id=0){
 
-        $user_info = session('user_auth');
+        $user_info = session('admin_auth');
         if (!$user_info&&!$user_info['uid']){
             $this->error = '请登录后在进行操作';
             return false;

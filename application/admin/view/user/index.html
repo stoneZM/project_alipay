@@ -22,11 +22,17 @@
                     <h3 class="box-title"></h3>
 
                     <div class="box-tools">
-                        <div class="input-group input-group-sm" style="width: 30%;margin: 0px 20px;">
+                        <div class="input-group input-group-sm" style="width: 30%;margin: 0px 20px;float: left;">
                             <input type="text" name="phone_search" class="form-control pull-right" placeholder="通过手机号搜索">
                             <div class="input-group-btn">
                                 <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
                             </div>
+                        </div>
+
+                        <div class="input-group input-group-sm" style="width: 30%;margin: 0px 20px; float: right;">
+                            <a class="btn btn-sm btn-primary pull-right " href="{:url('/export_excel',array('export_type'=>''))}" >导出普通用户列表</a>
+                            <a  style="margin: 0px 10px;" class="btn btn-sm btn-primary pull-right " href="{:url('/export_excel',array('export_type'=>'is_vip'))}">导出会员列表</a>
+
                         </div>
                     </div>
                 </div>

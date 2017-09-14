@@ -29,5 +29,6 @@ return array(
     'verify_code'    => 'user/login/verify_code',     //验证 验证码是否正确
     'modify_pwd'     => 'user/account/modify_pwd',
     'user/login'     => 'user/login/login',
+    'export_excel'   =>  'admin/user/export_excel'
 //    'publish'        => 'admin/activity/publish',
 );
