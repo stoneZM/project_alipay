@@ -13,8 +13,6 @@ class PayAccount extends Model
 {
     /**
      * @Description: 微信配置项
-     * @Author: 云的缔造者
-     * @email: 736383301@qq.com
      * @return  string
      */
     public function _weixin_config(){
@@ -70,6 +68,7 @@ class PayAccount extends Model
             $this->payment_type = $payConfigArry['payment_type']; //支付类型 1
             $this->ip           = $payConfigArry['exter_invoke_ip'];
             $this->status       = 0;  //0：刚刚提交支付  -1：删除   99：最终支付成功
+            $this->trade_type = $order['tradeType'];   // 1: 续费 0：开通会员
 
             $this->save();
         }
@@ -80,8 +79,6 @@ class PayAccount extends Model
 
     /**
      * @Description: 微信生成支付代码
-     * @Author: 云的缔造者
-     * @email: 736383301@qq.com
      * @return  string
      */
     public function getWxpay($wxpayConfigArry, $data, $paycode, $model)
@@ -133,8 +130,6 @@ class PayAccount extends Model
 
     /**
      * @Description: 通过订单号查询状态记录
-     * @Author: 云的缔造者
-     * @email: 736383301@qq.com
      * @return  string
      */
     public function getPayAccountId($tradeSn)
@@ -145,8 +140,6 @@ class PayAccount extends Model
 
     /**
      * @Description: 通过记录id和站点id修改状态
-     * @Author: 云的缔造者
-     * @email: 736383301@qq.com
      * @return  string
      */
     public function updateStatus($data, $id)

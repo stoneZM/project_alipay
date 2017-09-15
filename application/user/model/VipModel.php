@@ -19,4 +19,5 @@ class VipModel extends Base
 
 
 
+
 }

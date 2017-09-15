@@ -1,6 +1,35 @@
 {extend name="common@public/base"}
 
 {block name='style'}
+<style>
+   .pay-list{
+       list-style: none;
+
+   }
+    .pay-list li{
+        float: left;
+        display: block;
+        margin: 30px 20px 0 0;
+        width: 190px;
+        height: 66px;
+        border: 2px solid #e4e9ed;
+        cursor: pointer;
+    }
+
+    .pay-list li img{
+       width:190px;
+       height:66px;
+   }
+  .pay-list .active {
+       border-color: #6bc3f8;
+   }
+  .btn-order{
+      width: 100px;
+      height:36px;
+  }
+   .cl{zoom:1;}
+   .cl::after{content:'';display:block;height:0;visibility:hidden;clear:both;}
+</style>
 {/block}
 
 {block name="body"}
@@ -12,39 +41,13 @@
             </div>
             <div class="form-horizontal ">
                 <div class="box-body">
-                    <!--<div class="form-group choose-member-type">-->
-                        <!--<div class="radio">-->
-                          <!--<input class="iradio_flat-green" type="radio" name="member_type"  value="1" checked="checked">-->
-                            <!--<label>-->
-                               <!--1个月30元-->
-                            <!--</label>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                    <!--<div class=" form-group choose-member-type">-->
-                        <!--<div class="radio">-->
-
-                          <!--<input class="iradio_flat-green" type="radio" name="member_type"  value="3" >-->
-                            <!--<label>-->
-                                <!--3个月78元 ( <span class="red-span">26</span>元/月 )-->
-                            <!--</label>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                    <!--<div class="form-group choose-member-type">-->
-                        <!--<div class="radio">-->
-
-                            <!--<input class="iradio_flat-green" type="radio" name="member_type"  value="6" >-->
-                            <!--<label>-->
-                               <!--6个月120元 ( <span class="red-span">20</span>元/月 )-->
-                            <!--</label>-->
-                        <!--</div>-->
-                    <!--</div>-->
                     {volist name="vip_price" id='item' key='k'}
                     <div class="form-group choose-member-type">
                         <div class="radio">
                             {if $k==1 }
-                        <input class="iradio_flat-green" type="radio" name="member_type" checked value="{$item['month']}" >
+                        <input class="iradio_flat-green member_type" type="radio"  name="member_type" checked value="{$item['id']}" >
                             {else/}
-                            <input class="iradio_flat-green" type="radio" name="member_type" value="{$item['month']}" >
+                            <input class="iradio_flat-green member_type" type="radio" name="member_type" value="{$item['id']}" >
                            {/if}
                             <label>
                                 {$item['desc']}
@@ -61,14 +64,61 @@
 
                     <div class="submit-member-type" >
                         <!--<a href="/user/member/pay" target="_blank">立即支付</a>-->
-                        <input type="button" class="btn  btn-warning btn-lg" id="payment-btn"  value="立即支付">
+                        <input type="button" class="btn  btn-warning btn-lg" id="payment-btn"  value="开通会员">
                     </div>
 
                 </div>
             </div>
         </div>
     </div>
+
+<!--支付方式选择模态框-->
+<div class="modal " id="choose-pay-modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span></button>
+                <h4 class="modal-title">请选择支付方式</h4>
+            </div>
+            <form  name="myform" id="myform" action="{:url('pay/payments/alipay')}" method="post" onsubmit="getPayUrl()" target="_blank">
+            <div class="modal-body">
+                <input type="hidden" id="member_type_id" name="member_type_id" value="0">
+                <input type="hidden" name="order_no" id="order_no" value="{$order_no}"/>
+                    <input type="hidden" name="price" id="price" value="0.01"/>
+                    <input type="hidden" name="payCode" id="payCode" value="alipay" />
+                    <div class="pay-ol pay-ol-tab o-wp xs-tab" id="payment_ol">
+                        <div class="bd">
+                            <div class="tab-bd">
+                                <p>付款时需跳转到以下对应的支付渠道进行支付。</p>
+                                <ul class="pay-list">
+                                    <li class="icon-alipay active" id="alipay" data="alipay" title="使用支付宝支付">
+                                        <img src="__PUBLIC__/image/alipay.png" alt="支付宝支付">
+                                    </li>
+                                    <li class="icon-tenpay cl" id="weixin" data="weixin" title="使用微信支付">
+                                        <img src="__PUBLIC__/image/weixin.png" alt="微信支付">
+                                    </li>
+                                    <div class="cl"></div>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+            </div>
+            <div class="modal-footer">
+                <!--<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>-->
+                <button type="submit" class="btn btn-warning btn-order">立即支付</button>
+            </div>
+            </form>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
 </section>
+
+
 {/block}
 
 {block name="script"}
@@ -78,29 +128,65 @@
 
             $("#payment-btn").click(function (e) {
                 e.preventDefault();
-                var member_type = $("input[type='radio']:checked").val();
+                $("#choose-pay-modal").modal('show');
 
-                $.ajax({
-                    url:'/user/member/manage',
-                    data:{member_type:base64Obj.encode(member_type)},
-                    type:'post',
-                    async:true,
-                    success:function (resJson) {
-                        if (resJson.code==0){
-                            showTip(resJson.message,2);
-                            setTimeout('window.location.href="/user/member/index";',2000);
-                            return;
-                        }
-                        if(resJson.code==1){
-                            showTip('操作成功',1);
-                            setTimeout('window.location.href="/user/member/index";',2000);
-                            return;
-                        }
-                    }
-                })
+                var member_type = $(".member_type:checked").val();
+                if(!member_type||member_type=="undefined"){
+                    showTip('请选择正确的会员类型',2);
+                    return;
+                }else{
+                    $("#member_type_id").val(member_type);
+                }
+//                var member_type = $("input[type='radio']:checked").val();
+//
+//                $.ajax({
+//                    url:'/user/member/manage',
+//                    data:{member_type:base64Obj.encode(member_type)},
+//                    type:'post',
+//                    async:true,
+//                    success:function (resJson) {
+//                        if (resJson.code==0){
+//                            showTip(resJson.message,2);
+//                            setTimeout('window.location.href="/user/member/index";',2000);
+//                            return;
+//                        }
+//                        if(resJson.code==1){
+//                            showTip('操作成功',1);
+//                            setTimeout('window.location.href="/user/member/index";',2000);
+//                            return;
+//                        }
+//                    }
+//                })
             })
-
         });
+
+
     </script>
+
+<!--选择支付方式-->
+<script>
+    $(function () {
+        $('.pay-list li').click(function() {
+            var $this = $(this);
+            if (!$this.hasClass('more')) {
+                $this.addClass('active').siblings().removeClass('active');
+                $('#payCode').val($this.attr('data'));
+            }
+        });
+    });
+    function getPayUrl(){
+
+        var action = '';
+        var payCode = $.trim($("#payCode").val());
+        if(payCode == 'weixin'){
+            action = "{:url('pay/payments/wxpay')}";
+        }else if(payCode == 'alipay'){
+            action = "{:url('pay/payments/alipay')}"
+        }else{
+            action = "{:url('pay/payments/unpay')}"
+        }
+        $('form').attr('action',action);
+    }
+</script>
 
 {/block}

@@ -164,3 +164,9 @@ function random($length=18, $types=0) {
     }
     return $hash;
 }
+
+function get_user_info($name){
+
+    $user_info = session('user_auth');
+    return $user_info[$name];
+}

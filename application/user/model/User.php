@@ -77,6 +77,7 @@ class User extends Base
         /* 记录登录SESSION和COOKIES */
         $auth = array(
             'uid'             => $user['id'],
+            'user_name'       => $user['user_name'],
             'last_login_time' => $data['last_login_time'],
             'is_vip' => $user['is_vip'],
             'phone_num'=>$user['phone_num']

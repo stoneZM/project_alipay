@@ -19,10 +19,6 @@ class MemberModel extends Base
     public function mem_manage($member_type){
 
         $user_info = session('user_auth');
-        if (!$user_info&&!$user_info['uid']){
-            $this->error = '请登录后在进行操作';
-            return false;
-        }
         $uid = $user_info['uid'];
         $vip_model = db('vip_info');
         $vip_info = $vip_model->where(array('user_id'=>$uid))->find();
@@ -71,6 +67,18 @@ class MemberModel extends Base
         $expir_time = strtotime($time_str,$origin_time);
         return $expir_time;
 
+    }
+
+
+    //根据选择的会员类型获取响应的会员价格与月份
+    static function get_vip_info($id,$field_name){
+
+        $vip_info = db('vip_price')->field($field_name)->where(array('id'=>$id))->find();
+        if (!$vip_info){
+            exit('请选择正确的会员类型');
+        }else{
+            return $vip_info[$field_name];
+        }
     }
 
 

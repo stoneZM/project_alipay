@@ -23,7 +23,6 @@ class User extends Base
 
     public function index(){
 
-
         $is_vip = input('is_vip')?:0;
         $user_list = $this->user_model->getUserList($is_vip);
         $data = array(
