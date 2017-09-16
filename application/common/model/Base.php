@@ -7,7 +7,7 @@
  */
 
 namespace app\common\model;
-use \think\model;
+use think\Model;
 use think\Validate;
 
 class Base extends Model

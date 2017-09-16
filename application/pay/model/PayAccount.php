@@ -54,6 +54,7 @@ class PayAccount extends Model
             $this->module = $model;
             $this->userid = $order['userId'];
             $this->username = $order['username'];
+            $this->month = $order['month'];
             $this->trade_sn = $order['tradeSn'];
             $this->contactname = $order['subject'];
             $this->email       = $order['email'];
@@ -83,6 +84,7 @@ class PayAccount extends Model
      */
     public function getWxpay($wxpayConfigArry, $data, $paycode, $model)
     {
+
         $this->_weixin_config();
         $info = $this->getPayAccountId($data['out_trade_no']);
         if(!$info){
@@ -95,7 +97,7 @@ class PayAccount extends Model
             $this->wxpay_appid = $wxpayConfigArry['wxpay_appid'];
             $this->trade_type  = $data['trade_type'];//
             $this->telephone   = $data['telephone'];
-            $this->totalMoney  = $data['total_fee'];
+            $this->totalMoney  = $data['total_fee']/100;
             $this->num         = $data['num'];
             $this->addtime     = time();
             $this->pay_type    = $paycode; //操作类型 weixin alipay unpay
@@ -103,6 +105,8 @@ class PayAccount extends Model
             $this->openid      = '';
             $this->ip          = $data['exter_invoke_ip'];
             $this->status      = 0;  //0：刚刚提交支付  -1：删除   99：最终支付成功
+            $this->month = $data['month'];
+
             $this->save();
         }
 
@@ -119,6 +123,7 @@ class PayAccount extends Model
         $input->SetTrade_type($data['trade_type']);
         $input->SetProduct_id($data['product_id']);
         $result = $notify->GetPayUrl($input);
+
         if($result['return_code'] != 'SUCCESS'){
             return ['code'=>0,'msg'=> $result['return_msg']];
         }

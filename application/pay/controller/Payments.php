@@ -15,7 +15,7 @@ class Payments extends Controller
     public $wxpay_sslcert_path;
     public $wxpay_sslkey_path;
     public $payment;
-    protected  $member_month;
+
 
     public function __construct()
     {
@@ -36,11 +36,11 @@ class Payments extends Controller
 
        $member_id = input('member_type_id');
        $member_price = MemberModel::get_vip_info($member_id,'price');
-       $this->member_month = MemberModel::get_vip_info($member_id,'month');
+       $member_month = MemberModel::get_vip_info($member_id,'month');
 
        $user_id = get_user_info('uid');
        $user_name = get_user_info('user_name');
-       $subject = get_user_info('is_vip')?"会员续费 ".$this->member_month." 个月" : '开通会员 '.$this->member_month." 个月 ";
+       $subject = get_user_info('is_vip')?"会员续费 ".$member_month." 个月" : '开通会员 '.$member_month." 个月 ";
        $phone_num = get_user_info('phone_num');
        $trade_type = get_user_info('is_vip')?1:0;
 
@@ -57,6 +57,7 @@ class Payments extends Controller
        $order['subject']  = $subject;
        $order['body']     = $subject;
        $order['tradeType'] =  $trade_type;
+       $order['month'] = $member_month;
 
        $payConfigArry = $this->load_alipay_conf();
 
@@ -96,8 +97,7 @@ class Payments extends Controller
         $result = $alipayNotify->verifyNotify($url);
         if($result){
             $_payaccount = $this->PayAccount->getPayAccountId($out_trade_no);
-			//查询订单
-            //$_orders     = $this->orders->where(array('order_no' => $out_trade_no))->find();
+
             if(!$_payaccount){
                 return ''; //订单号不存在
             }
@@ -120,7 +120,7 @@ class Payments extends Controller
 
                     // 更新会员状态
                     $mem_model = new MemberModel();
-                    $mem_model->mem_manage($this->member_month);
+                    $mem_model->mem_manage($_payaccount['month'],$_payaccount['userid'],true);
 
                     return "success";
                 }
@@ -135,10 +135,7 @@ class Payments extends Controller
      */
     public function alipay_return()
     {
-        // 更新会员状态
-        $mem_model = new MemberModel();
-        $mem_model->mem_manage(1);
-        exit('success');
+
         $url = Request::instance()->get();
         //商户订单号
         $out_trade_no = $url['out_trade_no'];
@@ -153,7 +150,7 @@ class Payments extends Controller
         $result = $alipayNotify->verifyNotify($url);
         if($result){
             $_payaccount = $this->PayAccount->getPayAccountId($out_trade_no);
-            //$_orders     = $this->orders->where(array('order_no' => $out_trade_no))->find();
+
             if(!$_payaccount){
                 return ''; //订单号不存在
             }
@@ -175,12 +172,15 @@ class Payments extends Controller
 
                      // 更新会员状态
                      $mem_model = new MemberModel();
-                     $mem_model->mem_manage($this->member_month);
+                     $mem_model->mem_manage($_payaccount['month'],$_payaccount['userid']);
 
                     $this->redirect('/user/member/index');
-					//如果没有设定重定向则走设置好的同步回调地址pay/payments/alipay_return
 					return "success";
                 }
+            }
+            if($_payaccount['status'] == 99){
+                $this->redirect('/user/member/index');
+                return 'success';
             }
         }else{
             return 'fail';
@@ -195,40 +195,65 @@ class Payments extends Controller
     {
         $tradeSn = input('order_no');
         $payCode = input('payCode');
+
+        $member_id = input('member_type_id');
+        $member_price = MemberModel::get_vip_info($member_id,'price');
+        $member_month = MemberModel::get_vip_info($member_id,'month');
+
+        $user_id = get_user_info('uid');
+        $user_name = get_user_info('user_name');
+        $subject = get_user_info('is_vip')?"会员续费 ".$member_month." 个月" : '开通会员 '.$member_month." 个月 ";
+        $phone_num = get_user_info('phone_num');
+        $trade_type = get_user_info('is_vip')?1:0;
+
         //查询订单表
         //$getOrders = $this->orders->where(array('order_no' => $tradeSn))->find();
         $data = array();
-        $data['userId']   = 1;
-        $data['username'] = '广州公司';
+        $data['userId']   = $user_id;
+        $data['username'] = $user_name;
         $data['out_trade_no']  = $tradeSn;
         $data['num']      = 1;
-        $data['email']    = 'lohover@163.com@qq.com';
-        $data['telephone']  = '18052338858';
+        $data['email']    = '';
+        $data['telephone']  = $phone_num;
         $data['total_fee']  = 0.01*100;
-        $data['attach']   = '开通会员及续费';
-        $data['body']     = '开通3个月会员';
+        $data['attach']   = $subject;
+        $data['body']     = $subject;
         $data['time_start'] = date("YmdHis");//交易开始时间
         $data['time_expire']= date("YmdHis", time() + 604800);//一周过期
-        $data['goods_tag']  = '开通3个月会员';
+        $data['goods_tag']  = $subject;
         $data['notify_url']  = $this->wxpay['wxpay_notify_url'];//回调地址
-        $data['trade_type']  = 'NATIVE';//交易类型
+        $data['trade_type']  = "NATIVE";//交易类型
+        $data['month'] = $member_month;
         $data['product_id']  = rand(1,999999);//交易id
         $data['exter_invoke_ip']  = $this->ip;
-        $result  = $this->PayAccount->getWxpay($this->wxpay, $data, $payCode, $this->module);
 
-        if(!$result['code']){
-            return $this->error($result['msg']);
+        $check_trade_is_exist = session($tradeSn);
+
+        if ($check_trade_is_exist){
+            $result['msg'] = session($tradeSn);
+        }else{
+            $result  = $this->PayAccount->getWxpay($this->wxpay, $data, $payCode, $this->module);
+            if(!$result['code']){
+                return $this->error($result['msg']);
+            }
+            session($tradeSn,$result['msg']);
         }
+        $this->assign('code_info',$result['msg']);
+        $this->assign("order_sn",$tradeSn);
+        $this->assign('order_subject',$subject);
+        return $this->fetch();
+    }
 
+    function getgrcode(){
+        $codeInfo = input('code_info');
         vendor('phpqrcode.phpqrcode');
         $errorCorrectionLevel = 3 ;//容错级别
         $matrixPointSize = 4;//生成图片大小
         //生成二维码图片
-        //echo $_SERVER['REQUEST_URI'];
         $object = new \QRcode();
-        ob_end_clean();
-        $object->png($result['msg'], false, $errorCorrectionLevel, $matrixPointSize, 2);
+        echo $object->png($codeInfo, false, $errorCorrectionLevel, $matrixPointSize, 2);
     }
+
     /**
      * @Description: 支付结果异步回调
      * @return  string
@@ -254,26 +279,30 @@ class Payments extends Controller
         $input  = new \WxPayOrderQuery();
         $input->SetTransaction_id($transaction_id);
         $result = \WxPayApi::orderQuery($input);
-        if(array_key_exists("return_code", $result) && array_key_exists("result_code", $result) && $result["return_code"] == "SUCCESS" && $result["result_code"] == "SUCCESS"){
+        if( array_key_exists("return_code", $result) &&
+            array_key_exists("result_code", $result) &&
+            $result["return_code"] == "SUCCESS" &&
+            $result["result_code"] == "SUCCESS")
+        {
             // 处理支付成功后的逻辑业务
             $_payaccount = $this->PayAccount->getPayAccountId($out_trade_no);
-            //$_orders     = $this->orders->where(array('order_no' => $out_trade_no))->find();
             if(!$_payaccount){
                 return ''; //订单号不存在
             }
-            $data = array();
-            $arr  = array();
-            $data['edittime'] = time();
-            $data['status']   = 99;
-            // $arr['status']   = 99;
-            // $arr['pay_ment'] = '微信支付';
-            // $data['openid']   = $openid;
-            // $arr['pay_status'] = 1;
-            // $arr['pay_time']  = time();
-            
-            $this->PayAccount->updateStatus($data, $_payaccount['id']);
-            //$this->orders->save($arr,['id' => $_orders['id']]);
-            return "success";
+            //订单未处理过
+            if($_payaccount['status'] == 0){
+
+                    session($out_trade_no,null);
+                    $data = array();
+                    $data['edittime'] = time();
+                    $data['status']   = 99;
+                    $this->PayAccount->updateStatus($data, $_payaccount['id']);
+                    // 更新会员状态
+                    $mem_model = new MemberModel();
+                    $mem_model->mem_manage($_payaccount['month'],$_payaccount['userid']);
+
+                    return "success";
+                }
         }
         return false;
     }
@@ -283,6 +312,7 @@ class Payments extends Controller
 
         $this->module = 'pay';
         $this->ip  = Request::instance()->ip();
+
         $SettingMd = new SettingModel();
         $rd = $SettingMd->get(array('module' => $this->module));
         if($rd){
@@ -303,20 +333,22 @@ class Payments extends Controller
         $this->payment['cacert'] = $this->alipay_sslcert_path;
 
 
-        // 微信相关配置
+        // 微信支付基本参数
+        $wxpayConfigArry = array();
         $wxpayConfigArry['wxpay_appid']   = $this->payment['wxpay_appid'];
         $wxpayConfigArry['wxpay_mchid']   = $this->payment['wxpay_mchid'];
         $wxpayConfigArry['wxpay_key']     = $this->payment['wxpay_key'];
-        $wxpayConfigArry['wxpay_appsecret']  = $this->payment['wxpay_appsecret'];
-        $wxpayConfigArry = array();
-        $this->wxpay_notify_url    = urldecode(request()->domain().url('pay/payments/wxpay_notify'));
-        $this->wxpay_return_url    = urldecode(request()->domain().url('pay/payments/wxpay_return'));
+        //微信支付回调地址
+        $this->wxpay_notify_url   = urldecode(request()->domain().'/pay/payments/wxpay_notify');
+        $this->wxpay_return_url   = urldecode(request()->domain().'/pay/payments/wxpay_return');
         $this->payment['wxpay_notify_url']  = $this->wxpay_notify_url;
         $this->payment['wxpay_return_url']  = $this->wxpay_return_url;
+        $wxpayConfigArry['wxpay_appsecret']  = $this->payment['wxpay_appsecret'];
         $wxpayConfigArry['wxpay_notify_url'] = $this->payment['wxpay_notify_url'];
+
         $this->wxpay = $wxpayConfigArry;
         $this->PayAccount = new model_pay_account();
-        //$this->orders     = new model_orders();
+
         vendor('payment.alipay');
         vendor('payment.WxPay_Api');
     }
@@ -340,5 +372,24 @@ class Payments extends Controller
         $payConfigArry['exter_invoke_ip']   = $this->ip;
         return $payConfigArry;
     }
+
+    function mem_manage($_payaccount){
+        // 更新会员状态
+        $mem_model = new MemberModel();
+        $mem_model->mem_manage($_payaccount['month'],$_payaccount['userid']);
+    }
+
+    function check_order_pay_status(){
+
+        $trade_sn = input('trade_sn');
+        $_payaccount = $this->PayAccount->getPayAccountId($trade_sn);
+        if ($_payaccount['status'] != 99){
+            return json(array('code'=>0));
+        }else{
+            return json(array('code'=>1,'msg'=>'支付完成'));
+        }
+
+    }
+
 
 }

@@ -37,6 +37,9 @@ function no_login($url){
         'user/login/reset_pwd',
         'user/login/verify_code',
         'admin/admin/login',
+        'pay/payments/alipay_notify', // 支付宝异步回调
+        'pay/payments/alipay_return', // 支付宝同步回调
+        'pay/payments/wxpay_notify'
     );
     if (in_array($url,$urls)){
         return true;

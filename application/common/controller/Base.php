@@ -39,11 +39,14 @@ class Base extends \think\Controller {
                 $this->redirect('/user/login');
             }
         }
+
         if ($module_name=='user'){
             $user_auth = session('user_auth');
             $this->assign('is_vip',$user_auth['is_vip']);
             $this->assign('expir_time',$user_auth['expir_time']);
         }
+
+
     }
 
     //request信息
@@ -136,4 +139,8 @@ class Base extends \think\Controller {
             }
         }
     }
+
+
+
+
 }

@@ -1,0 +1,97 @@
+* {
+    margin: 0;
+    padding: 0
+}
+
+.wihe-ee {
+    width: 560px;
+    height: 420px;
+    background: #FFF;
+    padding: 25px;
+    color: #666;
+    font-family: song, arial;
+    font-size: 14px;
+    box-sizing: border-box;
+    border-radius: 6px;
+    margin: 0 auto;
+    margin-top: 10%
+}
+
+
+
+.co999 {
+    color: #999;
+
+
+}
+
+.fo-si-18 {
+    font-size: 18px
+}
+.fo-si-18>.order-subject{
+    color: red;
+}
+
+.fail-fasu {
+    float: left;
+    width: 200px;
+    height: 180px;
+    padding-top: 100px;
+    background: url("../image/icon-pay.png") 50px 0 no-repeat;
+    text-align: center
+}
+
+.success-fasu {
+    float: right;
+    width: 200px;
+    height: 180px;
+    padding-top: 100px;
+    background: url("../image/icon-pay.png") -220px 0 no-repeat;
+    text-align: center
+}
+
+.fail-fasu a:hover {
+    background-color: #ee9775
+}
+
+.fail-fasu a {
+    padding: 8px 24px;
+    background-color: #f8a584;
+    display: table;
+    margin: 0 auto;
+    color: #fff;
+    text-decoration: none;
+    margin-top: 10px
+}
+
+.re-qtzfgg a, .success-fasu a {
+    padding: 8px 24px;
+    background-color: #eee;
+    display: table;
+    margin: 0 auto;
+    color: #999;
+    text-decoration: none;
+    margin-top: 10px
+}
+
+.re-qtzfgg a {
+    padding: 8px 140px
+}
+
+.re-qtzfgg a:hover, .success-fasu a:hover {
+    background-color: #ddd;
+}
+
+.fail-success {
+    overflow: hidden;
+    height: 185px
+}
+.fail-I-success{
+    text-align: center;
+}
+.fail-I-success label{
+    display: block;
+    color: #64A724;
+    font-size:13px;
+    margin-top: 20px;
+}

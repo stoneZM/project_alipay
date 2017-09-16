@@ -18,7 +18,7 @@
         <dl>
             <dt><i class="iconfont glyphicon glyphicon-ok-circle"></i>订单提交成功，请您尽快付款</dt>
             <dd class="first">
-                订单编号：<span class="blue-light mr30">{$order_no}</span>
+                订单编号：<span class="blue-light mr30">11111111</span>
                 应付金额：<span class="orange">￥0.01</span>
             </dd>
             <dd class="grey">
@@ -29,8 +29,8 @@
 
     <!--订单提交成功 在线支付-->
 
-    <form  name="myform" id="myform" action="{:url('pay/payments/alipay')}" method="post" onsubmit="getPayUrl()" target="_blank">
-        <input type="hidden" name="order_no" id="order_no" value="{$order_no}"/>
+    <!--<form  name="myform" id="myform" action="{:url('pay/payments/alipay')}" method="post" onsubmit="getPayUrl()" target="_blank">-->
+        <input type="hidden" name="order_no" id="order_no" value="1111"/>
         <input type="hidden" name="price" id="price" value="0.01"/>
         <input type="hidden" name="payCode" id="payCode" value="alipay" />
         <div class="pay-ol pay-ol-tab o-wp xs-tab" id="payment_ol">
@@ -60,32 +60,44 @@
                 <button class="btn btn-order">立即支付</button>
             </div>
         </div>
-    </form>
+    <!--</form>-->
 
 </div>
 
 </body>
 <script type="text/javascript">
-    $(function () {
-        $('.pay-list li').click(function() {
-            var $this = $(this);
-            if (!$this.hasClass('more')) {
-                $this.addClass('active').siblings().removeClass('active');
-                $('#payCode').val($this.attr('data'));
-            }
-        });
+
+    window.onbeforeunload = function() {
+
+
+
+    };
+
+    $(".btn-order").click(function () {
+        window.onbeforeunload();
+
     });
-    function getPayUrl(){
-        var action = '';
-        var payCode = $.trim($("#payCode").val());
-        if(payCode == 'weixin'){
-            action = "{:url('pay/payments/wxpay')}";
-        }else if(payCode == 'alipay'){
-            action = "{:url('pay/payments/alipay')}"
-        }else{
-            action = "{:url('pay/payments/unpay')}"
-        }
-        $('form').attr('action',action);
-    }
+
+//    $(function () {
+//        $('.pay-list li').click(function() {
+//            var $this = $(this);
+//            if (!$this.hasClass('more')) {
+//                $this.addClass('active').siblings().removeClass('active');
+//                $('#payCode').val($this.attr('data'));
+//            }
+//        });
+//    });
+//    function getPayUrl(){
+//        var action = '';
+//        var payCode = $.trim($("#payCode").val());
+//        if(payCode == 'weixin'){
+//            action = "{:url('pay/payments/wxpay')}";
+//        }else if(payCode == 'alipay'){
+//            action = "{:url('pay/payments/alipay')}"
+//        }else{
+//            action = "{:url('pay/payments/unpay')}"
+//        }
+//        $('form').attr('action',action);
+//    }
 </script>
 </html>

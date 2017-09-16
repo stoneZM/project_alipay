@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>支付页面-会员充值</title>
+    <meta name="keywords" content=""/>
+    <meta name="description" content=""/>
+    <script src="__PUBLIC__/adminlte/plugins/jQuery/jquery-2.2.3.min.js"></script>
+    <link rel="stylesheet" href="__PUBLIC__/css/wxpay.css">
+</head>
+<body style="background-color:#666">
+<div class="tac-sd">
+    <div class="wihe-ee">
+        <p>
+            <span class="fo-si-18">订单详情：
+                <span class="order-subject">{$order_subject}</span>
+            </span>
+
+            <br> <br>
+            <span class="co999">订单号：{$order_sn}</span>
+        </p>
+        <br>
+        <br>
+
+        <div class="fail-success">
+            <!--<div class="fail-fasu">-->
+                <!--支付完成-->
+                <!--<br>-->
+                <!--<a href="/index.php/Home/Cart/cart4/order_id/5.html">支付成功</a>-->
+            <!--</div>-->
+            <div class="fail-I-success">
+                <img alt="模式二扫码支付" src="/pay/payments/getgrcode?code_info={$code_info}" style="width:110px;height:110px;"/>
+                <label >微信扫码完成支付</label>
+            </div>
+            <!--<div class="success-fasu">-->
+                <!--支付遇到问题-->
+                <!--<br>-->
+                <!--<a href="/index.php/Home/Cart/cart4/order_id/5.html">支付失败</a>-->
+            <!--</div>-->
+        </div>
+        <div class="re-qtzfgg">
+            <a href="javascript:history.back()">返回选择其他支付方式</a>
+        </div>
+    </div>
+</div>
+</body>
+<script src="__PUBLIC__/adminlte/plugins/layer/2.4/layer.js"></script>
+<script type="text/javascript">
+    /**
+     * 检查订单状态
+     */
+    function ajax_check_pay_status() {
+        $.ajax({
+            type: "post",
+            url: "/pay/payments/check_order_pay_status",
+            data: {trade_sn: "<?php echo $order_sn; ?>"},
+            dataType: 'json',
+            success: function (data) {
+                if (data.code == 1) {
+                    clearInterval(interval);
+                   layer.msg('恭喜您完成支付!',{icon:1,time:2000});
+                    setTimeout('window.location.href = "/user/member/index"',2000);
+                    clearInterval(interval);
+                }
+            }
+        });
+    }
+    var interval = setInterval(ajax_check_pay_status, 1000);
+
+</script>
+</html>
