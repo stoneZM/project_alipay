@@ -20,7 +20,8 @@ class PayAccount extends Model
     }
 
     public function _alipay_config(){
-         vendor('payment.alipay');
+//         vendor('payment.alipay_submit');
+        vendor('ali_wap_pay.alipay_submit');
     }
 
     /**
@@ -77,6 +78,58 @@ class PayAccount extends Model
         $alipaySubmit = new \AlipaySubmit($payConfigArry);
         return ['code'=>1,'msg'=>$alipaySubmit->buildRequestForm($parameters,"get", "确认")];
     }
+
+    function getAliWapPay($payConfigArry, $order, $paycode, $model){
+
+            $this->_alipay_config();
+            $parameters = [
+                "service"       	=> "alipay.wap.create.direct.pay.by.user",
+                "partner"       	=> $payConfigArry['alipay_partner'],
+                "seller_id"  		=> $payConfigArry['alipay_seller_id'],
+                "payment_type"		=> $payConfigArry['payment_type'], //支付类型 //必填，不能修改
+                "notify_url"		=> $payConfigArry['alipay_notify_url'],
+                "return_url"		=> $payConfigArry['alipay_return_url'],
+                "anti_phishing_key"	=> $payConfigArry['alipay_key'],
+                "exter_invoke_ip"	=> $payConfigArry['exter_invoke_ip'],
+                "out_trade_no"		=> $order['tradeSn'],
+                "subject"			=> $order['subject'],
+                "total_fee"			=> $order['totalmMoney'],
+                "body"				=> $order['body'],
+                "_input_charset"	=> $payConfigArry['input_charset'],
+                'seller_email'      => $payConfigArry['alipay_seller_email']
+            ];
+
+            $info = $this->getPayAccountId($order['tradeSn']);
+            if(!$info){
+                $this->module = $model;
+                $this->userid = $order['userId'];
+                $this->username = $order['username'];
+                $this->month = $order['month'];
+                $this->trade_sn = $order['tradeSn'];
+                $this->contactname = $order['subject'];
+                $this->email       = $order['email'];
+                $this->seller_id   = $payConfigArry['alipay_seller_id'];
+                $this->seller_email= $payConfigArry['alipay_seller_email'];
+                $this->telephone   = $order['telephone'];
+                $this->totalMoney  = $order['totalmMoney'];
+                $this->num         = $order['num'];
+                $this->addtime     = time();
+                $this->pay_type    = $paycode; //操作类型 weixin alipay unpay
+                $this->pay_ment     = '支付宝支付';
+                $this->payment_type = $payConfigArry['payment_type']; //支付类型 1
+                $this->ip           = $payConfigArry['exter_invoke_ip'];
+                $this->status       = 0;  //0：刚刚提交支付  -1：删除   99：最终支付成功
+                $this->trade_type = $order['tradeType'];   // 1: 续费 0：开通会员
+
+                $this->save();
+            }
+
+             $payConfigArry['key'] = $payConfigArry['alipay_key'];
+            $alipaySubmit = new \AlipaySubmit($payConfigArry);
+            return ['code'=>1,'msg'=>$alipaySubmit->buildRequestForm($parameters,"get", "确认")];
+
+    }
+
 
     /**
      * @Description: 微信生成支付代码

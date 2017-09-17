@@ -30,7 +30,6 @@ class Payments extends Controller
      */
     public function alipay()
    {
-
        $tradeSn = input('order_no');
        $payCode = input('payCode');
 
@@ -46,36 +45,79 @@ class Payments extends Controller
 
        //查询订单表
 //       $getOrders = $this->orders->where(array('order_no' => $tradeSn))->find();
-       $order = array();
-       $order['userId']   =  $user_id;
-       $order['username'] = $user_name;
-       $order['tradeSn']  = $tradeSn;
-       $order['num']      = 1;
-       $order['email']    = '';
-       $order['telephone']    = $phone_num;
-       $order['totalmMoney']  = 0.01;   //TODO::   此处改为 $member_price
-       $order['subject']  = $subject;
-       $order['body']     = $subject;
-       $order['tradeType'] =  $trade_type;
-       $order['month'] = $member_month;
+        $order = array();
+        $order['userId']   =  $user_id;
+        $order['username'] = $user_name;
+        $order['tradeSn']  = $tradeSn;
+        $order['num']      = 1;
+        $order['email']    = '';
+        $order['telephone']    = $phone_num;
+        $order['totalmMoney']  = 0.01;   //TODO::   此处改为 $member_price
+        $order['subject']  = $subject;
+        $order['body']     = $subject;
+        $order['tradeType'] =  $trade_type;
+        $order['month'] = $member_month;
 
-       $payConfigArry = $this->load_alipay_conf();
+        $payConfigArry = $this->load_alipay_conf();
 
-       /* if(empty($getOrders)){
-           $data['status'] = -1;
-           $data['msg'] = '下单失败，订单不存在';
-       }elseif (empty($getOrders['order_no'])){
-           $data['status'] = -2;
-           $data['msg'] = '下单失败，订单编号不能为空';
-       }else{ */
-           //$order= $getOrderInfo;
-           $result  = $this->PayAccount->getAlipay($payConfigArry, $order, $payCode, $this->module);
-           if(!$result['code']){
-               return $this->error($result['msg']);
-           }
-           return $result['msg'];
-       //}
+
+       if (is_mobile()){
+         return $this->ali_wap_pay($payConfigArry, $order, $payCode);
+       }else{
+         return  $this->ali_web_pay($payConfigArry, $order, $payCode);
+       }
+
+
+
    }
+
+   private function ali_web_pay($payConfigArry, $order, $payCode){
+//       $tradeSn = input('order_no');
+//       $payCode = input('payCode');
+//
+//       $member_id = input('member_type_id');
+//       $member_price = MemberModel::get_vip_info($member_id,'price');
+//       $member_month = MemberModel::get_vip_info($member_id,'month');
+//
+//       $user_id = get_user_info('uid');
+//       $user_name = get_user_info('user_name');
+//       $subject = get_user_info('is_vip')?"会员续费 ".$member_month." 个月" : '开通会员 '.$member_month." 个月 ";
+//       $phone_num = get_user_info('phone_num');
+//       $trade_type = get_user_info('is_vip')?1:0;
+//
+//       //查询订单表
+////       $getOrders = $this->orders->where(array('order_no' => $tradeSn))->find();
+//       $order = array();
+//       $order['userId']   =  $user_id;
+//       $order['username'] = $user_name;
+//       $order['tradeSn']  = $tradeSn;
+//       $order['num']      = 1;
+//       $order['email']    = '';
+//       $order['telephone']    = $phone_num;
+//       $order['totalmMoney']  = 0.01;   //TODO::   此处改为 $member_price
+//       $order['subject']  = $subject;
+//       $order['body']     = $subject;
+//       $order['tradeType'] =  $trade_type;
+//       $order['month'] = $member_month;
+//
+//       $payConfigArry = $this->load_alipay_conf();
+       $result  = $this->PayAccount->getAlipay($payConfigArry, $order, $payCode, $this->module);
+       if(!$result['code']){
+           return $this->error($result['msg']);
+       }
+       return $result['msg'];
+
+   }
+
+   private function ali_wap_pay($payConfigArry, $order, $payCode){
+
+       $result = $this->PayAccount->getAliWapPay($payConfigArry, $order, $payCode, $this->module);
+       if(!$result['code']){
+           return $this->error($result['msg']);
+       }
+       return $result['msg'];
+   }
+
 
     /**
      * @Description: 支付结果异步回调
@@ -148,6 +190,7 @@ class Payments extends Controller
         $config = $this->payment;
         $alipayNotify = new \AlipayNotify($config);
         $result = $alipayNotify->verifyNotify($url);
+
         if($result){
             $_payaccount = $this->PayAccount->getPayAccountId($out_trade_no);
 
