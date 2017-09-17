@@ -1,15 +1,31 @@
+body{
 
-.login-box,.reg-box{
-    position: relative;
+}
+.login-box{
+     position: relative;
+     display: block;
+     margin: 100px auto;
+     width: 400px;
+     height:370px;
+     padding: 20px 30px;
+     border: 2px solid #F2F2F2;
+     background-color: #F2F2F2;
+      border-radius: 10px;
+ }
+
+.reg-box.login-col{
+    text-align: center;
     display: block;
-    margin: 100px auto;
-    width: 300px;
-    height:300px;
-    padding-top: 20px;
-    border: 2px solid #686667;
+}
+.user-login,.user-reg{
+    text-align: center;
+    font-weight: bolder;
+    font-size: 18px;
+    line-height: 40px;
 }
 .bottom-info ,.reg-box .login-info,.login-box .login-info{
-    margin: 10px 25px;
+    margin: 15px 25px;
+    text-align: center;
 }
 .login-info .info-box,.login-btn ,.next-btn{
     display: inline-block;
@@ -17,12 +33,15 @@
     width: 250px;
     height:36px;
 }
+
+
 .info-box::-webkit-input-placeholder{
     color: #5D5B5C;
     font-size: 13px;
-    line-height: 34px;
     text-align:center;
 }
+
+
 .login-btn,.next-btn{
     background-color: #628BF6;
     color: #ffffff;
@@ -41,29 +60,49 @@ a{
 }
 /* 错误提示 */
 .error-tip{
-
+    float: left;
     font-size: 10px;
     color: red;
     display: none;
+    margin-left: 20px;
 }
+.botton-reg{
+    text-align: center;
+}
+.botton-reg a{
 
-
+    text-decoration: none;
+    font-size: 13px;
+    color: #A4AFC3;
+}
+.botton-reg a:active,.botton-reg a:hover{
+    text-decoration: none;
+}
 /******注册页面********/
 .reg-box{
-    height: 350px;
+    position: relative;
+    display: block;
+    margin: 100px auto;
+    width: 380px;
+    height:430px;
+    padding-top: 20px;
+    border: 2px solid #F2F2F2;
+    background-color: #F2F2F2;
+    border-radius: 10px;
+
 }
-.login-info .verify_code{
+#img-code,#phone-code{
+    display: inline-block;
     width: 140px;
-    float: left;
-
+    height: 36px;
+    margin: 10px 0px;
 }
-.code-img,.get-code-btn{
-    float: right;
-    width: 100px;
-    height: 40px;
-    margin-top: 10px;
-    cursor: pointer;
 
+.code-img,.get-code-btn{
+    display: inline-block;
+    width: 100px;
+    height: 34px;
+    cursor: pointer;
 }
 
 .get-code-btn{
@@ -71,18 +110,25 @@ a{
     background-color: #EFEFEF;
     text-align: center;
     border: 1px solid #0c0c0c;
-    line-height: 40px;
+    line-height: 35px;
     font-size: 14px;
     cursor: pointer;
+    border-radius: 3px;
 }
+a.get-code-btn:focus, a.get-code-btn:hover{
+    text-decoration: none;
+}
+
 a.disabled {
     pointer-events: none;
     cursor: default;
     color: #A1A1A1;
 }
 .regist-btn{
+    margin: 20px 0px;
     background-color: #87CB29;
     cursor: pointer;
+    border-radius: 3px;
 }
 
 /*重设密码界面*/
@@ -117,19 +163,9 @@ a.disabled {
 }
 
 .reset-input{
-    
-  box-sizing: border-box;
-  font-size:13px;
-  height:2.7em;
-  color:#6a6f77;
-  display:inline-block;
-  padding:0 1.2em;
-  text-decoration:none;
-  width:80%;
-  outline: none;
-  border: 0px solid #ffffff;
-  margin-top: 15px;
-  margin-bottom: -10px;
+    display: inline-block;
+    width: 70%;
+    margin: 12px 0px 0px 10px;
 }
 
 .line{
@@ -150,11 +186,10 @@ a.disabled {
     float: right;
 }
 .next-btn{
-    margin-top: 40px;
-    width: 90%;
-    margin-left: 5%;
-    margin-bottom: 20px;
+    margin:10px 10% 20px;
+    width: 80%;
     cursor: pointer;
+    border-radius: 3px;
 }
 .next-btn>a{
     color: #ffffff;
@@ -197,11 +232,13 @@ span.have-send-code{
 img.arrow-icon{
     width: 10px;
     height: 10px;
-    margin-top: 8px;
+    margin-top: 5px;
 }
 a.send-code-btn{
     display: inline-block;
     margin-right: 10px
 }
-
+.cl{
+    clear: both;
+}
 

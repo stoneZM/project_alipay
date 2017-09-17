@@ -1,29 +1,29 @@
 /**
  * Created by stone on 2017/9/7.
  */
-
-$("input[data-role='verify']").blur(function () {
-
-    var _this = $(this);
-    var dataType = _this.attr('data-type');
-    var data = _this.val();
-    if(dataType == 'phone'){
-
-        if(!checkPhone(data)){
-            _this.next().show();
-        }else{
-            _this.next().hide();
+$(function () {
+    $("input[data-role='verify']").blur(function (e) {
+        e.preventDefault();
+        var _this = $(this);
+        var dataType = _this.attr('data-type');
+        var data = _this.val();
+        if(dataType == 'phone'){
+            if(!checkPhone(data)){
+                _this.next().css('display',"block");
+            }else{
+                _this.next().css('display',"none");
+            }
         }
-    }
-    if (dataType == 'password'){
-        if(!checkPassword(data)){
-            _this.next().show();
-        }else{
-
-            _this.next().hide();
+        if (dataType == 'password'){
+            if(!checkPassword(data)){
+                _this.next().css('display',"block");
+            }else{
+                _this.next().css('display',"none");
+            }
         }
-    }
+    });
 });
+
 <!--  获取验证码 -->
 $(function(){
     var time = 0;

@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
- <link rel="stylesheet" href="__PUBLIC__/css/login.css" >
-    <script src="__PUBLIC__/plugins/jQuery/jquery-2.2.3.min.js"></script>
+
+<script src="__PUBLIC__/plugins/jQuery/jquery-2.2.3.min.js"></script>
+<link rel="stylesheet" href="__PUBLIC__/adminlte/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="__PUBLIC__/css/login.css" >
 <head>
 	<meta charset="UTF-8">
 	<title>找回密码</title>
@@ -16,17 +18,17 @@
 	      	
 	      	<div class="phone-box reset-box">
 	      		<img src="__PUBLIC__/image/user.png" alt="" class="icon">
-	      		<input type="text" name="phone_num" id="phone_num" class="reset-input" placeholder="请输入您的手机号">
+	      		<input type="text" name="phone_num" id="phone_num" class=" form-control reset-input" placeholder="请输入您的手机号">
 	      		<span class="line"></span>
 	      	</div>
 
 	      	<div class="reset-box code-box">
 	      		<img src="__PUBLIC__/image/user.png" alt="user" class="icon">
-	      		<input type="text" name="img-code" id="img-code" class="reset-input code-input" placeholder="请输入图片验证码">
+	      		<input style="margin: 10px 10px;" type="text" name="img-code" id="img-code" class="reset-input  form-control code-input" placeholder="请输入图片验证码">
 				<img src="{:url('/get_verify')}" style="display: inline-block;margin-right: 10px" class="code-img verifyimg reloadverify">
 	      		<span class="line"></span>
 	      	</div>
-	      	<div>
+	      	<div class="">
 	      		<button type="button" class="next-btn" data-role="img-code" data-to="1_2">
 	      			下一步
 	      		</button>
@@ -34,7 +36,7 @@
 	      	
 	      	<div>
 
-	      		<a href="{:url('/login')}" class="back-login">
+	      		<a href="{:url('/user/login')}" class="back-login">
 					<img class="icon arrow-icon" src="__PUBLIC__/image/left_arrow.png" alt="arrow" class="icon">
 					返回到登录</a>
 	      	</div>
@@ -50,20 +52,20 @@
 	      	
 	      	<div class="phone-box reset-box" style="margin-top:50px">
 	      		<img src="__PUBLIC__/image/user.png" alt="" class="icon">
-	      		<input type="text" name="phone_code" id="phone_code" class="reset-input code-input" placeholder="请输入手机验证码">
-				<a style="" class="get-code-btn send-code-btn" code-type="reset_pwd">
+	      		<input type="text" name="phone_code" id="phone_code" class="form-control reset-input code-input" placeholder="请输入手机验证码">
+				<a  style="height:30px;line-height: 30px;margin-left: 10px" class="get-code-btn send-code-btn" code-type="reset_pwd">
 					发送验证码
 				</a>
 	      		<span class="line"></span>
 	      	</div>
 
-	      	<div >
-	      		<button type="button" class="next-btn" data-role="phone-code" data-to="2_3">
+	      	<div style="padding: 10px 0px">
+	      		<button  type="button" class="next-btn" data-role="phone-code" data-to="2_3">
 	      		下一步
 	      		</button>
 	      	</div>	
 	      	
-	      	<div>
+	      	<div style="padding: 10px">
 	      		<img style="width: 10px;height: 10px;" src="__PUBLIC__/image/left_arrow.png" alt="arrow" class="icon arrow-icon">
 	      		<a href="javascript:void(0);" class="back-btn" data-to='2_1'>返回上一步</a>
 	      	</div>
@@ -79,13 +81,13 @@
 	      	
 	      	<div class="phone-box reset-box" style="margin-top:50px">
 	      		<img src="__PUBLIC__/image/user.png" alt="" class="icon">
-	      		<input type="password" name="password" id="password" class="reset-input" placeholder="重设密码">
+	      		<input type="password" name="password" id="password" class="form-control reset-input" placeholder="重设密码">
 	      		<span class="line"></span>
 	      		<span class="tip6 pwd-tip">密码为6-18个字符，建议您设置字母+数字组合更为安全!</span>
 	      	</div>
 
 	      	<div >
-	      		<button type="button" class="next-btn submit-btn" >
+	      		<button style="margin-top: 40px" type="button" class="next-btn submit-btn" >
 	      		     提交
 	      		</button>
 	      	</div>	

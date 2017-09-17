@@ -4,19 +4,29 @@
     <meta charset="UTF-8">
     <title>登录页面</title>
     <link rel="stylesheet" href="__PUBLIC__/css/login.css" >
-    <link href="__PUBLIC__/adminlte/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="__PUBLIC__/adminlte/bootstrap/css/bootstrap.min.css">
 </head>
 <body>
    <div class="login-box">
+            <div class="user-login">用户登录</div>
+            <div class="login-info">
+               <div>
 
-           <div class="login-info">
-               <input class="info-box" name="phone_num" id="phone_num" data-type="phone" data-role="verify" placeholder="请输入手机号">
-               <span class="error-tip">
+                   <input class="info-box form-control" name="phone_num" id="phone_num" data-type="phone" data-role="verify" placeholder="请输入手机号">
+
+                   <span class="error-tip">
                    手机号有误
                </span>
-               <input class="info-box" type="password" name="password" id="password" data-type="password" data-role="verify" placeholder="密码(6-18位密码)">           <span class="error-tip">
+               </div>
+            <div>
+
+                <input  class="info-box form-control" type="password" name="password" id="password" data-type="password" data-role="verify" placeholder="密码(6-18位密码)">
+
+                <span class="error-tip">
                密码必须为6-18的字符
               </span>
+            </div>
+
                <!--<input class="login-btn" type="submit" value="立即登录">-->
                <button  class="btn submit login-btn">
                     <span class="hidden">
@@ -33,6 +43,10 @@
                     <a href="{:url('/reset')}">忘记密码?</a>
                 </span>
            </div>
+
+            <div class="botton-reg">
+                <a href="/register">没有账号？立即注册</a>
+            </div>
    </div>
 </body>
 <script src="__PUBLIC__/plugins/jQuery/jquery-2.2.3.min.js"></script>
