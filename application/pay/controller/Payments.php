@@ -24,6 +24,9 @@ class Payments extends Controller
         $this->load_config();
 
     }
+   public function index(){
+       echo __FUNCTION__;die;
+   }
     /**
      * @Description: 处理支付宝支付
      * @return  json
@@ -71,7 +74,7 @@ class Payments extends Controller
 
    }
 
-   private function ali_web_pay($payConfigArry, $order, $payCode){
+    private function ali_web_pay($payConfigArry, $order, $payCode){
 //       $tradeSn = input('order_no');
 //       $payCode = input('payCode');
 //

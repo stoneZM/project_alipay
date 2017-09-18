@@ -59,8 +59,10 @@ class User extends Base
                 return $this->error('用户不存在');
             }
             //检查手机号是否存在
-            $user_info = $this->user_model->where(array('phone_num'=>$data['phone_num']))->find();
-            if ($user_info){
+            $map['phone_num'] = array('eq',$data['phone_num']);
+            $map['id'] = array('neq',$id);
+            $phone_exist = $this->user_model->where($map)->count();
+            if ($phone_exist){
                 return $this->error('手机号已存在');
             }
             if($this->user_model->where(array('id'=>$id))->update($data)){
@@ -86,6 +88,18 @@ class User extends Base
         return $this->fetch();
     }
 
+    public function get_user(){
+
+        $phone_num = input('phone_num');
+        $user = UserModel::get(['phone_num'=>$phone_num]);
+        if ($user){
+            $user = $user->toArray();
+            $user['reg_time'] = date('Y-m-d H:m:i',$user['reg_time']);
+            return json(array('code'=>1,'data'=>$user));
+        }else{
+            return json(array('code'=>0));
+        }
+    }
 
 
     // 导出用户表
@@ -95,9 +109,12 @@ class User extends Base
         if ($type == 'is_vip'){
             $data = UserModel::all(['is_vip'=>1]);
             $sheel_title = '会员用户列表';
-        }else{
+        }else if($type == 'not_vip'){
             $sheel_title = '普通用户列表';
             $data = UserModel::all(['is_vip'=>0]);
+        }else{
+            $sheel_title = '全部用户';
+            $data = UserModel::all();
         }
         if ($data){
             $vip_info = db('vip_info');

@@ -1,0 +1,120 @@
+{extend name="common@public/admin_base"}
+{block name='style'}
+{/block}
+
+{block name="body"}
+<section class="content-header">
+    <h1>交易记录列表</h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i>交易记录列表</a></li>
+        <!--<li><a href="#">Tables</a></li>-->
+        <!--<li class="active">Simple</li>-->
+    </ol>
+</section>
+
+<section class="content">
+
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title"></h3>
+
+                    <div class="box-tools">
+                        <div class="input-group input-group-sm" style="width: 30%;margin: 0px 20px;float: left;">
+                            <input type="text" id="phone-search" name="phone_num" class="form-control pull-right" placeholder="通过手机号搜索">
+                            <div class="input-group-btn">
+                                <button type="submit"  class="search-btn btn btn-default"><i class="fa fa-search"></i></button>
+                            </div>
+                        </div>
+
+                        <div class="input-group input-group-sm" style="width: 30%;margin: 0px 20px; float: right;">
+                            <a  class="btn btn-sm btn-primary pull-right " href="{:url('/admin/trans/export_excel')}">导出成表格</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body table-responsive no-padding">
+                    <table class="table table-hover">
+                        <thead><tr>
+                            <th>ID</th>
+                            <th>手机号</th>
+                            <th>付款方式</th>
+                            <th>交易金额</th>
+                            <th>交易状态</th>
+                            <th>交易结束时间</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {volist name="list" id="trans"}
+                        <tr>
+                            <td>{$trans['id']}</td>
+                            <td>{$trans['telephone']}</td>
+                            <td>{$trans['pay_type']}</td>
+                            <td>{$trans['totalMoney']}</td>
+                            {if $trans['status'] == 0 }
+                            <td><span class="label label-default">未完成</span></td>
+                            {else/}
+                            <td><span class="label label-success">已完成</span></td>
+                            {/if}
+                            <td>{$trans["edittime"]|date='Y-m-d H:i:s',###}</td>
+                        </tr>
+                        {/volist}
+                        </tbody>
+                    </table>
+                </div>
+                {$page}
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+    </div>
+
+</section>
+{/block}
+
+{block name="script"}
+<script>
+    $('.search-btn').click(function (e) {
+        e.preventDefault();
+        var phone_num = $('#phone-search').val();
+        if(!checkPhone(phone_num)){
+            showTip('请输入正确的手机号!',2);
+            return;
+        }
+        $.ajax({
+            url:"/admin/trans/get_trade",
+            data:{'phone_num':phone_num},
+            type:'post',
+            async:true,
+            success:function (resJson) {
+                if(resJson.code==0){
+                    showTip('抱歉,未找到该用户!',2000);
+                }else{
+                    var html = '';
+                    var trades = resJson.data;
+                    var trade = '';
+                    for(var i=0;i<trades.length;i++) {
+                        trade = trades[i];
+                        html += "<tr>";
+                        html += '<td>' + trade.id + '</td>';
+                        html += '<td>' + trade.telephone + '</td>';
+                        html += '<td>' + trade.pay_type + '</td>';
+                        html += '<td>' + trade.totalMoney + '</td>';
+                        if (trade.status==99){
+                            html += '<td><span class="label label-success">已完成</span></td>';
+                        }else{
+                            html += '<td><span class="label label-default">未完成</span></td>';
+                        }
+                        var endtime = trade.edittime?trade.edittime:'-- : -- : --';
+                        html += '<td>'+endtime;
+                        html += '</td></tr>';
+                    }
+                    $('tbody').html(html);
+                    $(".pagination").hide();
+                }
+            }
+        })
+    });
+</script>
+{/block}

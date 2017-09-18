@@ -164,7 +164,63 @@ class PayAccount extends Model
         }
 
         $notify = new \NativePay();
+
         $input  = new \WxPayUnifiedOrder();
+        $input->SetBody($data['body']);
+        $input->SetAttach($data['attach']);
+        $input->SetOut_trade_no($data['out_trade_no']);
+        $input->SetTotal_fee($data['total_fee']);
+        $input->SetTime_start($data['time_start']);
+        $input->SetTime_expire($data['time_expire']);
+        $input->SetGoods_tag($data['goods_tag']);
+        $input->SetNotify_url($data['notify_url']);
+        $input->SetTrade_type($data['trade_type']);
+        $input->SetProduct_id($data['product_id']);
+        $result = $notify->GetPayUrl($input);
+
+        if($result['return_code'] != 'SUCCESS'){
+            return ['code'=>0,'msg'=> $result['return_msg']];
+        }
+        if($result['result_code'] != 'SUCCESS'){
+            return ['code'=>0,'msg'=> $result['err_code_des']];
+        }
+        return ['code'=>1,'msg'=>$result["code_url"]];
+    }
+
+
+    public function getWxJaApipay($wxpayConfigArry, $data, $paycode, $model)
+    {
+
+        $this->_weixin_config();
+        $info = $this->getPayAccountId($data['out_trade_no']);
+//        if(!$info){
+//            $this->module = $model;
+//            $this->userid = $data['userId'];
+//            $this->username = $data['username'];
+//            $this->trade_sn = $data['out_trade_no'];
+//            $this->contactname = $data['attach'];
+//            $this->email       = $data['email'];
+//            $this->wxpay_appid = $wxpayConfigArry['wxpay_appid'];
+//            $this->trade_type  = $data['trade_type'];//
+//            $this->telephone   = $data['telephone'];
+//            $this->totalMoney  = $data['total_fee']/100;
+//            $this->num         = $data['num'];
+//            $this->addtime     = time();
+//            $this->pay_type    = $paycode; //操作类型 weixin alipay unpay
+//            $this->pay_ment    = '微信支付';
+//            $this->openid      = '';
+//            $this->ip          = $data['exter_invoke_ip'];
+//            $this->status      = 0;  //0：刚刚提交支付  -1：删除   99：最终支付成功
+//            $this->month = $data['month'];
+//
+//            $this->save();
+//        }
+
+        $notify = new \WxPayJsApiPay();
+
+        $input  = new \WxPayUnifiedOrder();
+        $openId = $input->GetOpenid();
+        echo $openId;die;
         $input->SetBody($data['body']);
         $input->SetAttach($data['attach']);
         $input->SetOut_trade_no($data['out_trade_no']);
