@@ -72,14 +72,14 @@
                }
 
                $.ajax({
-                   url:"/modify_pwd",
+                   url:"{:url('/modify_pwd')}",
                    data:{old_password:base64Obj.encode(oldPwd),new_password:base64Obj.encode(newPwd),r_new_password:base64Obj.encode(rnewPwd)},
                    type:'post',
                    async:true,
                    success:function (resJson) {
                        if(resJson.code==1){
                            showTip('密码重置成功,请重新登录',1);
-                           setTimeout(' window.location.href="/login";',2000);
+                           setTimeout(' window.location.href="{:url(\"/login\")}";',2000);
                            return;
                        }else{
                            showTip(resJson.message,2);

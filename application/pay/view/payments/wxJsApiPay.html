@@ -1,0 +1,162 @@
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>确认支付</title>
+    <script type="text/javascript">
+        //调用微信JS api 支付
+        function jsApiCall()
+        {
+            WeixinJSBridge.invoke(
+                    'getBrandWCPayRequest',
+            <?php echo $jsApiParameters; ?>,
+            function(res){
+                WeixinJSBridge.log(res.err_msg);
+                if (res.err_msg == "get_brand_wcpay_request:ok") {
+                    alert("付款成功!");
+//                    window.location.href = "{:url('/user/member/index')}";
+                }
+                if(res.err_msg == "get_brand_wcpay_request:cancel"){
+                    alert("交易取消!");
+
+                }
+                if(res.err_msg == "get_brand_wcpay_request:fail"){
+                    alert("交易失败!");
+
+                }
+                window.location.href = "{:url('/user/member/index')}";
+
+            }
+        );
+        }
+
+        function callpay()
+        {
+
+            if (typeof WeixinJSBridge == "undefined"){
+                if( document.addEventListener ){
+                    document.addEventListener('WeixinJSBridgeReady', jsApiCall, false);
+                }else if (document.attachEvent){
+                    document.attachEvent('WeixinJSBridgeReady', jsApiCall);
+                    document.attachEvent('onWeixinJSBridgeReady', jsApiCall);
+                }
+            }else{
+                jsApiCall();
+            }
+        }
+    </script>
+    <script type="text/javascript">
+        //获取共享地址
+        function editAddress()
+        {
+            WeixinJSBridge.invoke(
+                    'editAddress',
+            <?php echo $editAddress; ?>,
+            function(res){
+                var value1 = res.proviceFirstStageName;
+                var value2 = res.addressCitySecondStageName;
+                var value3 = res.addressCountiesThirdStageName;
+                var value4 = res.addressDetailInfo;
+                var tel = res.telNumber;
+
+//                alert(value1 + value2 + value3 + value4 + ":" + tel);
+            }
+        );
+        }
+
+        window.onload = function(){
+            if (typeof WeixinJSBridge == "undefined"){
+                if( document.addEventListener ){
+                    document.addEventListener('WeixinJSBridgeReady', editAddress, false);
+                }else if (document.attachEvent){
+                    document.attachEvent('WeixinJSBridgeReady', editAddress);
+                    document.attachEvent('onWeixinJSBridgeReady', editAddress);
+                }
+            }else{
+                editAddress();
+            }
+        };
+
+    </script>
+    <style type="text/css">
+        *{
+            margin: 0px;
+            padding: 0px;
+            background-color: #F4F4F4;
+
+        }
+        .subject,.price{
+            text-align: center;
+            color: black;
+            margin: 0px;
+        }
+        .subject{
+            margin:20px 0px 0px ;
+            font-weight: 500;
+            font-size: 15px;
+        }
+        .price{
+            font-weight: bolder;
+            font-size: 35px;
+        }
+        .payee{
+
+            border-bottom: 1px #CECECE solid;
+            border-top: 1px #CECECE solid;;
+            width: 100%;
+            height: 46px;
+            margin: 10px 0px;
+            background-color: #fff;
+        }
+        .payee span{
+            display: inline-block;
+            line-height: 46px;
+            font-size: 14px;
+            background-color: #fff;
+        }
+        .payee .payee-tip{
+            float: left;
+            margin-left: 20px;
+            color: #5D5B5C;
+            line-height: 46px;
+            font-size: 14px;
+        }
+        .payee .payee-title{
+            float: right;
+            font-weight: bold;
+            color: black;margin-right: 20px;
+        }
+        button{
+            width: 94%;
+            height:50px;
+            border-radius: 5px;
+            background-color:#FE6714;
+            border:0px #FE6714 solid;
+            cursor: pointer;
+            color:white;
+            font-size:18px;
+            font-weight: 500;
+            margin:30px 3%;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <p class="subject">{$subject}</p>
+    <p class="price">￥{$price}</p>
+
+    <div class="payee">
+        <span class="payee-tip">收款方</span>
+        <span class="payee-title">{$payee}</span>
+    </div>
+
+
+    <div align="center">
+        <button type="button" onclick="callpay()" >立即支付</button>
+    </div>
+</div>
+
+
+</body>
+</html>

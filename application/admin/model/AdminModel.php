@@ -31,7 +31,7 @@ class AdminModel extends Base
         if(is_array($user) && $user['status']){
             /* 验证用户密码 */
             if(md5($password) === $user['password']){
-                $this->autoLogin($user); //更新用户登录信息
+                $this->adminAutoLogin($user); //更新用户登录信息
                 return $user['id']; //登录成功，返回用户ID
             } else {
                 $this->error = '密码错误';
@@ -43,8 +43,7 @@ class AdminModel extends Base
         }
     }
 
-    private function autoLogin($user){
-
+    private function adminAutoLogin($user){
 
         /* 记录登录SESSION和COOKIES */
         $auth = array(

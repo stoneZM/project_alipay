@@ -7,6 +7,7 @@
  */
 
 namespace app\common\model;
+use app\user\model\User;
 use think\Model;
 use think\Validate;
 
@@ -104,5 +105,44 @@ class Base extends Model
             session('user_auth',$user_auth);
             session('user_auth_sign', data_auth_sign($user_auth));
         }
+    }
+
+
+
+    static public function set_session($where){
+
+        $user = User::get($where);
+        if ($user){
+            $user = $user->toArray();
+        }else{
+            return false;
+        }
+        /* 记录登录SESSION和COOKIES */
+        $auth = array(
+            'uid'             => $user['id'],
+            'user_name'       => $user['user_name'],
+            'last_login_time' => $user['last_login_time'],
+            'is_vip' => $user['is_vip'],
+            'phone_num'=>$user['phone_num']
+        );
+
+        if($user['is_vip'] == 1){
+            $vip_info = db('vip_info')->where(array('user_id'=>$user['id']))->find();
+            //检查会员是否已到期
+            if ($vip_info['expir_time']<time()){
+                //取消会员
+                $auth['is_vip'] = 0;
+                db('user')->where(array('id'=>$user['id']))->update(array('is_vip'=>0));
+                db('vip_info')->where(array('user_id'=>$user['id']))->delete();
+            }
+            $auth['expir_time'] = date('Y年m月d日',$vip_info['expir_time']);
+            $auth['begin_time'] = date('Y年m月d日',$vip_info['begin_time']);
+
+        }else{
+            $auth['expir_time'] = 0;
+            $auth['begin_time'] = 0;
+        }
+        session('user_auth', $auth);
+        session('user_auth_sign', data_auth_sign($auth));
     }
 }

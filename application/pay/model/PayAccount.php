@@ -130,7 +130,6 @@ class PayAccount extends Model
 
     }
 
-
     /**
      * @Description: 微信生成支付代码
      * @return  string
@@ -187,40 +186,105 @@ class PayAccount extends Model
         return ['code'=>1,'msg'=>$result["code_url"]];
     }
 
-
+    /**
+     *  微信公众号支付
+     * @param $wxpayConfigArry
+     * @param $data
+     * @param $paycode
+     * @param $model
+     * @return mixed
+     */
     public function getWxJaApipay($wxpayConfigArry, $data, $paycode, $model)
     {
 
         $this->_weixin_config();
         $info = $this->getPayAccountId($data['out_trade_no']);
-//        if(!$info){
-//            $this->module = $model;
-//            $this->userid = $data['userId'];
-//            $this->username = $data['username'];
-//            $this->trade_sn = $data['out_trade_no'];
-//            $this->contactname = $data['attach'];
-//            $this->email       = $data['email'];
-//            $this->wxpay_appid = $wxpayConfigArry['wxpay_appid'];
-//            $this->trade_type  = $data['trade_type'];//
-//            $this->telephone   = $data['telephone'];
-//            $this->totalMoney  = $data['total_fee']/100;
-//            $this->num         = $data['num'];
-//            $this->addtime     = time();
-//            $this->pay_type    = $paycode; //操作类型 weixin alipay unpay
-//            $this->pay_ment    = '微信支付';
-//            $this->openid      = '';
-//            $this->ip          = $data['exter_invoke_ip'];
-//            $this->status      = 0;  //0：刚刚提交支付  -1：删除   99：最终支付成功
-//            $this->month = $data['month'];
-//
-//            $this->save();
-//        }
 
-        $notify = new \WxPayJsApiPay();
+        if(!$info){
+            $this->module = $model;
+            $this->userid = $data['userId'];
+            $this->username = $data['username'];
+            $this->trade_sn = $data['out_trade_no'];
+            $this->contactname = $data['attach'];
+            $this->email       = $data['email'];
+            $this->wxpay_appid = $wxpayConfigArry['wxpay_appid'];
+            $this->trade_type  = $data['trade_type'];//
+            $this->telephone   = $data['telephone'];
+            $this->totalMoney  = $data['total_fee']/100;
+            $this->num         = $data['num'];
+            $this->addtime     = time();
+            $this->pay_type    = $paycode; //操作类型 weixin alipay unpay
+            $this->pay_ment    = '微信支付';
+            $this->openid      = '';
+            $this->ip          = $data['exter_invoke_ip'];
+            $this->status      = 0;  //0：刚刚提交支付  -1：删除   99：最终支付成功
+            $this->month = $data['month'];
+            $this->save();
+        }
+
+        //①、获取用户openid
+        $tools = new \JsApiPay();
+        $data['open_id'] = "oUdPg0Uh3prUIUVUz51DOAegAC7E";
+        //②、统一下单
+        $input = new \WxPayUnifiedOrder();
+        $input->SetBody($data['body']);
+        $input->SetAttach($data['attach']);
+        $input->SetOut_trade_no($data['out_trade_no']);
+        $input->SetTotal_fee($data['total_fee']);
+        $input->SetTime_start($data['time_start']);
+        $input->SetTime_expire($data['time_expire']);
+        $input->SetGoods_tag($data['goods_tag']);
+        $input->SetNotify_url($data['notify_url']);
+        $input->SetTrade_type("JSAPI");
+        $input->SetOpenid($data['open_id']);
+
+        $order = \WxPayApi::unifiedOrder($input);
+
+        $jsApiParameters = $tools->GetJsApiParameters($order);
+        $editAddress = $tools->GetEditAddressParameters();
+
+        $return_params['jsApiParameters'] = $jsApiParameters;
+        $return_params['editAddress'] = $editAddress;
+        return $return_params;
+
+    }
+
+    /**
+     *  微信 H5 支付
+     * @param $data
+     * @return string
+     */
+    public function getWxH5Pay($wxpayConfigArry, $data, $paycode, $model){
+
+        $this->_weixin_config();
 
         $input  = new \WxPayUnifiedOrder();
-        $openId = $input->GetOpenid();
-        echo $openId;die;
+
+        $info = $this->getPayAccountId($data['out_trade_no']);
+        if(!$info){
+            $this->module = $model;
+            $this->userid = $data['userId'];
+            $this->username = $data['username'];
+            $this->trade_sn = $data['out_trade_no'];
+            $this->contactname = $data['attach'];
+            $this->email       = $data['email'];
+            $this->wxpay_appid = $wxpayConfigArry['wxpay_appid'];
+            $this->trade_type  = $data['trade_type'];//
+            $this->telephone   = $data['telephone'];
+            $this->totalMoney  = $data['total_fee']/100;
+            $this->num         = $data['num'];
+            $this->addtime     = time();
+            $this->pay_type    = $paycode; //操作类型 weixin alipay unpay
+            $this->pay_ment    = '微信支付';
+            $this->openid      = '';
+            $this->ip          = $data['exter_invoke_ip'];
+            $this->status      = 0;  //0：刚刚提交支付  -1：删除   99：最终支付成功
+            $this->month = $data['month'];
+
+            $this->save();
+        }
+
+
         $input->SetBody($data['body']);
         $input->SetAttach($data['attach']);
         $input->SetOut_trade_no($data['out_trade_no']);
@@ -230,16 +294,16 @@ class PayAccount extends Model
         $input->SetGoods_tag($data['goods_tag']);
         $input->SetNotify_url($data['notify_url']);
         $input->SetTrade_type($data['trade_type']);
+        $input->SetSpbill_create_ip($data['exter_invoke_ip']);
+        $attach = $data['attach'] ;
+        $wap_url = url('/user/login');
+        $scene_info = '{"h5_info": {"type":"Wap","wap_url":"'.$wap_url.'","wap_name":"'.$attach.'"}}';
+        $input->SetScene_info($scene_info);
         $input->SetProduct_id($data['product_id']);
-        $result = $notify->GetPayUrl($input);
-
-        if($result['return_code'] != 'SUCCESS'){
-            return ['code'=>0,'msg'=> $result['return_msg']];
-        }
-        if($result['result_code'] != 'SUCCESS'){
-            return ['code'=>0,'msg'=> $result['err_code_des']];
-        }
-        return ['code'=>1,'msg'=>$result["code_url"]];
+        $order = \WxPayApi::unifiedOrder($input);
+//        $url = $order['mweb_url'].'&redirect_url='.urlencode(request()->domain()."/user/member/index");
+        $url = $order['mweb_url'].'&redirect_url='.url('/user/member/index');
+        return $url;
     }
 
     /**

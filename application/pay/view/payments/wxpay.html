@@ -29,7 +29,7 @@
                 <!--<a href="/index.php/Home/Cart/cart4/order_id/5.html">支付成功</a>-->
             <!--</div>-->
             <div class="fail-I-success">
-                <img alt="模式二扫码支付" src="/pay/payments/getgrcode?code_info={$code_info}" style="width:110px;height:110px;"/>
+                <img alt="模式二扫码支付" src="{:url('/pay/payments/getgrcode',array('code_info'=>base64_encode($code_info)))}" style="width:110px;height:110px;"/>
                 <label >微信扫码完成支付</label>
             </div>
             <!--<div class="success-fasu">-->
@@ -52,14 +52,14 @@
     function ajax_check_pay_status() {
         $.ajax({
             type: "post",
-            url: "/pay/payments/check_order_pay_status",
+            url: "{:url('/pay/payments/check_order_pay_status')}",
             data: {trade_sn: "<?php echo $order_sn; ?>"},
             dataType: 'json',
             success: function (data) {
                 if (data.code == 1) {
                     clearInterval(interval);
                    layer.msg('恭喜您完成支付!',{icon:1,time:2000});
-                    setTimeout('window.location.href = "/user/member/index"',2000);
+                    setTimeout('window.location.href = "{:url(\"/user/member/index\")}"',2000);
                     clearInterval(interval);
                 }
             }

@@ -40,7 +40,7 @@ class Index extends Controller
                 if($result==0){
                     $this->error('没有修改任何信息');
                 }else if($result>0){
-                    $this->success('设置成功', 'index/index/paySetting', 1,1);
+                    $this->success('设置成功', url('index/index/paySetting'), 1,1);
                 }else{
                     $this->error('编辑设置失败');
                 }
@@ -49,7 +49,7 @@ class Index extends Controller
                 $info['edittime'] = $time;
                 $result = $SettingMd->save($info);
                 if($result>0){
-                    $this->success('设置成功', 'index/index/paySetting', 1,1);
+                    $this->success('设置成功', url('index/index/paySetting'), 1,1);
                 }else{
                     $this->error($SettingMd->getError());
                 }
@@ -76,7 +76,7 @@ class Index extends Controller
         $payAccount = new model_pay_account();
         $result = $payAccount->destroy(['id' => $id]);
         if($result){
-            $this->success('删除成功', 'admin/index/recordList', 1,1);
+            $this->success('删除成功', url('admin/index/recordList'), 1,1);
         }else{
             $this->error($payAccount->getError());
         }

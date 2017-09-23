@@ -2,6 +2,7 @@
 namespace app\admin\controller;
 use app\common\controller\Base;
 use app\admin\model\AdminModel;
+use think\Cookie;
 
 class Admin extends Base
 {

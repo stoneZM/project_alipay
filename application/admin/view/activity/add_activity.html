@@ -145,14 +145,14 @@
     function publishCnt(title,content) {
 
         $.ajax({
-            url:'/admin/activity/add_activity',
+            url:'{:url("/admin/activity/add_activity")}',
             data:{'content':content,'title':title},
             type:'post',
             async:true,
             success:function (resJons) {
                 if(resJons.code == 1){
                     showTip('发布成功',1);
-                    setTimeout('window.location.href="/admin/activity/index"',2000);
+                    setTimeout('window.location.href="{:url(\"/admin/activity/index\")}"',2000);
                 }else{
                     showTip(resJons.message,2);
                     return;

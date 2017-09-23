@@ -41,7 +41,7 @@
                <button class="login-btn regist-btn" style="margin-bottom: 10px">立即注册</button>
                <div class="cl"></div>
                <div class="botton-reg">
-                   <a href="/user/login">已有账号？立即登录</a>
+                   <a href="{:url('/user/login')}">已有账号？立即登录</a>
                </div>
            </div>
 
@@ -70,7 +70,7 @@
             return;
         }
         $.ajax({
-           url:'/register',
+           url:'{:url("/register")}',
            data:{'phone_num':base64Obj.encode(phoneNum),'verify_code':base64Obj.encode(imgCode),'phone_code':base64Obj.encode(phoneCode),'phone_num':base64Obj.encode(phoneNum)},
             type:'post',
             async:true,
@@ -81,7 +81,7 @@
                     return;
                 }else{
                     layer.msg('注册成功',{icon:1,time:2000});
-                    setTimeout('window.location.href="/user/login"',2000);
+                    setTimeout('window.location.href="{:url(\"/user/login\")}"',2000);
                 }
             }
         });

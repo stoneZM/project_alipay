@@ -24,7 +24,7 @@ class ActivityModel extends Base
             ->join('admin',"vip_activity.user_id=admin.id",'left')
             ->field($_field)
             ->order($order_by)
-            ->paginate($this->list_rows,false,array('path'=>'/admin/activity/index'));
+            ->paginate($this->list_rows,false,array('path'=>url('/admin/activity/index')));
         return $list;
     }
 

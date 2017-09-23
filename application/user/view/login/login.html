@@ -11,7 +11,6 @@
             <div class="user-login">用户登录</div>
             <div class="login-info">
                <div>
-
                    <input class="info-box form-control" name="phone_num" id="phone_num" data-type="phone" data-role="verify" placeholder="请输入手机号">
 
                    <span class="error-tip">
@@ -37,7 +36,7 @@
                </button>
            </div>
            <div class="bottom-info">
-               <input type="checkbox" name="rem_pwd" value="1">
+               <input type="checkbox" id="rem-pwd" name="rem_pwd" value="0">
                <span class=" tip">2小时内免密登录</span>
                <span class="forget-pwd-btn tip">
                     <a href="{:url('/reset')}">忘记密码?</a>
@@ -45,7 +44,7 @@
            </div>
 
             <div class="botton-reg">
-                <a href="/register">没有账号？立即注册</a>
+                <a href="{:url('/register')}">没有账号？立即注册</a>
             </div>
    </div>
 </body>
@@ -63,15 +62,20 @@
                     e.preventDefault();
                     var phoneNum = $("#phone_num").val();
                     var password = $("#password").val();
+                    if(!checkPhone(phoneNum)){
+                        layer.msg('手机号有误',{icon:2,time:1000});
+                        return;
+                    }
+                    var remPwd = $("input[type='checkbox']").is(':checked')?'1':'0';
                     $.ajax({
-                        url:'/user/login',
+                        url:'{:url("/user/login")}',
                         type:'post',
-                        data:{"phone_num":base64Obj.encode(phoneNum),"password":base64Obj.encode(password)},
+                        data:{"rem_pwd":base64Obj.encode(remPwd),"phone_num":base64Obj.encode(phoneNum),"password":base64Obj.encode(password)},
                         async:true,
                         success:function (resJson) {
                             if(resJson.code==1){
                                 layer.msg(resJson.message,{icon:1,time:2000});
-                                setTimeout('window.location.href = "/user/user/index";',2000);
+                                setTimeout('window.location.href = "{:url(\"/user/user/index\")}";',2000);
                                 return;
                             }else{
                                 layer.msg(resJson.message,{icon:2,time:2000});

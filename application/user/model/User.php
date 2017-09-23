@@ -8,11 +8,11 @@
 
 namespace app\user\model;
 use app\common\model\Base;
+define("EXPIRE_TIME",600);
+
 
 class User extends Base
 {
-
-
     protected $table = 'user';
     protected $autoWriteTimestamp = true;
     protected $createTime = 'reg_time';
@@ -35,7 +35,7 @@ class User extends Base
     /**
      * 用户登录模型
      */
-    public function login($phone_num,$password,$type = 1){
+    public function login($phone_num,$password,$rem_pwd = 0){
 
         if (!$phone_num || !$password) {
             $this->error = '手机号或密码不能为空';
@@ -49,6 +49,10 @@ class User extends Base
             /* 验证用户密码 */
             if(md5($password) === $user['password']){
                 $this->autoLogin($user); //更新用户登录信息
+                if ($rem_pwd==1){
+                    cookie('user_id',base64_encode($user['id']),array('expire'=>EXPIRE_TIME,'prefix'=>'remember_'));
+                    cookie('user_phone',base64_encode($user['phone_num']),array('expire'=>EXPIRE_TIME,'prefix'=>'remember_'));
+                }
                 return $user['id']; //登录成功，返回用户ID
             } else {
                 $this->error = '密码错误';
@@ -125,6 +129,8 @@ class User extends Base
     }
 
     public function logout(){
+
+        cookie(null,'remember_');
         session('user_auth', null);
         session('user_auth_sign', null);
     }

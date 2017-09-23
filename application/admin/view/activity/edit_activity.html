@@ -146,14 +146,14 @@
     function publishCnt(title,content) {
         $id = $("#activity-id").val();
         $.ajax({
-            url:'/admin/activity/edit_activity',
+            url:'{:url("/admin/activity/edit_activity")}',
             data:{'content':content,'title':title,'id':$id},
             type:'post',
             async:true,
             success:function (resJons) {
                 if(resJons.code == 1){
                     showTip('修改成功',1);
-                    setTimeout('window.location.href="/admin/activity/index"',2000);
+                    setTimeout('window.location.href="{:url(\"/admin/activity/index\")}"',2000);
                 }else{
                     showTip(resJons.message,2);
                     return;

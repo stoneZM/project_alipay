@@ -16,7 +16,6 @@ class Payments extends Controller
     public $wxpay_sslkey_path;
     public $payment;
 
-
     public function __construct()
     {
         parent::__construct();
@@ -24,9 +23,10 @@ class Payments extends Controller
         $this->load_config();
 
     }
-   public function index(){
+
+    public function index(){
        echo __FUNCTION__;die;
-   }
+    }
     /**
      * @Description: 处理支付宝支付
      * @return  json
@@ -112,7 +112,7 @@ class Payments extends Controller
 
    }
 
-   private function ali_wap_pay($payConfigArry, $order, $payCode){
+    private function ali_wap_pay($payConfigArry, $order, $payCode){
 
        $result = $this->PayAccount->getAliWapPay($payConfigArry, $order, $payCode, $this->module);
        if(!$result['code']){
@@ -120,8 +120,6 @@ class Payments extends Controller
        }
        return $result['msg'];
    }
-
-
     /**
      * @Description: 支付结果异步回调
      * @return  string
@@ -237,23 +235,21 @@ class Payments extends Controller
      * @Description: 处理微信支付
      * @return  json
      */
-    public function wxpay()
-    {
+    public function wxpay(){
+
         $tradeSn = input('order_no');
+        $open_id = input('open_id');
         $payCode = input('payCode');
 
         $member_id = input('member_type_id');
+//        $member_id = 1;
         $member_price = MemberModel::get_vip_info($member_id,'price');
         $member_month = MemberModel::get_vip_info($member_id,'month');
-
         $user_id = get_user_info('uid');
         $user_name = get_user_info('user_name');
         $subject = get_user_info('is_vip')?"会员续费 ".$member_month." 个月" : '开通会员 '.$member_month." 个月 ";
         $phone_num = get_user_info('phone_num');
-        $trade_type = get_user_info('is_vip')?1:0;
 
-        //查询订单表
-        //$getOrders = $this->orders->where(array('order_no' => $tradeSn))->find();
         $data = array();
         $data['userId']   = $user_id;
         $data['username'] = $user_name;
@@ -272,26 +268,169 @@ class Payments extends Controller
         $data['month'] = $member_month;
         $data['product_id']  = rand(1,999999);//交易id
         $data['exter_invoke_ip']  = $this->ip;
+        $data['open_id'] = $open_id;
+//        return $this->wx_js_api_pay($data,$payCode);
+        if(!is_mobile()){
+           return $this->wx_web_pay($data,$payCode);
+        }else{
+            if (is_weixin()){
+                return $this->wx_js_api_pay($data,$payCode);
+            }else{
+                return $this->wx_h5_pay($data,$payCode);
+            }
+        }
 
-        $check_trade_is_exist = session($tradeSn);
+    }
+
+    private function wx_web_pay($data,$payCode)
+    {
+//        $tradeSn = input('order_no');
+//        $payCode = input('payCode');
+//
+//        $member_id = input('member_type_id');
+//        $member_price = MemberModel::get_vip_info($member_id,'price');
+//        $member_month = MemberModel::get_vip_info($member_id,'month');
+//
+//        $user_id = get_user_info('uid');
+//        $user_name = get_user_info('user_name');
+//        $subject = get_user_info('is_vip')?"会员续费 ".$member_month." 个月" : '开通会员 '.$member_month." 个月 ";
+//        $phone_num = get_user_info('phone_num');
+//
+//        //查询订单表
+//        //$getOrders = $this->orders->where(array('order_no' => $tradeSn))->find();
+//        $data = array();
+//        $data['userId']   = $user_id;
+//        $data['username'] = $user_name;
+//        $data['out_trade_no']  = $tradeSn;
+//        $data['num']      = 1;
+//        $data['email']    = '';
+//        $data['telephone']  = $phone_num;
+//        $data['total_fee']  = 0.01*100;
+//        $data['attach']   = $subject;
+//        $data['body']     = $subject;
+//        $data['time_start'] = date("YmdHis");//交易开始时间
+//        $data['time_expire']= date("YmdHis", time() + 604800);//一周过期
+//        $data['goods_tag']  = $subject;
+//        $data['notify_url']  = $this->wxpay['wxpay_notify_url'];//回调地址
+//        $data['trade_type']  = "NATIVE";//交易类型
+//        $data['month'] = $member_month;
+//        $data['product_id']  = rand(1,999999);//交易id
+//        $data['exter_invoke_ip']  = $this->ip;
+        $check_trade_is_exist = session($data['out_trade_no']);
 
         if ($check_trade_is_exist){
-            $result['msg'] = session($tradeSn);
+            $result['msg'] = session($data['out_trade_no']);
         }else{
             $result  = $this->PayAccount->getWxpay($this->wxpay, $data, $payCode, $this->module);
             if(!$result['code']){
                 return $this->error($result['msg']);
             }
-            session($tradeSn,$result['msg']);
+            session($data['out_trade_no'],$result['msg']);
         }
         $this->assign('code_info',$result['msg']);
-        $this->assign("order_sn",$tradeSn);
-        $this->assign('order_subject',$subject);
-        return $this->fetch();
+        $this->assign("order_sn",$data['out_trade_no']);
+        $this->assign('order_subject', $data['attach'] );
+        return $this->fetch('wxpay');
     }
 
+    /**
+     * @Description: 处理微信公众号支付
+     * @return  json
+     */
+    public function wx_js_api_pay($data,$payCode){
+//        $tradeSn = input('order_no');
+//        $payCode = input('payCode');
+//        $payCode = 1;
+//        $member_id = input('member_type_id');
+//        $member_id = 1;
+//        $member_price = MemberModel::get_vip_info($member_id,'price');
+//        $member_month = MemberModel::get_vip_info($member_id,'month');
+//
+//        $user_id = get_user_info('uid');
+//        $user_name = get_user_info('user_name');
+//        $subject = get_user_info('is_vip')?"会员续费 ".$member_month." 个月" : '开通会员 '.$member_month." 个月 ";
+//        $phone_num = get_user_info('phone_num');
+//        $trade_type = get_user_info('is_vip')?1:0;
+//
+//        $data = array();
+//        $data['userId']   = $user_id;
+//        $data['username'] = $user_name;
+//        $data['out_trade_no']  = $tradeSn;
+//        $data['num']      = 1;
+//        $data['email']    = '';
+//        $data['telephone']  = $phone_num;
+//        $data['total_fee']  = 0.01*100;
+//        $data['attach']   = $subject;
+//        $data['body']     = $subject;
+//        $data['time_start'] = date("YmdHis");//交易开始时间
+//        $data['time_expire']= date("YmdHis", time() + 604800);//一周过期
+//        $data['goods_tag']  = $subject;
+//        $data['notify_url']  = $this->wxpay['wxpay_notify_url'];//回调地址
+//        $data['trade_type']  = "NATIVE";//交易类型
+//        $data['month'] = $member_month;
+//        $data['product_id']  = rand(1,999999);//交易id
+//        $data['exter_invoke_ip']  = $this->ip;
+
+        $res = $this->PayAccount->getWxJaApipay($this->wxpay, $data, $payCode, $this->module);
+//        $this->assign($res);
+//        $jsApiParameters = '11';
+//        $editAddress = '2';
+//        $res['jsApiParameters'] = $jsApiParameters;
+//        $res['editAddress'] = $editAddress;
+        $this->assign($res);
+        $this->assign('subject',$data['attach']);
+        $this->assign('price',$data['total_fee']/100);
+        $this->assign('payee','龙中翔官方商城');
+        return $this->fetch('wxJsApiPay');
+    }
+
+    /**
+     * @Description: 处理微信公众号支付
+     * @return  json
+     */
+    public function wx_h5_pay($data,$payCode){
+
+//        $tradeSn = input('order_no');
+//        $payCode = input('payCode');
+////        $payCode = 1;
+//        $member_id = input('member_type_id');
+////        $member_id = 1;
+//        $member_price = MemberModel::get_vip_info($member_id,'price');
+//        $member_month = MemberModel::get_vip_info($member_id,'month');
+//
+//        $user_id = get_user_info('uid');
+//        $user_name = get_user_info('user_name');
+//        $subject = get_user_info('is_vip')?"会员续费 ".$member_month." 个月" : '开通会员 '.$member_month." 个月 ";
+//        $phone_num = get_user_info('phone_num');
+//        $trade_type = get_user_info('is_vip')?1:0;
+//
+//        $data = array();
+//        $data['userId']   = $user_id;
+//        $data['username'] = $user_name;
+//        $data['out_trade_no']  = $tradeSn;
+//        $data['num']      = 1;
+//        $data['email']    = '';
+//        $data['telephone']  = $phone_num;
+//        $data['total_fee']  = 0.01*100;
+//        $data['attach']   = $subject;
+//        $data['body']     = $subject;
+//        $data['time_start'] = date("YmdHis");//交易开始时间
+//        $data['time_expire']= date("YmdHis", time() + 604800);//一周过期
+//        $data['goods_tag']  = $subject;
+//        $data['notify_url']  = $this->wxpay['wxpay_notify_url'];//回调地址
+//        $data['trade_type']  = "MWEB";//交易类型
+//        $data['month'] = $member_month;
+//        $data['product_id']  = rand(1,999999);//交易id
+//        $data['exter_invoke_ip']  = $this->ip;
+        $data['trade_type']  = "MWEB";//交易类型
+        $res = $this->PayAccount->getWxH5Pay($this->wxpay, $data, $payCode, $this->module);
+        $this->redirect($res);
+
+    }
+
+
     function getgrcode(){
-        $codeInfo = input('code_info');
+        $codeInfo = base64_decode(input('code_info'));
         vendor('phpqrcode.phpqrcode');
         $errorCorrectionLevel = 3 ;//容错级别
         $matrixPointSize = 4;//生成图片大小
@@ -307,6 +446,7 @@ class Payments extends Controller
     public function wxpay_notify()
     {
         $notify_data = file_get_contents("php://input");
+
         if(!$notify_data){
             $notify_data = $GLOBALS['HTTP_RAW_POST_DATA'] ?: '';
         }
@@ -318,6 +458,7 @@ class Payments extends Controller
         }
         $doc = new \DOMDocument();
         $doc->loadXML($notify_data);
+
         $out_trade_no   = $doc->getElementsByTagName("out_trade_no")->item(0)->nodeValue;//订单编号
         $transaction_id = $doc->getElementsByTagName("transaction_id")->item(0)->nodeValue;//交易单号
         $openid = $doc->getElementsByTagName("openid")->item(0)->nodeValue;//用户openid
@@ -345,13 +486,14 @@ class Payments extends Controller
                     $this->PayAccount->updateStatus($data, $_payaccount['id']);
                     // 更新会员状态
                     $mem_model = new MemberModel();
-                    $mem_model->mem_manage($_payaccount['month'],$_payaccount['userid']);
+                    $mem_model->mem_manage($_payaccount['month'],$_payaccount['userid'],true);
 
                     return "success";
                 }
         }
         return false;
     }
+
 
 
     function load_config(){
@@ -367,8 +509,10 @@ class Payments extends Controller
 
         // 支付宝相关配置
         $this->alipay_sslcert_path = '';
-        $this->alipay_notify_url   = urldecode(request()->domain().'/pay/payments/alipay_notify');
-        $this->alipay_return_url   = urldecode(request()->domain().'/pay/payments/alipay_return');
+//        $this->alipay_notify_url   = urldecode(request()->domain().'/pay/payments/alipay_notify');
+//        $this->alipay_return_url   = urldecode(request()->domain().'/pay/payments/alipay_return');
+        $this->alipay_notify_url   = urldecode(url('/pay/payments/alipay_notify'));
+        $this->alipay_return_url   = urldecode(url('/pay/payments/alipay_return'));
         $this->payment['alipay_notify_url'] = $this->alipay_notify_url;
         $this->payment['alipay_return_url'] = $this->alipay_return_url;
         $this->payment['alipay_sslcert_path'] = $this->alipay_sslcert_path;
@@ -378,15 +522,16 @@ class Payments extends Controller
         $this->payment['alipay_partner'] = $this->payment['alipay_parterid'];
         $this->payment['cacert'] = $this->alipay_sslcert_path;
 
-
         // 微信支付基本参数
         $wxpayConfigArry = array();
         $wxpayConfigArry['wxpay_appid']   = $this->payment['wxpay_appid'];
         $wxpayConfigArry['wxpay_mchid']   = $this->payment['wxpay_mchid'];
         $wxpayConfigArry['wxpay_key']     = $this->payment['wxpay_key'];
         //微信支付回调地址
-        $this->wxpay_notify_url   = urldecode(request()->domain().'/pay/payments/wxpay_notify');
-        $this->wxpay_return_url   = urldecode(request()->domain().'/pay/payments/wxpay_return');
+//        $this->wxpay_notify_url   = urldecode(request()->domain().url('/pay/payments/wxpay_notify'));
+//        $this->wxpay_return_url   = urldecode(request()->domain().url('/pay/payments/wxpay_return'));
+        $this->wxpay_notify_url   = urldecode(url('/pay/payments/wxpay_notify'));
+        $this->wxpay_return_url   = urldecode(url('/pay/payments/wxpay_return'));
         $this->payment['wxpay_notify_url']  = $this->wxpay_notify_url;
         $this->payment['wxpay_return_url']  = $this->wxpay_return_url;
         $wxpayConfigArry['wxpay_appsecret']  = $this->payment['wxpay_appsecret'];

@@ -39,7 +39,15 @@ class Member extends Base
 
         //生成一个订单号
         $order_no = date("YmdHis").random();
+        $openId = 0;
+//        vendor('payment.WxPay_Api');
+//        if (is_weixin()){
+//            $tools = new \JsApiPay();
+//            $openId = $tools->GetOpenid();
+//        }
+        $open_id = $openId?:0;
 
+        $this->assign('open_id',$open_id);
         $this->assign('order_no',$order_no);
         $this->assign('vip_price',$vip_price);
         $this->assign('meta_title','注册或续费');

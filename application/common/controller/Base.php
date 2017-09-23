@@ -8,6 +8,7 @@
 
 
 namespace app\common\controller;
+use think\Cookie;
 use \think\Request;
 use think\Session;
 define('LOGIN',"LOGONFLAG");
@@ -32,11 +33,24 @@ class Base extends \think\Controller {
         $module_name = $this->request->module();
         //如果没有登录
         // && !in_array($this->url, array('user/login/login', 'user/login/logout'))
+
+        //否则检查是否已登录
         if (!is_login($module_name)) {
+
             if ($module_name=='admin'){
+
                 $this->redirect('/admin/login');
+
             }else{
-                $this->redirect('/user/login');
+                //检查是否选择记住密码,自动登录
+                $cookie_user_id = base64_decode(Cookie::get('user_id','remember_'));
+                $cookie_user_phone = base64_decode(Cookie::get('user_phone','remember_'));
+                if ($cookie_user_id&&$cookie_user_phone){
+                    $where = array('id'=>$cookie_user_id,'phone_num'=>$cookie_user_phone);
+                     \app\common\model\Base::set_session($where);
+                }else{
+                    $this->redirect('/user/login');
+                }
             }
         }
 
@@ -45,8 +59,6 @@ class Base extends \think\Controller {
             $this->assign('is_vip',$user_auth['is_vip']);
             $this->assign('expir_time',$user_auth['expir_time']);
         }
-
-
     }
 
     //request信息
@@ -99,7 +111,6 @@ class Base extends \think\Controller {
             return $this->error("验证码不能为空");
         }
     }
-
 
 
     public function checkPhoneCode($code,$phoneNum){

@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="__PUBLIC__/adminlte/dist/css/AdminLTE.min.css">
     <link rel="stylesheet" href="__PUBLIC__/adminlte/dist/css/skins/_all-skins.min.css">
     <link rel="stylesheet" href="__PUBLIC__/adminlte/font-awesome/4.5.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="__PUBLIC__/adminlte/qinfoicon/iconfont.css">
     <link rel="stylesheet" href="__PUBLIC__/adminlte/hui-iconfont/iconfont.css">
     <link rel="stylesheet" href="__PUBLIC__/adminlte/plugins/select2/select2.min.css">
     <link rel="stylesheet" href="__PUBLIC__/adminlte/plugins/iCheck/all.css">
@@ -19,7 +18,10 @@
     {block name="style"}{/block}
     <link rel="shortcut icon" type="image/ico" href="/favicon.ico">
     <script src="__PUBLIC__/adminlte/plugins/jQuery/jquery-2.2.3.min.js"></script>
-
+    <!--[if lt IE 9]>
+    <script src="__PUBLIC__/adminlte/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="__PUBLIC__/adminlte/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
 </head>
 
 
@@ -70,17 +72,17 @@
             <h1><small>{$meta_title}</small></h1>
             {if condition="$is_vip eq 0"}
             <div class="no-vip-tip">
-                <span >您当前的身份是普通用户,<a href="/user/member/manage">点击这里立即升级为VIP用户</a></span>
+                <span >您当前的身份是普通用户,<a href="{:url('/user/member/manage')}">点击这里立即升级为VIP用户</a></span>
             </div>
            {/if}
             {if condition="$is_vip eq 1"}
             <div class="no-vip-tip">
-                <span >尊敬的VIP用户,您的会员到期时间为:{$expir_time},<a href="/user/member/manage">点击这里续费</a></span>
+                <span >尊敬的VIP用户,您的会员到期时间为:{$expir_time},<a href="{:url('/user/member/manage')}">点击这里续费</a></span>
             </div>
             {/if}
             {if condition="$is_vip eq -1"}
             <div class="no-vip-tip">
-                <span >尊敬的VIP用户,您的会员已到期,<a href="/user/member/manage">点击这里续费</a></span>
+                <span >尊敬的VIP用户,您的会员已到期,<a href="{:url('/user/member/manage')}">点击这里续费</a></span>
             </div>
             {/if}
         </section>

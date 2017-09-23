@@ -152,7 +152,7 @@
 			return;
 		}
 		$.ajax({
-			url:'/reset',
+			url:'{:url("/reset")}',
 			data:{'phone_num':base64Obj.encode(phoneNum),'password':base64Obj.encode(password)},
 			type:'post',
 			async:true,
@@ -171,7 +171,7 @@
 	function codeVerify(code,type,phoneNum,step) {
 
 		$.ajax({
-			url:'/verify_code',
+			url:'{:url("/verify_code")}',
 			data:{'code':base64Obj.encode(code),'type':base64Obj.encode(type),'phone_num':base64Obj.encode(phoneNum)},
 			type:"post",
 			async:true,

@@ -84,6 +84,7 @@
             <form  name="myform" id="myform" target="_top" action="{:url('pay/payments/alipay')}" method="post" onsubmit="getPayUrl()" target="_blank">
             <div class="modal-body">
                 <input type="hidden" id="member_type_id" name="member_type_id" value="0">
+                <input type="hidden" id="open_id" name="open_id" value="{$open_id}">
                 <input type="hidden" name="order_no" id="order_no" value="{$order_no}"/>
                     <input type="hidden" name="price" id="price" value="0.01"/>
                     <input type="hidden" name="payCode" id="payCode" value="alipay" />
@@ -129,7 +130,6 @@
             $("#payment-btn").click(function (e) {
                 e.preventDefault();
                 $("#choose-pay-modal").modal('show');
-
                 var member_type = $(".member_type:checked").val();
                 if(!member_type||member_type=="undefined"){
                     showTip('请选择正确的会员类型',2);

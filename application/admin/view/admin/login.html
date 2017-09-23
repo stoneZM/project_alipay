@@ -57,14 +57,14 @@
       var username = $("#username").val();
       var password = $("#password").val();
       $.ajax({
-        url:'/admin/login',
+        url:'{:url("/admin/login")}',
         type:'post',
         data:{"username":username,"password":password},
         async:true,
         success:function (resJson) {
           if(resJson.code==1){
             layer.msg(resJson.message,{icon:1,time:2000});
-            setTimeout('window.location.href = "/admin/user/index";',2000);
+            setTimeout('window.location.href = "{:url(\"/admin/user/index\")}";',2000);
             return;
           }else{
             layer.msg(resJson.message,{icon:2,time:2000});

@@ -64,9 +64,9 @@
                                 <div class="">
                                     <label for="is_vip" >会员</label>
                                     <select style="width: 50px;display: inline-block" id="is_vip" name="" aria-controls="" class="form-control input-sm">
-                                        <option value="0" {$select_0}>全部</option>
-                                        <option value="1" {$select_1}>否</option>
-                                        <option value="2" {$select_2}>是</option>
+                                        <option value=0 {$select_0}>全部</option>
+                                        <option value=1 {$select_1}>否</option>
+                                        <option value=2 {$select_2}>是</option>
                                     </select>
                                 </div>
 
@@ -118,7 +118,9 @@
             e.preventDefault();
             var _this = $(this);
             var isVip =  _this.children('option:selected').val();
-            window.location.href = '/admin/user/index?is_vip='+isVip;
+            var url = "admin/user/index/is_vip/"+isVip;
+                url = "{:url('/"+url+"')}";
+            window.location.href = url;
         });
 
         $('.search-btn').click(function (e) {
@@ -131,7 +133,7 @@
                 return;
             }
                 $.ajax({
-                    url:"/admin/user/get_user",
+                    url:"{:url('/admin/user/get_user')}",
                     data:{'phone_num':phone_num},
                     type:'post',
                     async:true,
@@ -155,7 +157,9 @@
                                 html += '  <td><span class="label label-default">禁用</span></td>';
                             }
                             html += '<td>';
-                            html +=  '<a href="/admin/user/manage/id/'+user.id+'">管理</a>';
+                            var url = "admin/user/manage/id/"+user.id;
+                                url = "{:url('/"+url+"')}";
+                            html +=  '<a href="'+url+'">管理</a>';
                             html += '</td></tr>';
                             $('tbody').html(html);
                             $(".pagination").hide();

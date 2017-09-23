@@ -28,7 +28,9 @@ class Login extends Base
       if (IS_POST){
            $phone_num = base64_decode(input('phone_num'));
            $password = base64_decode(input('password'));
-           if ($this->user->login($phone_num,$password)){
+           $rem_pwd = base64_decode(input('rem_pwd'));
+
+           if ($this->user->login($phone_num,$password,$rem_pwd)){
               return json(array('code'=>1,'message'=>'登录成功'));
            }else{
                return json(array('code'=>0,'message'=>$this->user->getError()));

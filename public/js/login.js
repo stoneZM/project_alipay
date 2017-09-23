@@ -40,7 +40,7 @@ $(function(){
             return;
         }
         $.ajax({
-            url:"/get_code",
+            url:"{:url('/get_code')}",
             type:'get',
             data: {'phone':base64Obj.encode(phoneNum),'type':base64Obj.encode(type)},
             async: true,

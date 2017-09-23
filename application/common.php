@@ -39,7 +39,7 @@ function no_login($url){
         'admin/admin/login',
         'pay/payments/alipay_notify', // 支付宝异步回调
         'pay/payments/alipay_return', // 支付宝同步回调
-        'pay/payments/wxpay_notify'
+        'pay/payments/wxpay_notify',  // 微信的回调通知
     );
     if (in_array($url,$urls)){
         return true;
@@ -204,4 +204,12 @@ function is_mobile() {
         }
     }
     return $is_mobile;
+}
+
+function is_weixin(){
+
+    if ( strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false ) {
+        return true;
+    }
+    return false;
 }
