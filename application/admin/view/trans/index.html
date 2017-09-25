@@ -83,7 +83,7 @@
             return;
         }
         $.ajax({
-            url:"{'/admin/trans/get_trade'}",
+            url:"{:url('/admin/trans/get_trade')}",
             data:{'phone_num':phone_num},
             type:'post',
             async:true,

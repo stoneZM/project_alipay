@@ -7,6 +7,7 @@
  */
 
 namespace app\user\controller;
+use app\admin\model\UserModel;
 use app\common\controller\Base;
 use app\user\model\AccountModel;
 
@@ -34,10 +35,12 @@ class Account extends Base
         }
          $user_info = session('user_auth');
          if (!$user_info['uid']){
-             return $this->redirect('/login');
+             return $this->redirect(url('/user/login'));
          }else{
              $account = new AccountModel();
              if ($account->modify_pwd($user_info['uid'],$old_password,$new_password,$r_new_password)){
+                 $user = new \app\user\model\User();
+                 $user->logout();
                  return json(array('code'=>1));
              }else{
                  return json(array('code'=>0,'message'=>$account->getError()));

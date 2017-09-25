@@ -37,7 +37,7 @@
         <nav class="navbar navbar-static-top">
             <!-- Sidebar toggle button-->
             <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
-                 Hi 欢迎回来
+             &nbsp;Hi 欢迎回来
             </a>
             <div class="navbar-custom-menu">
                 <ul class="nav navbar-nav">
@@ -54,15 +54,15 @@
 
     <aside class="main-sidebar">
             <ul class="sidebar-menu  sidebar">
-                <li ><a href="{:url('/user/user/index')}"><i class="fa fa-circle-o text-red"></i> <span>用户中心</span></a></li>
-                <li><a href="{:url('/user/index/nav1')}"><i class="fa fa-circle-o text-green"></i> <span>导航一</span></a></li>
-                <li><a href="{:url('/user/index/nav2')}"><i class="fa fa-circle-o text-yellow"></i> <span>导航二</span></a></li>
-                <li><a href="{:url('/user/index/nav3')}"><i class="fa fa-circle-o text-blue"></i> <span>导航三</span></a></li>
+                <li class="sidebar-click"><a href="{:url('/user/user/index')}"><i class="fa fa-circle-o text-red"></i> <span>用户中心</span></a></li>
+                <li class="sidebar-click"><a href="{:url('/user/index/nav1')}"><i class="fa fa-circle-o text-green"></i> <span>导航一</span></a></li>
+                <li class="sidebar-click"><a href="{:url('/user/index/nav2')}"><i class="fa fa-circle-o text-yellow"></i> <span>导航二</span></a></li>
+                <li class="sidebar-click"><a href="{:url('/user/index/nav3')}"><i class="fa fa-circle-o text-blue"></i> <span>导航三</span></a></li>
                 {if condition="$is_vip eq 1"}
-                <li><a href="{:url('/user/vip/index')}"><i class="fa fa-circle-o text-gray"></i> <span>VIP专区</span></a></li>
+                <li class="sidebar-click"><a href="{:url('/user/vip/index')}"><i class="fa fa-circle-o text-gray"></i> <span>VIP专区</span></a></li>
                 {/if}
-                <li><a href="{:url('/user/member/index')}"><i class="fa fa-circle-o text-aqua"></i> <span>会员服务</span></a></li>
-                <li><a href="{:url('/user/account/index')}"><i class="fa fa-circle-o text-red"></i> <span>账户中心</span></a></li>
+                <li class="sidebar-click"><a href="{:url('/user/member/index')}"><i class="fa fa-circle-o text-aqua"></i> <span>会员服务</span></a></li>
+                <li class="sidebar-click"><a href="{:url('/user/account/index')}"><i class="fa fa-circle-o text-red"></i> <span>账户中心</span></a></li>
             </ul>
     </aside>
 
@@ -93,7 +93,6 @@
     <!-- /.content-wrapper -->
     <footer class="main-footer">
         <div style="text-align: center">
-
             如有问题，请联系<a>在线客服</a>&nbsp;&nbsp;
             客服邮箱：123456789@qq.com
         </div>
@@ -116,6 +115,13 @@
 <script src="__PUBLIC__/adminlte/plugins/messager/messager.js"></script>
 <script src="__PUBLIC__/adminlte/plugins/layer/2.4/layer.js"></script>
 <script src="__PUBLIC__/adminlte/plugins/showloading/js/jquery.showLoading.min.js"></script>
+<script src="__PUBLIC__/adminlte/plugins/moment/2.11.2/moment.min.js"></script>
+<script src="__PUBLIC__/adminlte/plugins/daterangepicker/daterangepicker.js"></script>
+<script src="__PUBLIC__/adminlte/plugins/slimScroll/jquery.slimscroll.min.js"></script>
+<script src="__PUBLIC__/adminlte/plugins/fastclick/fastclick.js"></script>
+<script src="__PUBLIC__/adminlte/dist/js/pace.min.js"></script>
+<script src="__PUBLIC__/adminlte/dist/js/app.js"></script>
+
 <script type="text/javascript">
 </script>
 <script src="__PUBLIC__/adminlte/dist/js/core.js"></script>
@@ -146,6 +152,7 @@
             }
         })
     }
+
 </script>
 {block name="script"}{/block}
 </body>

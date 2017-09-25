@@ -31,10 +31,10 @@ class Smsbao
         //要发送的短信内容
         $content = self::getMsmContent(self::getRandCode($phoneNum),$type,$extend);
         $phone = $phoneNum;
-//        $sendurl = $smsapi."sms?u=".$user."&p=".$pass."&m=".$phone."&c=".urlencode($content);
-//        $result =file_get_contents($sendurl) ;
-//        return array('code'=>$result,'message'=>$statusStr[$result]);
-        return array('code'=>0,'message'=>'验证码发送成功');
+        $sendurl = $smsapi."sms?u=".$user."&p=".$pass."&m=".$phone."&c=".urlencode($content);
+        $result =file_get_contents($sendurl) ;
+        return array('code'=>$result,'message'=>$statusStr[$result]);
+//        return array('code'=>0,'message'=>'验证码发送成功');
     }
 
     static function getMsmContent($code,$type,$extend){
@@ -64,12 +64,11 @@ class Smsbao
      */
     static function getRandCode($phoneNum){
 
-//        $random_num =  rand(100000,999999);
-//        \think\Session::set($phoneNum,$random_num);
-        \think\Session::set($phoneNum,1111);
-        return 1111;
+        $random_num =  rand(100000,999999);
+        \think\Session::set($phoneNum,$random_num);
+//        \think\Session::set($phoneNum,1111);
+        return $random_num;
     }
-
 
 
 }

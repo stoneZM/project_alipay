@@ -59,11 +59,14 @@
                 if (data.code == 1) {
                     clearInterval(interval);
                    layer.msg('恭喜您完成支付!',{icon:1,time:2000});
-                    setTimeout('window.location.href = "{:url(\"/user/member/index\")}"',2000);
+                    setTimeout('window.location.href = "{:url(\'/user/member/index\')}"',2000);
                     clearInterval(interval);
                 }
             }
         });
+    }
+    function goBack() {
+
     }
     var interval = setInterval(ajax_check_pay_status, 1000);
 

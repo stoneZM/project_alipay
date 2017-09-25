@@ -35,7 +35,7 @@
                             <th>ID</th>
                             <th>标题</th>
                             <th>创建者</th>
-                            <th>状态</th>
+                            <!--<th>状态</th>-->
                             <th>添加日期</th>
                             <th>操作</th>
                         </tr>
@@ -44,11 +44,11 @@
                             <td>{$item['id']}</td>
                             <td>{$item['title']}</td>
                             <td>{$item['username']}</td>
-                            {if $item['status'] == 1 }
-                              <td><span class="label label-success">启用中</span></td>
-                            {else/}
-                              <td><span class="label label-danger">禁用</span></td>
-                            {/if}
+                            <!--{if $item['status'] == 1 }-->
+                              <!--<td><span class="label label-success">启用中</span></td>-->
+                            <!--{else/}-->
+                              <!--<td><span class="label label-danger">禁用</span></td>-->
+                            <!--{/if}-->
                             <td>{$item['create_time']}</td>
                             <td>
                                 <a href="{:url('admin/activity/edit_activity',array('id'=>$item['id']))}">管理</a>

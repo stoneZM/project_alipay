@@ -41,7 +41,6 @@ class Login extends Base
 
     public function reg(){
 
-
     	if(IS_POST){
 
             $data['phone_num'] = base64_decode(input('phone_num'));

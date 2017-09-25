@@ -224,7 +224,7 @@ class PayAccount extends Model
 
         //①、获取用户openid
         $tools = new \JsApiPay();
-        $data['open_id'] = "oUdPg0Uh3prUIUVUz51DOAegAC7E";
+//        $data['open_id'] = "oUdPg0Uh3prUIUVUz51DOAegAC7E";
         //②、统一下单
         $input = new \WxPayUnifiedOrder();
         $input->SetBody($data['body']);

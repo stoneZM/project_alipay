@@ -8,7 +8,7 @@
 
 namespace app\user\model;
 use app\common\model\Base;
-define("EXPIRE_TIME",600);
+define("EXPIRE_TIME",7200);
 
 
 class User extends Base

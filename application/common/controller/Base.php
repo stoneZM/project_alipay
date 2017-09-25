@@ -117,8 +117,9 @@ class Base extends \think\Controller {
 
         $save_code = Session::get($phoneNum);
         if ($code != $save_code){
-            Session::delete($phoneNum);
             $this->error('手机验证码错误');
+        }else{
+            Session::delete($phoneNum);
         }
     }
 

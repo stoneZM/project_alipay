@@ -1,28 +1,24 @@
-{include file="common@public/header" /} 
-	
-	
+{extend name="common@public/admin_base"}
+
+{block name='style'}
+{/block}
+
+{block name="body"}
+<section class="content-header">
+    <h1>{$meta_title}</h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> </a></li>
+        <!--<li><a href="#">Tables</a></li>-->
+        <!--<li class="active">Simple</li>-->
+    </ol>
+</section>
+
+<section class="content">
 <div class="container-fluid">
 	<div class="row row-offcanvas row-offcanvas-right">
-		<div class="col-xs-12 col-sm-2">
-			<div class="panel panel-default">
-								<div class="panel-heading">
-									<h3 class="panel-title">主要功能</h3>
-								</div>
-								<div class="list-group">
-									<a href="{:url('index/paySetting')}" class="list-group-item active">支付配置</a>
-									<a href="{:url('index/recordList')}" class="list-group-item ">支付记录</a>
-								</div>
-			</div>
-		</div>
-		
-        <div class="col-xs-12 col-sm-10">
-			 <ul class="nav nav-tabs" style="margin-bottom:2rem;">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">支付配置</a>
-                </li>
-            </ul>
-			
-			<form class="form form-horizontal" name="myform" id="myform" action="" method="post">
+
+        <div class="col-xs-12 col-sm-12">
+			<form  class="form form-horizontal" method="post" action="{:url('/admin/setting/edit')}">
                 <div class="panel panel-default">
                     <div class="panel-body" style="">
 
@@ -139,16 +135,22 @@
 
                        </div>
 
-
+                        <div class="col-sm-12 col-md-12 text-center">
+                            <button type="submit" class="btn btn-primary ajax-post" target-form="form-horizontal"> 提交 </button>&nbsp;&nbsp;
+                        </div>
                     </div>
-
-                    <button type="submit" class="btn btn-primary" name="dosubmit" id="dosubmit" value="dosubmit"> 提交 </button>&nbsp;&nbsp;
-                    <button type="reset" class="btn btn-primary" name="reset"> 重置 </button>
+                    <!--<button type="reset" class="btn btn-primary" name="reset"> 重置 </button>-->
                 </div>
             </form>
           
         </div>
     </div>	
 </div>
-		
-{include file="common@public/footer" /} 	
+</section>
+
+
+
+{/block}
+
+{block name="script"}
+{/block}

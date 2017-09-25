@@ -32,7 +32,7 @@
                 </div>
 
                <div class="login-col cl">
-                   <input type="password" class="info-box form-control" name="password" id="'password" data-type="password" data-role="verify" placeholder="密码(6-18位密码)">
+                   <input type="password" class="info-box form-control" name="password" id="password" data-type="password" data-role="verify" placeholder="密码(6-18位密码)">
                    <span class="error-tip" style="margin-left: 36px">
                密码必须为6-18的字符
               </span>
@@ -52,8 +52,9 @@
 <script src="__PUBLIC__/plugins/verify.js"></script>
 <script src="__PUBLIC__/adminlte/plugins/layer/2.4/layer.js"></script>
 <script src="__PUBLIC__/js/base64.js"></script>
-<script src="__PUBLIC__/js/login.js"></script>
+
 <script>
+    var getCodeUrl = "{:url('/get_code')}";
     $(".regist-btn").click(function (e) {
         var base64Obj = new Base64();
         e.preventDefault();
@@ -69,9 +70,14 @@
             layer.msg('密码需6-18位字符',{icon: 2, time: 2000});
             return;
         }
+        if(!phoneCode){
+            layer.msg('手机验证码不能为空',{icon: 2, time: 2000});
+            return ;
+        }
+
         $.ajax({
            url:'{:url("/register")}',
-           data:{'phone_num':base64Obj.encode(phoneNum),'verify_code':base64Obj.encode(imgCode),'phone_code':base64Obj.encode(phoneCode),'phone_num':base64Obj.encode(phoneNum)},
+           data:{'phone_num':base64Obj.encode(phoneNum),'verify_code':base64Obj.encode(imgCode),'phone_code':base64Obj.encode(phoneCode),'password':base64Obj.encode(password)},
             type:'post',
             async:true,
             success:function (resJson) {
@@ -87,3 +93,4 @@
         });
     });
 </script>
+<script src="__PUBLIC__/js/login.js"></script>

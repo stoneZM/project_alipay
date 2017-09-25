@@ -40,11 +40,11 @@ class Member extends Base
         //生成一个订单号
         $order_no = date("YmdHis").random();
         $openId = 0;
-//        vendor('payment.WxPay_Api');
-//        if (is_weixin()){
-//            $tools = new \JsApiPay();
-//            $openId = $tools->GetOpenid();
-//        }
+        vendor('payment.WxPay_Api');
+        if (is_weixin()){
+            $tools = new \JsApiPay();
+            $openId = $tools->GetOpenid();
+        }
         $open_id = $openId?:0;
 
         $this->assign('open_id',$open_id);

@@ -79,7 +79,7 @@
                    success:function (resJson) {
                        if(resJson.code==1){
                            showTip('密码重置成功,请重新登录',1);
-                           setTimeout(' window.location.href="{:url(\"/login\")}";',2000);
+                           setTimeout(' window.location.href="{:url(\"/user/login\")}";',2000);
                            return;
                        }else{
                            showTip(resJson.message,2);

@@ -40,7 +40,7 @@ $(function(){
             return;
         }
         $.ajax({
-            url:"{:url('/get_code')}",
+            url:getCodeUrl,
             type:'get',
             data: {'phone':base64Obj.encode(phoneNum),'type':base64Obj.encode(type)},
             async: true,
@@ -59,10 +59,7 @@ $(function(){
         });
     });
 
-    $(".regist-btn").click(function (e) {
-        e.preventDefault();
 
-    });
 
     function refreshBtnHtml() {
         if(time<=0){
@@ -74,8 +71,6 @@ $(function(){
             $(".get-code-btn").html('已发送('+time+'s)');
         }
     }
-
-
 
 //        验证码
     var verifyimg = $(".verifyimg").attr("src");

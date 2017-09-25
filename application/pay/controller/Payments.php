@@ -487,7 +487,6 @@ class Payments extends Controller
                     // 更新会员状态
                     $mem_model = new MemberModel();
                     $mem_model->mem_manage($_payaccount['month'],$_payaccount['userid'],true);
-
                     return "success";
                 }
         }
