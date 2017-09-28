@@ -8,8 +8,10 @@
 ### 环境要求：
 	Linux 平台
 	Apache版本 > 2.0
+	或者 nginx版本 > 1.12
 	PHP版本 > 5.4
 	mysql版本> 5.6
+	将sep-7下的所有文件放置apache根目录,
 	
 ### 数据库导入
     

@@ -10,7 +10,7 @@ namespace app\user\controller;
 use app\common\controller\Base;
 use app\user\model\User;
 
-
+define('SEND_MSG_CODE','send_smg_random_code');
 
 class Login extends Base
 {
@@ -56,6 +56,9 @@ class Login extends Base
                return json(array('code'=>0,'msg'=>$this->user->getError()));
             }
     	}
+        $random_code = User::getRandomCode();
+        cookie(SEND_MSG_CODE,$random_code);
+        $this->assign('random_code',$random_code);
     	return $this->fetch();
     }
 
@@ -70,6 +73,9 @@ class Login extends Base
                return json(array('code'=>0,'message'=>$this->user->getError()));
            }
     	}
+        $random_code = User::getRandomCode();
+        cookie(SEND_MSG_CODE,$random_code);
+        $this->assign('random_code',$random_code);
     	return $this->fetch();
     }
 
@@ -77,11 +83,18 @@ class Login extends Base
 
         $phone = base64_decode(input('phone'));
         $type = base64_decode(input('type'));
+        $code = base64_decode(input('random_code'));
         $msg_code =  ($type=='reset_pwd')?1:0;
         $user = $this->user->get(array('phone_num'=>$phone));
         if ($user&&$msg_code==0){
             return json(array('code'=>0,'message'=>'该手机号已被注册'));
         }
+        $random_code = cookie('send_smg_random_code');
+        // 防刷验证码校验
+        if ($random_code != $code){
+            return json(array('code'=>0,'message'=>'非法请求'));
+        }
+
         $result = \org\Smsbao::send($phone,$msg_code);
         if ($result['code']==0){
             $_is_success = 1;

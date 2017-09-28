@@ -135,4 +135,8 @@ class User extends Base
         session('user_auth_sign', null);
     }
 
+    static function  getRandomCode(){
+
+        return rand(1000,10000);
+    }
 }

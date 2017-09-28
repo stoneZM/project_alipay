@@ -55,7 +55,7 @@ class Payments extends Controller
         $order['num']      = 1;
         $order['email']    = '';
         $order['telephone']    = $phone_num;
-        $order['totalmMoney']  = 0.01;   //TODO::   此处改为 $member_price
+        $order['totalmMoney']  = $member_price;   //TODO::   此处改为 $member_price
         $order['subject']  = $subject;
         $order['body']     = $subject;
         $order['tradeType'] =  $trade_type;
@@ -69,8 +69,6 @@ class Payments extends Controller
        }else{
          return  $this->ali_web_pay($payConfigArry, $order, $payCode);
        }
-
-
 
    }
 
@@ -257,7 +255,7 @@ class Payments extends Controller
         $data['num']      = 1;
         $data['email']    = '';
         $data['telephone']  = $phone_num;
-        $data['total_fee']  = 0.01*100;
+        $data['total_fee']  = $member_price*100;
         $data['attach']   = $subject;
         $data['body']     = $subject;
         $data['time_start'] = date("YmdHis");//交易开始时间

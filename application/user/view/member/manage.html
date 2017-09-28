@@ -50,9 +50,9 @@
                             <input class="iradio_flat-green member_type" type="radio" name="member_type" value="{$item['id']}" >
                            {/if}
                             <label>
-                                {$item['desc']}
+                                {$item['month']}个月{$item['price']}元
                                 {if $item['month'] != 1 }
-                                ( <span class="red-span">{$item['price']/$item['month']}</span>元/月 )
+                                ( <span class="red-span">{$item['per_price']}</span>元/月 )
                                 {/if}
                                 {if $item['is_recommend'] == 1}
                                 <span class="recommend-span">推荐</span>
@@ -81,7 +81,7 @@
                     <span aria-hidden="true">×</span></button>
                 <h4 class="modal-title">请选择支付方式</h4>
             </div>
-            <form  name="myform" id="myform" target="_top" action="{:url('pay/payments/alipay')}" method="post" onsubmit="getPayUrl()" target="_blank">
+            <form  name="myform" id="myform" target="_blank" action="{:url('pay/payments/alipay')}" method="post" onsubmit="getPayUrl()" target="_blank">
             <div class="modal-body">
                 <input type="hidden" id="member_type_id" name="member_type_id" value="0">
                 <input type="hidden" id="open_id" name="open_id" value="{$open_id}">
@@ -107,6 +107,7 @@
 
             </div>
             <div class="modal-footer">
+                <label class="pull-left" style="color: #F14A1C;font-size: 12px;font-weight: 400;margin-top: 20px;">温馨提示：若支付完成,请手动刷新此页面！</label>
                 <!--<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>-->
                 <button type="submit" class="btn btn-warning btn-order">立即支付</button>
             </div>
@@ -125,6 +126,8 @@
 {block name="script"}
 
     <script>
+
+
         $(function () {
 
             $("#payment-btn").click(function (e) {

@@ -36,12 +36,21 @@ class Vip extends Base
         $id = input('id');
         if(IS_POST){
 
-            $data['price'] = input('price');
-            $data['desc'] = trim(input('desc'));
+            $data['price'] = input('price')?:-1;
+//            $data['desc'] = trim(input('desc'));
             $data['status'] = input('status');
             $data['is_recommend'] = input('is_recommend');
-            $data['month'] = input('month');
+            $data['month'] = input('month')?:-1;
+            if ($data['month']==-1){
+                $this->error('总月份不能为空');
+            }
+            if ($data['price']==-1){
+                $this->error('总价钱不能为空');
+            }
+
             $data['sort'] = input('sort');
+            $data['desc'] = $data['month'].'个月'.$data['price'].'元';
+
             if ($id){ //更新
                 if($this->vip->where(array('id'=>$id))->update($data)){
                     return $this->success('修改成功',url('/admin/vip/index'));

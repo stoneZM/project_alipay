@@ -28,7 +28,6 @@ class Member extends Base
 
     function pay(){
 
-
         return $this->fetch();
     }
 
@@ -36,6 +35,14 @@ class Member extends Base
     public function manage(){
 
         $vip_price = db('vip_price')->where(array('status'=>1))->order('sort desc')->select();
+
+        foreach ($vip_price as $key=>&$value){
+            if ($value['price']%$value['month'] != 0){
+                $value['per_price'] = sprintf('%.1f', (float)($value['price']/$value['month']));
+            }else{
+                $value['per_price'] = ($value['price']/$value['month']);
+            }
+        }
 
         //生成一个订单号
         $order_no = date("YmdHis").random();

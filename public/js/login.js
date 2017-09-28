@@ -35,14 +35,16 @@ $(function(){
         var type = _this.attr('code-type');
          type = (type=='reset_pwd')?"reset_pwd":0;
         var phoneNum = $("#phone_num").val();
+        var randomCode = $("#random-code").val();
         if(!checkPhone(phoneNum)){
             layer.msg('电话号码有误',{icon: 2, time: 2000});
             return;
         }
+
         $.ajax({
             url:getCodeUrl,
             type:'get',
-            data: {'phone':base64Obj.encode(phoneNum),'type':base64Obj.encode(type)},
+            data: {'phone':base64Obj.encode(phoneNum),'type':base64Obj.encode(type),'random_code':base64Obj.encode(randomCode)},
             async: true,
             dataType:'json',
             success:function (resJson) {
