@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="__PUBLIC__/adminlte/bootstrap/css/bootstrap.min.css">
 </head>
 <body>
+<form action="{:url('/user/login')}" target="_blank" method="post">
    <div class="login-box">
             <div class="user-login">用户登录</div>
             <div class="login-info">
@@ -47,6 +48,7 @@
                 <a href="{:url('/register')}">没有账号？立即注册</a>
             </div>
    </div>
+</form>
 </body>
 <script src="__PUBLIC__/plugins/jQuery/jquery-2.2.3.min.js"></script>
 <script src="__PUBLIC__/adminlte/plugins/layer/2.4/layer.js"></script>
@@ -66,6 +68,7 @@
                         layer.msg('手机号有误',{icon:2,time:1000});
                         return;
                     }
+//                    $("form").submit();
                     var remPwd = $("input[type='checkbox']").is(':checked')?'1':'0';
                     $.ajax({
                         url:'{:url("/user/login")}',
@@ -75,7 +78,7 @@
                         success:function (resJson) {
                             if(resJson.code==1){
                                 layer.msg(resJson.message,{icon:1,time:2000});
-                                setTimeout('window.location.href = "{:url(\"/user/user/index\")}";',2000);
+                                setTimeout('window.open("{:url(\"/user/user/index\")}");',2000);
                                 return;
                             }else{
                                 layer.msg(resJson.message,{icon:2,time:2000});

@@ -122,12 +122,22 @@
                                         <input type="text" name="info[wxpay_sslcert_path]" id="wxpay_sslcert_path" value="<?php if(empty($data['wxpay_sslcert_path'])){echo '/cert/apiclient_cert.pem';} else{echo $data['wxpay_sslcert_path'];}?>" class="form-control" />
                                     </div>
                                 </div>
+
                                 <div class="form-group row">
                                     <label class="col-sm-2 control-label text-right">
                                         证书(key)<font color="red">*</font>:
                                     </label>
                                     <div class="col-sm-9">
                                         <input type="text" name="info[wxpay_sslkey_path]" id="wxpay_sslkey_path" value="<?php if(empty($data['wxpay_sslkey_path'])){echo '/cert/apiclient_key.pem';} else{echo $data['wxpay_sslkey_path'];}?>" class="form-control" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-sm-2 control-label text-right">
+                                        公众号支付显示的商户名：<font color="red">*</font>:
+                                    </label>
+                                    <div class="col-sm-9">
+                                        <input type="text" name="info[wxpay_payee]" id="wxpay_payee" value="<?php if(empty($data['wxpay_payee'])){echo '';} else{echo $data['wxpay_payee'];}?>" class="form-control" />
                                     </div>
                                 </div>
 

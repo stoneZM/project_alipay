@@ -81,7 +81,7 @@
                     <span aria-hidden="true">×</span></button>
                 <h4 class="modal-title">请选择支付方式</h4>
             </div>
-            <form  name="myform" id="myform" target="_blank" action="{:url('pay/payments/alipay')}" method="post" onsubmit="getPayUrl()" target="_blank">
+            <form  name="myform" id="myform"  target="_blank" action="{:url('pay/payments/alipay')}" method="post" onsubmit="getPayUrl()">
             <div class="modal-body">
                 <input type="hidden" id="member_type_id" name="member_type_id" value="0">
                 <input type="hidden" id="open_id" name="open_id" value="{$open_id}">
@@ -181,6 +181,12 @@
 
         var action = '';
         var payCode = $.trim($("#payCode").val());
+        var isMobile = {$is_mobile};
+        //是否是手机
+        //是手机的话，那么 target=""_self";
+        if(isMobile == 1){
+            $('form').attr('target','_self');
+        }
         if(payCode == 'weixin'){
             action = "{:url('pay/payments/wxpay')}";
         }else if(payCode == 'alipay'){

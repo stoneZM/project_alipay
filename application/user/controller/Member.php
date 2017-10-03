@@ -34,8 +34,19 @@ class Member extends Base
     //注册会员或续费
     public function manage(){
 
+        $openId = 0;
+        if (cookie('open_id')){
+            $openId = cookie('open_id');
+        }else{
+            if (is_weixin()) {
+                vendor('payment.WxPay_Api');
+                $tools = new \JsApiPay();
+                $openId = $tools->GetOpenid();
+                cookie('open_id',$openId);
+            }
+        }
+        $open_id = $openId?:0;
         $vip_price = db('vip_price')->where(array('status'=>1))->order('sort desc')->select();
-
         foreach ($vip_price as $key=>&$value){
             if ($value['price']%$value['month'] != 0){
                 $value['per_price'] = sprintf('%.1f', (float)($value['price']/$value['month']));
@@ -43,17 +54,12 @@ class Member extends Base
                 $value['per_price'] = ($value['price']/$value['month']);
             }
         }
-
+        //检查是否是手机
+        $is_mobile = is_mobile()?1:0;
         //生成一个订单号
         $order_no = date("YmdHis").random();
-        $openId = 0;
-        vendor('payment.WxPay_Api');
-        if (is_weixin()){
-            $tools = new \JsApiPay();
-            $openId = $tools->GetOpenid();
-        }
-        $open_id = $openId?:0;
 
+        $this->assign('is_mobile',$is_mobile);
         $this->assign('open_id',$open_id);
         $this->assign('order_no',$order_no);
         $this->assign('vip_price',$vip_price);
